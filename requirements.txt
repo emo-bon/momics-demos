@@ -1,0 +1,10 @@
+fastparquet
+jupyter
+jupyter_bokeh
+matplotlib
+numpy
+pandas
+panel
+pingouin
+scikit-bio
+seaborn
