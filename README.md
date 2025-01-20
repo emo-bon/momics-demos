@@ -29,4 +29,11 @@ NB to be implemented
 NB provides visualization of alpha and beta diversities of the metaGOflow analyses. NB is located in `diversity/diversities_panel.ipynb`. Unfortunately I did not yet resolve hosting the dashboard properly on Colab.
  - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/diversity/diversities_panel.ipynb)
  - Request access to the hosted version at the Blue cloud 2026 (BC) Virtual lab environment (VRE) [here](https://blue-cloud.d4science.org/).
- - 
+
+
+## Gene Clusters
+Your Galaxy access data should be stored as environmental variables in the `.env` file at the root of the repository
+```
+GALAXY_URL="https://usegalaxy.org/"
+GALAXY_KEY="..."
+```
