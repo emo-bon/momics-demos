@@ -34,6 +34,19 @@ NB provides visualization of alpha and beta diversities of the metaGOflow analys
 ## Gene Clusters
 Your Galaxy access data should be stored as environmental variables in the `.env` file at the root of the repository
 ```
-GALAXY_URL="https://usegalaxy.org/"
+GALAXY_URL="https://earth-system.usegalaxy.eu/"
 GALAXY_KEY="..."
 ```
+
+Note: "https://usegalaxy.org/" cannot identify the GECCO tool in the toolshed, no idea why.
+
+### Running GECCO jobs
+1. Upload and run workflow.
+2. Monitor the job.
+3. Receive completion notification with some basic summary provided by Galaxy.
+
+### Analyzing the BGCs
+1. Upload local data or query results of the GECCO from the Galaxy.
+2. Identifying Biosynthetic Gene Clusters (BGCs).
+3. Visualize BGCs.
+4. Compare two samples in respect to each other.
