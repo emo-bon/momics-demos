@@ -19,34 +19,49 @@ Marine metagenomics platform NBs to get the science started.
 4. Combining strengths of both python and R and packages developed in those languages
 5. API calls to other services, such as Galaxy.
 
-# Notebooks
-## Visualization of the data
-Provides summary of up-to date statistics on amounts of sequenced and processed data.
+# Workflows notebooks
+Notebooks always generate panel app for user friendly interactions. However working with the code using the same methods as the app should (needs to made sure of by testers) be straightforward.
 
-NB to be implemented
 
-## Genetic diversity
-NB provides visualization of alpha and beta diversities of the metaGOflow analyses. NB is located in `diversity/diversities_panel.ipynb`. Unfortunately I did not yet resolve hosting the dashboard properly on Colab.
+## WF0, landing page app
+General statistics of EMO-BON sequencing efforts
+
+
+## WF1, Get and visualize some of the intermediate data products of the metaGOflow pipeline
+Barebones in the `wf0_metagoflow` folder.
+
+
+## WF2, Genetic diversity
+NB provides visualization of alpha and beta diversities of the metaGOflow analyses. NB is located in `wf2_diversity/diversities_panel.ipynb`. Unfortunately I did not yet resolve hosting the dashboard properly on Colab.
  - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/diversity/diversities_panel.ipynb)
  - Request access to the hosted version at the Blue cloud 2026 (BC) Virtual lab environment (VRE) [here](https://blue-cloud.d4science.org/).
 
 
-## Gene Clusters
+## WF3-WF4, biosynthetic gene clusters (BGCs)
+Work so far in the `gene_clusters` folder.
+
+
 Your Galaxy access data should be stored as environmental variables in the `.env` file at the root of the repository
 ```
 GALAXY_URL="https://earth-system.usegalaxy.eu/"
 GALAXY_KEY="..."
 ```
 
-Note: "https://usegalaxy.org/" cannot identify the GECCO tool in the toolshed, no idea why.
 
-### Running GECCO jobs
+### WF3, Running GECCO jobs on Galaxy
 1. Upload and run workflow.
 2. Monitor the job.
 3. Receive completion notification with some basic summary provided by Galaxy.
 
-### Analyzing the BGCs
+
+### WF4, Analyzing the BGCs
 1. Upload local data or query results of the GECCO from the Galaxy.
 2. Identifying Biosynthetic Gene Clusters (BGCs).
 3. Visualize BGCs.
 4. Compare two samples in respect to each other.
+
+
+## WFX Some Visualization of some data
+(This is probably WF0) Provides summary of up-to date statistics on amounts of sequenced and processed data.
+
+NB to be implemented
