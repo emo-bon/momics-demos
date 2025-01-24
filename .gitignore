@@ -172,7 +172,7 @@ cython_debug/
 
 .history/
 old_nbs/
-input_gecco/
+data/input_gecco/
 gapminders.ipynb
 hvplot_explorer.ipynb
 
