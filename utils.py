@@ -19,10 +19,10 @@ def setup_local():
     # I do not install the package via pip install -e, I rather add the path to the package to the sys.path
     # faster prototyping of the momics package
     if platform.system() == 'Linux':
-        print('local Linux')
+        print('Platform: local Linux')
         sys.path.append("/home/davidp/python_projects/marine_omics/marine-omics")
     elif platform.system() == 'Windows':
-        print('local Windows')
+        print('Platform: local Windows')
         sys.path.append("C:/Users/David Palecek/Documents/Python_projects/marine_omics/marine-omics")
     else:
         raise NotImplementedError

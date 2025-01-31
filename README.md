@@ -6,19 +6,6 @@ Marine metagenomics platform NBs to get the science started. This work is part o
 
 Please, consider open [issues](https://github.com/palec87/marine-omics/issues) with your dream workflow suggestions. I can be to certain extend your worker until 31/8. PRs are greatly welcome too.
 
-# Dependencies
-- Currently `venv` is enough, no need for setting up `conda`, meaning that the dependencies are pure python.
-- Utility functionalities are developed in parallel in this [repo](https://github.com/palec87/marine-omics). Currently not distributed with PyPI, install with `pip install https://github.com/palec87/marine-omics.git`.
-- Dashboards are developed in [panel](https://panel.holoviz.org/)
-  - If you put the NB code in the script, you can serve the dashboard in the browser using `panel serve app.py --dev`.
-  - You can however serve the NB as well, `panel serve app.ipynb --dev`.
-- For statistics, we use [pingouin](https://pingouin-stats.org/build/html/index.html) and [scikit-bio](https://scikit.bio/).
-- Data part is handled by `pandas`, `numpy` etc. This might be upgraded to `polars`/`fire-ducks`.
-- Galaxy support is built upon [bioblend](https://bioblend.readthedocs.io/en/latest/).
-- Visualization are currently **not** interactive and developed in `seaborn` or `matplotlib`. This will likely change to `holoviz`.
-- Interactive parts use `jupyterlab`.
-- Google Colab currently does not display `panel` dashboards correctly.
-
 # Design principles
 1. Minimize dependencies to facilitate wide adaptation and further development of the codebase.
 2. Simplicity over speed, however performance is considered.
@@ -26,7 +13,7 @@ Please, consider open [issues](https://github.com/palec87/marine-omics/issues) w
 4. Combining strengths of python/R/julia packages developed in those languages.
 5. API calls to other services, such as Galaxy.
 
-# Workflows notebooks
+# Workflow notebooks
 Notebooks always generate panel app for user friendly interactions. However working with the code using the same methods as the app should (needs to made sure of by testers) be straightforward.
 
 
@@ -82,3 +69,27 @@ Q: Can it be done in a single NB? Should!
 
 ## WFX Some Visualization of some data `not started`
 (This is probably WF0) Provides summary of up-to date statistics on amounts of sequenced and processed data.
+
+# Dependencies
+## General
+- Currently `venv` is enough, no need for setting up `conda`, meaning that the dependencies are pure python.
+- Utility functionalities are developed in parallel in this [repo](https://github.com/palec87/marine-omics). Currently not distributed with PyPI, install with `pip install https://github.com/palec87/marine-omics.git`.
+- 
+## Dashboards
+- Dashboards are developed in [panel](https://panel.holoviz.org/)
+  - If you put the NB code in the script, you can serve the dashboard in the browser using `panel serve app.py --dev`.
+  - You can however serve the NB as well, `panel serve app.ipynb --dev`.
+  - **Note**: if you want to run on Google Colab, you will need a `pyngrok` and ngrok token from [here](https://dashboard.ngrok.com/auth)
+  - 
+## Data
+- For statistics, we use [pingouin](https://pingouin-stats.org/build/html/index.html) and [scikit-bio](https://scikit.bio/).
+- Data part is handled by `pandas`, `numpy` etc. This might be upgraded to `polars`/`fire-ducks`.
+- 
+## Galaxy
+- Galaxy support is built upon [bioblend](https://bioblend.readthedocs.io/en/latest/).
+
+## Vizualization
+- Visualization are currently **not** interactive and developed in `seaborn` or `matplotlib`. This will likely change to `holoviz`.
+- Interactive parts use `jupyterlab`
+
+
