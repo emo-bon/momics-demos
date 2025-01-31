@@ -13,6 +13,7 @@ Please, consider open [issues](https://github.com/palec87/marine-omics/issues) w
 4. Combining strengths of python/R/julia packages developed in those languages.
 5. API calls to other services, such as Galaxy.
 
+
 # Workflow notebooks
 Notebooks always generate panel app for user friendly interactions. However working with the code using the same methods as the app should (needs to made sure of by testers) be straightforward.
 
@@ -53,40 +54,52 @@ GALAXY_KEY="..."
 3. Visualize BGCs.
 4. Compare two samples in respect to each other.
 
+
 ## WF5, Integrate MGnify pipeline and data `not started`
 1. Protein families comparison?
+
 
 ## WF6, R, Julia `not started`
 1. Demonstrate usage of some relevant R and julia packages, Workflows
 Q: Can it be done in a single NB? Should!
 
+
 ## WF7, DL package? `not started`
 1. By the time, BC 2026 might have GPU support
 2. Irrespective, try AI4EOSC perhaps? Q: Have not seen there much or any metagenomics though
 
+
 ## WF8, r-/k- communities `not started`
 1. Correlate with Essential Ocean Variables (EOVs)
+
 
 ## WFX Some Visualization of some data `not started`
 (This is probably WF0) Provides summary of up-to date statistics on amounts of sequenced and processed data.
 
+
 # Dependencies
+
 ## General
 - Currently `venv` is enough, no need for setting up `conda`, meaning that the dependencies are pure python.
 - Utility functionalities are developed in parallel in this [repo](https://github.com/palec87/marine-omics). Currently not distributed with PyPI, install with `pip install https://github.com/palec87/marine-omics.git`.
-- 
+
+
 ## Dashboards
 - Dashboards are developed in [panel](https://panel.holoviz.org/)
   - If you put the NB code in the script, you can serve the dashboard in the browser using `panel serve app.py --dev`.
   - You can however serve the NB as well, `panel serve app.ipynb --dev`.
   - **Note**: if you want to run on Google Colab, you will need a `pyngrok` and ngrok token from [here](https://dashboard.ngrok.com/auth)
-  - 
+    - DP: local ngrok from the VScode does not work for me
+
+
 ## Data
 - For statistics, we use [pingouin](https://pingouin-stats.org/build/html/index.html) and [scikit-bio](https://scikit.bio/).
 - Data part is handled by `pandas`, `numpy` etc. This might be upgraded to `polars`/`fire-ducks`.
-- 
+
+
 ## Galaxy
 - Galaxy support is built upon [bioblend](https://bioblend.readthedocs.io/en/latest/).
+
 
 ## Vizualization
 - Visualization are currently **not** interactive and developed in `seaborn` or `matplotlib`. This will likely change to `holoviz`.
