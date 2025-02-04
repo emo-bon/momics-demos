@@ -55,8 +55,11 @@ GALAXY_KEY="..."
 4. Compare two samples in respect to each other.
 
 
-## WF5, Integrate MGnify pipeline and data `not started`
-1. Protein families comparison?
+## WF5, Integrate MGnify pipeline and data `started`
+The examples are heavily inspired and taken from the MGnify project [itself](https://github.com/EBI-Metagenomics/notebooks/tree/main/src/notebooks)
+
+1. How to query data and make basic plots such as Sankey from the MGnify database `wf5_MGnify/query_data.ipynb` [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf5_MGnify/query_data.ipynb) (dependencies not yet fixed)
+2. Protein families comparison??
 
 
 ## WF6, R, Julia `not started`
