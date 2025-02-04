@@ -1,5 +1,7 @@
+bio
 bioblend
 fastparquet
+jsonapi-client
 jupyter
 jupyter_bokeh
 matplotlib
@@ -8,6 +10,8 @@ pandas
 panel
 pingouin
 pyngrok
+pyspark
 python-dotenv
 scikit-bio
 seaborn
+sourmash
