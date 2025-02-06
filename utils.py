@@ -13,17 +13,19 @@ def init_setup():
 
     else:
         setup_local()
-        
+
 
 def setup_local():
     # I do not install the package via pip install -e, I rather add the path to the package to the sys.path
     # faster prototyping of the momics package
-    if platform.system() == 'Linux':
-        print('Platform: local Linux')
+    if platform.system() == "Linux":
+        print("Platform: local Linux")
         sys.path.append("/home/davidp/python_projects/marine_omics/marine-omics")
-    elif platform.system() == 'Windows':
-        print('Platform: local Windows')
-        sys.path.append("C:/Users/David Palecek/Documents/Python_projects/marine_omics/marine-omics")
+    elif platform.system() == "Windows":
+        print("Platform: local Windows")
+        sys.path.append(
+            "C:/Users/David Palecek/Documents/Python_projects/marine_omics/marine-omics"
+        )
     else:
         raise NotImplementedError
 
@@ -64,9 +66,10 @@ def setup_ipython():
 
 def is_ipython():
     # This is for the case when the script is run from the Jupyter notebook
-    if 'ipykernel' in sys.modules:
+    if "ipykernel" in sys.modules:
         from IPython import get_ipython
+
         return True
     else:
-        print('Not IPython setup')
+        print("Not IPython setup")
         return False

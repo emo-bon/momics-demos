@@ -7,15 +7,16 @@ by using `api.githu.com` and also putting `contents` in the URL path.
 import os
 import requests
 from dotenv import load_dotenv
+
 load_dotenv()
 
 
 sample_id = "EMOBON_PiEGetxo_Wa_4"
-username = os.getenv('GH_USER')
-token = os.getenv('GH_TOKEN')
+username = os.getenv("GH_USER")
+token = os.getenv("GH_TOKEN")
 
-print('username:', username)
-print('token:', token)
+print("username:", username)
+print("token:", token)
 
 # login example #
 #################
@@ -28,12 +29,14 @@ print('token:', token)
 ########################
 # Not the future of ro-crates retrieval, but a current reality
 metdat = f"https://api.github.com/repos/emo-bon/metaGOflow-rocrates-dvc/contents/{sample_id}-ro-crate/ro-crate-metadata.json"
-private_req = requests.get(metdat, 
-                  headers={
-                    'accept': 'application/vnd.github.v3.raw',
-                    'authorization': f'token {token}',
-                    })
-print('ro-crate-metadata.json request status:', private_req.status_code)
+private_req = requests.get(
+    metdat,
+    headers={
+        "accept": "application/vnd.github.v3.raw",
+        "authorization": f"token {token}",
+    },
+)
+print("ro-crate-metadata.json request status:", private_req.status_code)
 
 # print response text
 print(private_req.json())

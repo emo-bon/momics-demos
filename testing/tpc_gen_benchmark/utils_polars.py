@@ -319,13 +319,21 @@ def run_query(query_number: int, lf: pl.LazyFrame) -> None:
         msg = "Please specify at most one of eager, streaming, new_streaming or gpu"
         raise ValueError(msg)
     if settings.run.polars_show_plan:
-        print(lf.explain(streaming=streaming, new_streaming=new_streaming, optimized=eager))
+        print(
+            lf.explain(
+                streaming=streaming, new_streaming=new_streaming, optimized=eager
+            )
+        )
 
     engine = obtain_engine_config()
     # Eager load engine backend, so we don't time that.
     _preload_engine(engine)
     query = partial(
-        lf.collect, streaming=streaming, new_streaming=new_streaming, no_optimization=eager, engine=engine
+        lf.collect,
+        streaming=streaming,
+        new_streaming=new_streaming,
+        no_optimization=eager,
+        engine=engine,
     )
 
     if gpu:
