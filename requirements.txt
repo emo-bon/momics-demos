@@ -9,6 +9,7 @@ numpy
 pandas
 panel
 pingouin
+pyarrow
 pyngrok
 pyspark
 python-dotenv

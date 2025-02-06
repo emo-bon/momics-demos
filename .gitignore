@@ -175,4 +175,5 @@ old_nbs/
 data/input_gecco/
 gapminders.ipynb
 hvplot_explorer.ipynb
-
+testing/tpc_gen_benchmark/output/
+testing/tpc_gen_benchmark/data/
