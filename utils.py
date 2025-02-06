@@ -66,8 +66,6 @@ def setup_ipython():
         except OSError as e:
             print(f"An error occurred while installing panel and hvplot: {e}")
 
-        sys.path.insert(0,'/content/momics-demos')
-
     else:
         # assume local jupyterlab which has all the dependencies installed
         setup_local()
@@ -75,13 +73,13 @@ def setup_ipython():
 
 def is_ipython():
     # This is for the case when the script is run from the Jupyter notebook
-    if "ipykernel" in sys.modules:
-        from IPython import get_ipython
-
-        return True
-    else:
+    if "ipykernel" not in sys.modules:
         print("Not IPython setup")
         return False
+    
+    from IPython import get_ipython
+    return True
+
 
 
 def get_notebook_environment():
