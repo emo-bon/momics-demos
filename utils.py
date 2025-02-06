@@ -39,6 +39,13 @@ def setup_ipython():
     if "google.colab" in str(get_ipython()):
         print("Google Colab")
 
+        # Install ngrok for hosting the dashboard
+        try:
+            os.system('pip install pyngrok --quiet')
+            print('ngrok installed')
+        except OSError as e:
+            print(f"An error occurred while installing ngrok: {e}")
+
         # clone and install momics
         try:
             os.system("git clone https://github.com/palec87/marine-omics.git")
@@ -59,6 +66,8 @@ def setup_ipython():
         except OSError as e:
             print(f"An error occurred while installing panel and hvplot: {e}")
 
+        sys.path.insert(0,'/content/momics-demos')
+
     else:
         # assume local jupyterlab which has all the dependencies installed
         setup_local()
@@ -73,3 +82,18 @@ def is_ipython():
     else:
         print("Not IPython setup")
         return False
+
+
+def get_notebook_environment():
+    """
+    Determine if the notebook is running in VS Code or JupyterLab.
+
+    Returns:
+        str: The environment in which the notebook is running ('vscode', 'jupyterlab', or 'unknown').
+    """
+    # Check for VS Code environment variable
+    if 'VSCODE_PID' in os.environ:
+        return 'vscode'
+    
+    elif "JPY_SESSION_NAME" in os.environ:
+        return 'jupyterlab'
