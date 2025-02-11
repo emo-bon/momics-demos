@@ -1,0 +1,3 @@
+sample,fastq_1,fastq_2,strandedness
+CONTROL_REP1,wf5_MGnify/data/ERR1410268.fastq.gz,wf5_MGnify/data/ERR1410268.fastq.gz,auto
+CONTROL_REP1,wf5_MGnify/data/ERR1410268.fastq.gz,wf5_MGnify/data/ERR1410268.fastq.gz,auto
