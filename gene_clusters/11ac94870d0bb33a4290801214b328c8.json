@@ -1,0 +1,1 @@
+{"input": {"id": "4838ba20a6d86765f77fbdb29df5f02b", "src": "hda"}, "mask": true, "cds": 3, "threshold": 0.05, "postproc": "gecco", "antimash_sideload": false, "email": "dpalecek@ualg.pt"}
