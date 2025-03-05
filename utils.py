@@ -1,6 +1,7 @@
 import os
 import sys
 import platform
+import logging
 
 
 # TODO: there needs to be a yaml file to set up a folder structure, hardcoding here is not good :)
@@ -95,3 +96,10 @@ def get_notebook_environment():
     
     elif "JPY_SESSION_NAME" in os.environ:
         return 'jupyterlab'
+
+
+FORMAT = "%(levelname)s | %(name)s | %(message)s"  # for logger
+def reconfig_logger(format=FORMAT, level=logging.INFO):
+    """(Re-)configure logging"""
+    logging.basicConfig(format=format, level=level, force=True)
+    logging.debug("Logging.basicConfig completed successfully")
