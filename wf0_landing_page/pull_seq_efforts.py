@@ -102,6 +102,15 @@ def query_batch_shipment_data(batch_string: str) -> pd.DataFrame:
             if "blank" in df.loc[i, "old_source_mat_id"].lower():
                 df.loc[i, "sample_type"] = df.loc[i, "sample_type"] + "_blank"
 
+    # extract the obs_id here
+    try:
+        logger.info("trying to add obs_id")
+        logger.info(df.head())
+        df["obs_id"] = df["source_mat_id"].str.split("_").str[1]
+    except KeyError:
+        logger.info("exception raised")
+        logger.info(df.head())
+        df["obs_id"] = df["source_material_id"].str.split("_").str[1]
     return df
 
 
@@ -179,10 +188,6 @@ def min_merge(df_shipment: pd.DataFrame, df_tracking: pd.DataFrame) -> pd.DataFr
     """
     df_shipment["ref_code"] = df_shipment["ref_code"].str.replace(" ", "")
     df_tracking["ref_code"] = df_tracking["ref_code"].str.replace(" ", "")
-    try:
-        df_shipment["obs_id"] = df_shipment["source_mat_id"].str.split("_").str[1]
-    except KeyError:
-        df_shipment["obs_id"] = df_shipment["source_material_id"].str.split("_").str[1]
 
     df_shipment = df_shipment[["ref_code", "obs_id", "batch", "sample_type", "reads_name"]]
 
@@ -195,7 +200,6 @@ def min_merge(df_shipment: pd.DataFrame, df_tracking: pd.DataFrame) -> pd.DataFr
             "run_status",
             "version",
             "date_started",
-            "who",
             "system_run",
             "output_loc",
             "output_size",
@@ -243,7 +247,14 @@ def check_diffs(data: pd.DataFrame, path: str, logger) -> bool:
 
     previous = pd.read_csv(path, index_col=[0])
 
-    logger.info("Comparing the current and the previous version of the file...")
+    # logger.info("Comparing the current and the previous version of the file...")
+    # logger.info(previous.head())
+    # logger.info(data.head())
+    # logger.info(list(zip(previous.columns, data.columns)))
+
+    assert data.columns.equals(
+        previous.columns
+    ), "The columns of the current and the previous are not the same"
 
     diffs = data.compare(previous, result_names=("current", "previous"))
     if diffs.empty:
