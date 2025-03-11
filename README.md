@@ -4,12 +4,12 @@
 
 Marine metagenomics platform NBs to get the science started. This work is part of [FAIR-EASE](https://fairease.eu/) project, specifically Pilot 5 for metagenomics to provide as many tools to for [emo-bon](https://data.emobon.embrc.eu/) data.
 
-Please, consider open [issues](https://github.com/palec87/marine-omics/issues) with your dream workflow suggestions. I can be to certain extend your worker until 31/8. PRs are greatly welcome too.
+Please, consider opening [issues](https://github.com/palec87/marine-omics/issues) and PRs with your dream workflow suggestions. I can be to certain extend your worker until 31/8.
 
 # Design principles
 1. Minimize dependencies to facilitate wide adaptation and further development of the codebase.
 2. Simplicity over speed, however performance is considered.
-3. Data import/export options after UDAL queries made easy.
+3. Data import/export options after UDAL queries made easy. (backend data queries developed by VLIZ)
 4. Combining strengths of python/R/julia packages developed in those languages.
 5. API calls to other services, such as Galaxy.
 
@@ -18,48 +18,57 @@ Please, consider open [issues](https://github.com/palec87/marine-omics/issues) w
 Notebooks always generate panel app for user friendly interactions. However working with the code using the same methods as the app should (needs to made sure of by testers) be straightforward.
 
 
-## WF0, landing page app `not started`
-General statistics of EMO-BON sequencing efforts
+## WF0, landing page app 
+[![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf0_landing_page/landing_page.ipynb)
+
+General statistics of EMO-BON sequencing efforts. The total amount of sampling events has reached more than a 1000 recently.
 
 
 ## WF1, Get and visualize some of the intermediate data products of the metaGOflow pipeline `pre-alpha`
-Barebones in the `wf0_metagoflow` folder.
+Barebones in the `quality_control.ipynb` folder. There are almost 60 output files from the metaGOflow pipeline. This dashboard provides interface to most relevant intermediate ones, ie. all except from the taxonomy and functional analyses.
 
 
-## WF2, Genetic diversity `alpha` [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf2_diversity/diversities_panel.ipynb)
-NB provides visualization of alpha and beta diversities of the metaGOflow analyses. NB is located in `wf2_diversity/diversities_panel.ipynb`. Unfortunately I did not yet resolve hosting the dashboard properly on Colab.
+## WF2, Genetic diversity
+[![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
+ [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf2_diversity/diversities_panel.ipynb)
+
+NB provides visualization of alpha and beta diversities of the metaGOflow analyses. NB is located in `diversities_panel.ipynb`. Unfortunately I did not yet resolve hosting the dashboard properly on Colab.
  - Request access to the hosted version at the Blue cloud 2026 (BC) Virtual lab environment (VRE) [here](https://blue-cloud.d4science.org/).
 
 
 ## WF3-WF4, biosynthetic gene clusters (BGCs)
-Work so far in the `gene_clusters` folder.
-
-
-Your Galaxy access data should be stored as environmental variables in the `.env` file at the root of the repository
+You will need an account on the galaxy [earth-system](https://earth-system.usegalaxy.eu/) for this NBs to work. Your Galaxy access data should be stored as environmental variables in the `.env` file at the root of the repository
 ```
 GALAXY_URL="https://earth-system.usegalaxy.eu/"
 GALAXY_KEY="..."
 ```
 
+### WF3, Running GECCO jobs on Galaxy 
+ `pre-alpha` [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf3_gene_clusters/bgc_run_gecco_job.ipynb)
+Dashboard illustrating submission of jobs to galaxy (GECCO tool) is in `bgc_run_gecco.ipynb`.
 
-### WF3, Running GECCO jobs on Galaxy  `pre-alpha`
 1. Upload and run workflow.
 2. Monitor the job.
-3. Receive completion notification with some basic summary provided by Galaxy.
 
 
-### WF4, Analyzing the BGCs `pre-pre-alpha`
+### WF4, Analyzing the BGCs
+[![stability-wip](https://img.shields.io/badge/stability-wip-lightgrey.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#work-in-progress) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf3_gene_clusters/bgc_analyze_gecco.ipynb)
+
 1. Upload local data or query results of the GECCO from the Galaxy.
 2. Identifying Biosynthetic Gene Clusters (BGCs).
 3. Visualize BGCs.
 4. Compare two samples in respect to each other.
 
 
-## WF5, Integrate MGnify pipeline and data `started`
+## WF5, Integrate MGnify pipeline and data `in-progress`
+[![stability-wip](https://img.shields.io/badge/stability-wip-lightgrey.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#work-in-progress) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf5_MGnify/query_data.ipynb) 
+
+*dependencies not yet fixed*
+
 The examples are heavily inspired and taken from the MGnify project [itself](https://github.com/EBI-Metagenomics/notebooks/tree/main/src/notebooks)
 
-1. How to query data and make basic plots such as Sankey from the MGnify database `wf5_MGnify/query_data.ipynb` [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf5_MGnify/query_data.ipynb) (dependencies not yet fixed)
-2. Protein families comparison??
+1. How to query data and make basic plots such as Sankey from the MGnify database `wf5_MGnify/query_data.ipynb` 
+2. Protein families comparison?
 
 
 ## WF6, R, Julia `not started`
@@ -84,7 +93,7 @@ Q: Can it be done in a single NB? Should!
 
 ## General
 - Currently `venv` is enough, no need for setting up `conda`, meaning that the dependencies are pure python.
-- Utility functionalities are developed in parallel in this [repo](https://github.com/palec87/marine-omics). Currently not distributed with PyPI, install with `pip install https://github.com/palec87/marine-omics.git`.
+- Utility functionalities are developed in parallel in this [repo](https://github.com/emo-bon/marine-omics-methods). Currently not distributed with PyPI, install with `pip install https://github.com/emo-bon/marine-omics-methods.git`.
 
 
 ## Dashboards

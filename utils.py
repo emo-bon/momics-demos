@@ -2,6 +2,7 @@ import os
 import sys
 import platform
 import logging
+from IPython import get_ipython
 
 
 # TODO: there needs to be a yaml file to set up a folder structure, hardcoding here is not good :)
