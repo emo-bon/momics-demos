@@ -25,9 +25,10 @@ import logging
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent))
-from utils import setup_local, reconfig_logger
+from utils import reconfig_logger
 
-CSV_LOCAL_PATH = Path(__file__).parent.joinpath("min_merged.csv")
+FILE_NAME = "emobon_sequencing_master.csv"
+CSV_LOCAL_PATH = Path(__file__).parent.joinpath(FILE_NAME)
 ALL_SHIPMENTS = ["001", "002", "003-0", "003-1", "003-2"]
 
 
@@ -278,4 +279,4 @@ if __name__ == "__main__":
     df = min_merge(df_shipments, df_tracking)
     if check_diffs(df, path=CSV_LOCAL_PATH, logger=logger):
         rewrite_file(df, CSV_LOCAL_PATH)
-        print("min_merged.csv updated")
+        logger.info(f"{FILE_NAME} updated")
