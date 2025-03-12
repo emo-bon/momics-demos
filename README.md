@@ -53,6 +53,7 @@ GALAXY_KEY="..."
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf3_gene_clusters%2Fbgc_run_gecco_job.ipynb)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf3_gene_clusters/bgc_run_gecco_job.ipynb)
 
+BUG: For unknown reason the Binder dashboard does not work.
 Dashboard illustrating submission of jobs to galaxy (GECCO tool) in `bgc_run_gecco.ipynb`.
 
 1. Upload and run workflow.
