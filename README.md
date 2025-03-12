@@ -1,10 +1,12 @@
 # momics-demos
 ![Jupyterlab](https://img.shields.io/badge/Jupyter-notebook-brightgreen)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/)
 
 Marine metagenomics platform NBs to get the science started. This work is part of [FAIR-EASE](https://fairease.eu/) project, specifically Pilot 5 for metagenomics to provide as many tools to for [emo-bon](https://data.emobon.embrc.eu/) data.
 
 Please, consider opening [issues](https://github.com/palec87/marine-omics/issues) and PRs with your dream workflow suggestions. I can be to certain extend your worker until 31/8.
+
 
 # Design principles
 1. Minimize dependencies to facilitate wide adaptation and further development of the codebase.
@@ -24,7 +26,6 @@ Notebooks always generate panel app for user friendly interactions. However work
 General statistics of EMO-BON sequencing efforts. The total amount of sampling events has reached more than a 1000 recently. Unfortunately `leafmap` widgets have problem with `ngrok` tunnels, so only binder integration is possible.
 
 
-
 ## WF1, Get and visualize some of the intermediate data products of the metaGOflow pipeline
 [![stability-wip](https://img.shields.io/badge/stability-wip-lightgrey.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#work-in-progress)
 
@@ -33,6 +34,7 @@ Barebones in the `quality_control.ipynb` folder. There are almost 60 output file
 
 ## WF2, Genetic diversity
 [![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf2_diversity%2Fdiversities_panel.ipynb)
  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf2_diversity/diversities_panel.ipynb)
 
 NB provides visualization of alpha and beta diversities of the metaGOflow analyses. NB is located in `diversities_panel.ipynb`. Unfortunately I did not yet resolve hosting the dashboard properly on Colab.
@@ -47,11 +49,15 @@ GALAXY_KEY="..."
 ```
 
 ### WF3, Running GECCO jobs on Galaxy 
- `pre-alpha` [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf3_gene_clusters/bgc_run_gecco_job.ipynb)
-Dashboard illustrating submission of jobs to galaxy (GECCO tool) is in `bgc_run_gecco.ipynb`.
+[![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf3_gene_clusters%2Fbgc_run_gecco_job.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf3_gene_clusters/bgc_run_gecco_job.ipynb)
+
+Dashboard illustrating submission of jobs to galaxy (GECCO tool) in `bgc_run_gecco.ipynb`.
 
 1. Upload and run workflow.
-2. Monitor the job.
+2. Or start the workflow with existing data and in existing history on Galaxy.
+3. Monitor the job.
 
 
 ### WF4, Analyzing the BGCs
