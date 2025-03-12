@@ -32,47 +32,6 @@ def setup_local():
         raise NotImplementedError
 
 
-# def setup_ipython():
-#     """
-#     Setup the IPython environment.
-
-#     This function installs the momics package and other dependencies for the IPython environment.
-#     """
-#     if "google.colab" in str(get_ipython()):
-#         print("Google Colab")
-
-#         # Install ngrok for hosting the dashboard
-#         try:
-#             os.system('pip install pyngrok --quiet')
-#             print('ngrok installed')
-#         except OSError as e:
-#             print(f"An error occurred while installing ngrok: {e}")
-
-#         # clone and install momics
-#         try:
-#             os.system("git clone https://github.com/palec87/marine-omics.git")
-#             print(f"Repository cloned")
-#         except OSError as e:
-#             print(f"An error occurred while cloning the repository: {e}")
-
-#         try:
-#             os.system("pip install git+https://github.com/palec87/marine-omics.git")
-#             print(f"momics installed")
-#         except OSError as e:
-#             print(f"An error occurred while installing momics: {e}")
-
-#         # !pip install panel hvplot
-#         try:
-#             os.system("pip install panel hvplot")
-#             print(f"panel and hvplot installed")
-#         except OSError as e:
-#             print(f"An error occurred while installing panel and hvplot: {e}")
-
-#     else:
-#         # assume local jupyterlab which has all the dependencies installed
-#         setup_local()
-
-
 def setup_ipython():
     """
     Setup the IPython environment.
@@ -158,6 +117,8 @@ def get_notebook_environment():
     
     elif "JPY_SESSION_NAME" in os.environ:
         return 'jupyterlab'
+    else:
+        return 'unknown'
 
 
 FORMAT = "%(levelname)s | %(name)s | %(message)s"  # for logger
