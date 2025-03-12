@@ -19,12 +19,15 @@ Notebooks always generate panel app for user friendly interactions. However work
 
 
 ## WF0, landing page app 
-[![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf0_landing_page/landing_page.ipynb)
+[![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf0_landing_page%2Flanding_page.ipynb)
 
-General statistics of EMO-BON sequencing efforts. The total amount of sampling events has reached more than a 1000 recently.
+General statistics of EMO-BON sequencing efforts. The total amount of sampling events has reached more than a 1000 recently. Unfortunately `leafmap` widgets have problem with `ngrok` tunnels, so only binder integration is possible.
 
 
-## WF1, Get and visualize some of the intermediate data products of the metaGOflow pipeline `pre-alpha`
+
+## WF1, Get and visualize some of the intermediate data products of the metaGOflow pipeline
+[![stability-wip](https://img.shields.io/badge/stability-wip-lightgrey.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#work-in-progress)
+
 Barebones in the `quality_control.ipynb` folder. There are almost 60 output files from the metaGOflow pipeline. This dashboard provides interface to most relevant intermediate ones, ie. all except from the taxonomy and functional analyses.
 
 
@@ -101,7 +104,7 @@ Q: Can it be done in a single NB? Should!
   - If you put the NB code in the script, you can serve the dashboard in the browser using `panel serve app.py --dev`.
   - You can however serve the NB as well, `panel serve app.ipynb --dev`.
   - **Note**: if you want to run on Google Colab, you will need a `pyngrok` and ngrok token from [here](https://dashboard.ngrok.com/auth)
-    - DP: local ngrok from the VScode does not work for me
+  - `Binder` integration is better in terms of running dashboards, but loading the repo might take time or crash, so `GColab` in that case is a better option.
 
 
 ## Data
