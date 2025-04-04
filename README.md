@@ -40,6 +40,10 @@ Barebones in the `quality_control.ipynb` folder. There are almost 60 output file
 NB provides visualization of alpha and beta diversities of the metaGOflow analyses. NB is located in `diversities_panel.ipynb`. Unfortunately I did not yet resolve hosting the dashboard properly on Colab.
  - Request access to the hosted version at the Blue cloud 2026 (BC) Virtual lab environment (VRE) [here](https://blue-cloud.d4science.org/).
 
+**ADVANCED diversity dashboard** (heavier, but contains pivot tables on taxonomy LSU and SSU tables). Next step is to provide permanova calculations and migrate to seaborn plots.
+[![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf2_diversity%2Fdiversities_panel_advanced.ipynb)
+
 
 ## WF3-WF4, biosynthetic gene clusters (BGCs)
 You will need an account on the galaxy [earth-system](https://earth-system.usegalaxy.eu/) for this NBs to work. Your Galaxy access data should be stored as environmental variables in the `.env` file at the root of the repository
