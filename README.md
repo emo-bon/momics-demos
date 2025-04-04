@@ -41,6 +41,7 @@ NB provides visualization of alpha and beta diversities of the metaGOflow analys
  - Request access to the hosted version at the Blue cloud 2026 (BC) Virtual lab environment (VRE) [here](https://blue-cloud.d4science.org/).
 
 **ADVANCED diversity dashboard** (heavier, but contains pivot tables on taxonomy LSU and SSU tables). Next step is to provide permanova calculations and migrate to seaborn plots.
+
 [![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf2_diversity%2Fdiversities_panel_advanced.ipynb)
 

@@ -185,3 +185,4 @@ wf5_MGnify/nextflow_cwl_dev/
 work/
 results/
 testing_NBs/
+data/summary*
