@@ -1,4 +1,4 @@
-bio>=1.7.2
+bio>=1.7.0
 bioblend>=1.4.0
 fastparquet>=2024.11.0
 geopandas>=1.0.1
