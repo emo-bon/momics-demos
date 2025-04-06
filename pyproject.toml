@@ -6,7 +6,7 @@ description = "F-E marine omics demos"
 maintainers = [
     { name = "FAIR-Ease", email = "dpalecek@ualg.pt" },
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "bio>=1.6.2",
     "bioblend>=1.2.0",
@@ -20,7 +20,7 @@ dependencies = [
     "matplotlib>=3.5.3",
     "numpy>=2.2.0",
     "pandas>=2.2.3",
-    "panel>=1.5.5",
+    "panel>=1.6.0",
     "pillow>=10.0.1", # not directly required, pinned by Snyk to avoid a vulnerability
     "pingouin>=0.5.4",
     "pyarrow>=14.0.1",
@@ -28,7 +28,7 @@ dependencies = [
     "pyspark>=3.5.4",
     "python-dotenv==1.0.1",
     "scikit-bio>=0.6.3",
-    "scikit-learn>=1.4.0",
+    "scikit-learn>=1.6.0",
     "seaborn>=0.13.0",
     "setuptools>=70.0.0", # not directly required, pinned by Snyk to avoid a vulnerability
     "sourmash>=4.8.14",
