@@ -20,7 +20,7 @@ def test_parquet(table_name):
     assert len(data) > 0
 
 def test_column_names():
-    folder = "data/0317_parquet_files"
+    folder = "data/parquet_files"
     data = pd.read_parquet(f"{folder}/metagoflow_analyses.go.parquet")
     expected = ["ref_code","id","name","aspect","abundance"]
     assert all([a == b for a, b in zip(data, expected)])

@@ -6,7 +6,7 @@ description = "F-E marine omics demos"
 maintainers = [
     { name = "FAIR-Ease", email = "dpalecek@ualg.pt" },
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 dependencies = [
     "bio>=1.6.2",
     "bioblend>=1.2.0",
