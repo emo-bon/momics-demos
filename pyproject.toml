@@ -1,0 +1,53 @@
+[project]
+name = "momics-demos"
+version = "0.0.1"
+license = { file = "LICENSE.txt" }
+description = "F-E marine omics demos"
+maintainers = [
+    { name = "FAIR-Ease", email = "dpalecek@ualg.pt" },
+]
+requires-python = ">=3.10"
+dependencies = [
+    "bio>=1.6.2",
+    "bioblend>=1.2.0",
+    "fastparquet>=2024.11.0",
+    "geopandas>=1.0.1",
+    "ipywidgets_bokeh>=1.6.0",
+    "jsonapi-client>=0.9.9",
+    "jupyter==1.1.1",
+    "jupyter_bokeh>=4.0.5",
+    "leafmap>=0.3.0",
+    "matplotlib>=3.5.3",
+    "numpy>=2.2.0",
+    "pandas>=2.2.3",
+    "panel>=1.6.0",
+    "pillow>=10.0.1", # not directly required, pinned by Snyk to avoid a vulnerability
+    "pingouin>=0.5.4",
+    "pyarrow>=14.0.1",
+    "pyngrok>=7.2.3",
+    "pyspark>=3.5.4",
+    "python-dotenv==1.0.1",
+    "scikit-bio>=0.6.3",
+    "scikit-learn>=1.6.0",
+    "seaborn>=0.13.0",
+    "setuptools>=70.0.0", # not directly required, pinned by Snyk to avoid a vulnerability
+    "sourmash>=4.8.10",
+    "fonttools>=4.43.0", # not directly required, pinned by Snyk to avoid a vulnerability
+    "ipython>=8.10.0", # not directly required, pinned by Snyk to avoid a vulnerability
+    "requests>=2.32.2", # not directly required, pinned by Snyk to avoid a vulnerability
+    "urllib3>=2.2.2", # not directly required, pinned by Snyk to avoid a vulnerability
+    "zipp>=3.19.1", # not directly required, pinned by Snyk to avoid a vulnerability
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+    "pytest-timeout",
+    "tox",
+]
+
+[tool.setuptools]
+py-modules = [
+    "wf0_landing_page",
+]

@@ -177,6 +177,8 @@ gapminders.ipynb
 hvplot_explorer.ipynb
 testing/tpc_gen_benchmark/output/
 testing/tpc_gen_benchmark/data/
+wf0_landing_page/landing_page_sandbox.ipynb
+
 wf5_MGnify/data/
 wf5_MGnify/nextflow_cwl_dev/
 
