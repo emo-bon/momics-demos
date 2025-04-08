@@ -2,6 +2,7 @@ import os
 import sys
 import platform
 import logging
+import psutil
 from IPython import get_ipython
 
 
@@ -70,7 +71,7 @@ def setup_ipython():
         # Install the momics package
         install_common_remote_packages()
 
-    elif "zmqshell" in str(get_ipython()) and "conda" in sys.prefix:  # binder
+    elif psutil.users() == [] and "conda" in sys.prefix:  # binder
         print("Binder")
         install_common_remote_packages()
     else:
