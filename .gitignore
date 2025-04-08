@@ -180,7 +180,5 @@ testing/tpc_gen_benchmark/data/
 wf5_MGnify/data/
 wf5_MGnify/nextflow_cwl_dev/
 
-# nextflow
-.nextflow*
-work/
-results/
+testing_NBs/
+data/summary*
