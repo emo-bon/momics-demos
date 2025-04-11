@@ -50,7 +50,7 @@ Barebones in the `wf1_metagoflow/quality_control.ipynb` folder. There are almost
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf2_diversity%2Fdiversities_panel.ipynb)
  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf2_diversity/diversities_panel.ipynb)
 
-NB provides visualization of alpha and beta diversities of the metaGOflow analyses. NB is located in `wf2_diversity/diversities_panel.ipynb`. Unfortunately I did not yet resolve hosting the dashboard properly on Colab.
+NB provides visualization of alpha and beta diversities of the metaGOflow analyses. NB is located in `wf2_diversity/diversities_panel.ipynb`.
 
 **ADVANCED diversity dashboard** (heavier, but contains pivot tables on taxonomy LSU and SSU tables). Next step is to migrate to seaborn plots.
 
@@ -118,9 +118,6 @@ Q: Can it be done in a single NB? Should!
 
 1. By the time, BC 2026 might have GPU support
 2. Irrespective, try AI4EOSC perhaps? Q: Have not seen there much or any metagenomics though
-
-
-
 
 ## WFX Some Visualization of some data `not started`
 
