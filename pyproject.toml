@@ -13,6 +13,7 @@ dependencies = [
     "fastparquet>=2024.11.0",
     "geopandas>=1.0.1",
     "ipywidgets_bokeh>=1.6.0",
+    "hvplot",
     "jsonapi-client>=0.9.9",
     "jupyter==1.1.1",
     "jupyter_bokeh>=4.0.5",
