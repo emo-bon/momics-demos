@@ -10,15 +10,15 @@ Please, consider opening [issues](https://github.com/palec87/marine-omics/issues
 
 ## Design principles
 
-1. Minimize dependencies to facilitate wide adaptation and further development of the codebase.
+1. Minimize dependencies (*already failing*) to facilitate wide adaptation and further development of the codebase.
 2. Simplicity over speed, however performance is considered.
-3. Data import/export options after UDAL queries made easy. (backend data queries developed by VLIZ)
+3. (*Not implemented yet*) Data import/export options after UDAL queries made easy. (backend data queries developed by VLIZ)
 4. Combining strengths of python/R/julia packages developed in those languages.
-5. API calls to other services, such as Galaxy.
+5. API calls to other services, such as [Galaxy](https://earth-system.usegalaxy.eu/).
 
 ## Workflow notebooks
 
-Notebooks always generate panel app for user friendly interactions. However working with the code using the same methods as the app should (needs to made sure of by testers) be straightforward.
+Notebooks always generate panel app for user friendly interactions. However working with the code using the same methods as the app should be straightforward. You can combine the *momics* methods, panel *widgets* and your code to adapt and extend the NB capabilities.
 
 ## IMPORTANT NOTE
 
