@@ -184,3 +184,4 @@ wf5_MGnify/nextflow_cwl_dev/
 
 testing_NBs/
 data/summary*
+utils.py
