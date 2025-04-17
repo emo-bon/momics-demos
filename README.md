@@ -93,6 +93,8 @@ Dashboard illustrating submission of jobs to galaxy (GECCO tool) in `wf3_gene_cl
 3. Visualize BGCs.
 4. Compare two samples in respect to each other.
 
+**BUG: upload of large files shuts down the kernel**
+
 ## WF4, r-/k- communities `not started`
 
 1. Correlate with Essential Ocean Variables (EOVs)?
