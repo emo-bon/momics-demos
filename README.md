@@ -89,6 +89,8 @@ Dashboard illustrating submission of jobs to galaxy (GECCO tool) in `wf3_gene_cl
 2. Or start the workflow with existing data and in existing history on Galaxy.
 3. Monitor the job.
 
+![gecco run job](assets/figs/gecco01.png)
+
 ### Analyze GECCO BGC output
 
 [![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
