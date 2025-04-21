@@ -97,11 +97,13 @@ Dashboard illustrating submission of jobs to galaxy (GECCO tool) in `wf3_gene_cl
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf3_gene_clusters%2Fbgc_analyze_gecco.ipynb)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf3_gene_clusters/bgc_analyze_gecco.ipynb)
 
-
 1. Upload local data or query results of the GECCO from the Galaxy.
 2. Identifying Biosynthetic Gene Clusters (BGCs).
 3. Visualize BGCs.
-4. Compare two samples in respect to each other.
+
+![gecco analyze single run](assets/figs/gecco02.png)
+
+X. Compare two samples in respect to each other (in separate NB)
 
 ## WF4, r-/k- communities `not started`
 
