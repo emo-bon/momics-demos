@@ -87,13 +87,24 @@ Dashboard illustrating submission of jobs to galaxy (GECCO tool) in `wf3_gene_cl
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf3_gene_clusters%2Fbgc_analyze_gecco.ipynb)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf3_gene_clusters/bgc_analyze_gecco.ipynb)
 
-
 1. Upload local data or query results of the GECCO from the Galaxy.
 2. Identifying Biosynthetic Gene Clusters (BGCs).
-3. Visualize BGCs.
-4. Compare two samples in respect to each other.
+3. Violin plot of the identified BGCs.
 
-**BUG: upload of large files shuts down the kernel**
+*Note: if you have problems with data upload, because of the filesize, locally you can do:*
+```bash
+jupyter lab --generate-config
+```
+and then in the `jupyter_lab_config.py`, you add
+```python
+c.ServerApp.tornado_settings = {'websocket_max_message_size': 150 * 1024 * 1024}
+c.ServerApp.max_buffer_size = 150 * 1024 * 1024
+```
+
+### Comparative GECCO BGC analysis
+[![stability-wip](https://img.shields.io/badge/stability-wip-lightgrey.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#work-in-progress)
+
+1. Compare two samples in respect to each other.
 
 ## WF4, r-/k- communities `not started`
 
