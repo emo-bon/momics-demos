@@ -19,7 +19,7 @@ dependencies = [
     "jupyter_bokeh>=4.0.5",
     "leafmap>=0.3.0",
     "matplotlib>=3.5.3",
-    "momics @ git+https://github.com/emo-bon/marine-omics-methods.git@main",
+    "momics @ git+https://github.com/emo-bon/marine-omics-methods.git@v0.1.0",
     "numpy>=2.2.0",
     "pandas>=2.2.3",
     "panel>=1.6.0",
