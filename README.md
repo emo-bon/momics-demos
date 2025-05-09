@@ -106,6 +106,10 @@ Dashboard illustrating submission of jobs to galaxy (GECCO tool) in `wf3_gene_cl
 
 ![gecco analyze single run](assets/figs/gecco02.png)
 
+GECCO pfam queries                  | GECCO domains clustering
+:----------------------------------:|:--------------------------------------:
+![](assets/figs/pfam_calls_01.png)  | ![](assets/figs/pfam_cluster_01.png)
+
 *Note: if you have problems with data upload, because of the filesize, locally you can do:*
 ```bash
 jupyter lab --generate-config
