@@ -178,10 +178,12 @@ hvplot_explorer.ipynb
 testing/tpc_gen_benchmark/output/
 testing/tpc_gen_benchmark/data/
 wf0_landing_page/landing_page_sandbox.ipynb
+wf3_gene_clusters/bgc_analyze_gecco_multiple.ipynb
 
 wf5_MGnify/data/
 wf5_MGnify/nextflow_cwl_dev/
 
 testing_NBs/
+wf*/*.json
 data/summary*
 utils.py

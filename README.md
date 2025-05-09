@@ -99,11 +99,29 @@ Dashboard illustrating submission of jobs to galaxy (GECCO tool) in `wf3_gene_cl
 
 1. Upload local data or query results of the GECCO from the Galaxy.
 2. Identifying Biosynthetic Gene Clusters (BGCs).
-3. Visualize BGCs.
+3. Violin plot of the identified BGCs.
+4. API calls to query pfam protein domain descriptions
+    - BUG: progress bar does not update correctly
+5. tokenize, embed, cluster the domains by the textual domain description using simple `sklearn` and `KMeans`.
 
 ![gecco analyze single run](assets/figs/gecco02.png)
 
-X. Compare two samples in respect to each other (in separate NB)
+*Note: if you have problems with data upload, because of the filesize, locally you can do:*
+```bash
+jupyter lab --generate-config
+```
+and then in the `jupyter_lab_config.py`, you add
+```python
+c.ServerApp.tornado_settings = {'websocket_max_message_size': 150 * 1024 * 1024}
+c.ServerApp.max_buffer_size = 150 * 1024 * 1024
+```
+
+### Comparative GECCO BGC analysis
+[![stability-wip](https://img.shields.io/badge/stability-wip-lightgrey.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#work-in-progress)
+
+1. Compare two samples in respect to each other.
+2. The intended analysis employing complex networks is possible to [here](https://lab.fairease.eu/book-marine-omics-observation/gecco-complex-networks) for now.
+3. Please open discussion as [issues](https://github.com/emo-bon/momics-demos/issues) to help me improve this formulation.
 
 ## WF4, r-/k- communities `not started`
 
