@@ -39,6 +39,8 @@ At the moment, NBs/dashboards loaded over Google Colab run **FASTER** than the `
 
 General statistics of EMO-BON sequencing efforts. The total amount of sampling events has reached more than a 1000 recently. Unfortunately `leafmap` widgets have problem with `ngrok` tunnel, so only `binder` integration is possible.
 
+![observatories](assets/figs/landing_page01.png)
+
 ## WF1, Get and visualize certain intermediate metaGOflow pipeline products
 
 [![stability-wip](https://img.shields.io/badge/stability-wip-lightgrey.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#work-in-progress)
@@ -51,13 +53,19 @@ Barebones in the `wf1_metagoflow/quality_control.ipynb` folder. There are almost
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf2_diversity%2Fdiversities_panel.ipynb)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf2_diversity/diversities_panel.ipynb)
 
-NB provides visualization of alpha and beta diversities of the metaGOflow analyses. NB is located in `wf2_diversity/diversities_panel.ipynb`.
+NB provides visualization of **alpha** and **beta** diversities of the metaGOflow analyses. NB is located in `wf2_diversity/diversities_panel.ipynb`.
+
+![diversities_simple](assets/figs/diversity01.png)
 
 **ADVANCED diversity dashboard** (heavier, but contains pivot tables on taxonomy LSU and SSU tables). Next step is to migrate to seaborn plots.
 
 [![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf2_diversity%2Fdiversities_panel_advanced.ipynb)
  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf2_diversity/diversities_panel_advanced.ipynb)
+
+Tables pivot species according to certain pre-selected taxa. Select, filter and visualize **PCoA** of the taxonomy in respect to categorical variables. In addition, calculate **permanova** on those subsampled taxonomy selections.
+
+![diversities_advanced](assets/figs/diversity02.png)
 
 ## WF3, biosynthetic gene clusters (BGCs)
 
@@ -74,12 +82,14 @@ GALAXY_EARTH_KEY="..."
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf3_gene_clusters%2Fbgc_run_gecco_job.ipynb)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf3_gene_clusters/bgc_run_gecco_job.ipynb)
 
-BUG: For unknown reason the Binder dashboard does not work.
+BUG: For unknown reason the Binder version of the dashboard does not work.
 Dashboard illustrating submission of jobs to galaxy (GECCO tool) in `wf3_gene_clusters/bgc_run_gecco_job.ipynb`.
 
 1. Upload and run workflow.
 2. Or start the workflow with existing data and in existing history on Galaxy.
 3. Monitor the job.
+
+![gecco run job](assets/figs/gecco01.png)
 
 ### Analyze GECCO BGC output
 
@@ -93,6 +103,8 @@ Dashboard illustrating submission of jobs to galaxy (GECCO tool) in `wf3_gene_cl
 4. API calls to query pfam protein domain descriptions
     - BUG: progress bar does not update correctly
 5. tokenize, embed, cluster the domains by the textual domain description using simple `sklearn` and `KMeans`.
+
+![gecco analyze single run](assets/figs/gecco02.png)
 
 *Note: if you have problems with data upload, because of the filesize, locally you can do:*
 ```bash
