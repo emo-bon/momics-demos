@@ -57,7 +57,7 @@ NB provides visualization of **alpha** and **beta** diversities of the metaGOflo
 
 ![diversities_simple](assets/figs/diversity01.png)
 
-**ADVANCED diversity dashboard** (heavier, but contains pivot tables on taxonomy LSU and SSU tables). Next step is to migrate to seaborn plots.
+**ADVANCED diversity dashboard** (heavier, but contains pivot tables on taxonomy LSU and SSU tables).
 
 [![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf2_diversity%2Fdiversities_panel_advanced.ipynb)
@@ -185,5 +185,4 @@ Q: Can it be done in a single NB? Should!
 
 ### Vizualization
 
-- Visualization are currently **not** interactive and developed in `seaborn` or `matplotlib`. This will likely change to `holoviz`.
-- Interactive parts use `jupyterlab`
+- Visualization are now interactive using `hvPlot` ([documentation](https://hvplot.holoviz.org/index.html)).
