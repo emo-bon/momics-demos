@@ -15,8 +15,6 @@ pandas>=2.2.3
 panel>=1.6.0
 pillow>=10.0.1 # not directly required, pinned by Snyk to avoid a vulnerability
 pingouin>=0.5.4
-pyarrow>=14.0.1
-pyspark>=3.5.4
 python-dotenv==1.0.1
 scikit-bio>=0.6.3
 scikit-learn>=1.6.0
