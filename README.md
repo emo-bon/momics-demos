@@ -225,7 +225,7 @@ Create shared environment for all the users (or your system admin already did)
 conda create -p <PATH>  # for example /srv/scratch/momics-demos
 ```
 
-Each user needs to activate the environment and setup their own kernel
+Each user needs to activate the environment and setup their own kernel. Launch terminal session clicking on ➕ icon and select terminal.
 
 ```bash
 conda activate /srv/scratch/momics-demos
