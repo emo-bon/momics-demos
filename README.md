@@ -8,6 +8,33 @@ Marine metagenomics platform NBs to get the science started. This work is part o
 
 Please, consider opening [issues](https://github.com/palec87/marine-omics/issues) and PRs with your dream workflow suggestions. I can be to certain extend your worker until 31/8.
 
+## Table of Contents
+
+- [Marine Omics Demos](#marine-omics-demos)
+- [Design principles](#design-principles)
+- [Workflow notebooks](#workflow-notebooks)
+  - [WF0, landing page app](#wf0-landing-page-app)
+  - [WF1, Get and visualize certain intermediate metaGOflow pipeline products](#wf1-get-and-visualize-certain-intermediate-metagoflow-pipeline-products)
+  - [WF2, Genetic diversity](#wf2-genetic-diversity)
+  - [WF3, biosynthetic gene clusters (BGCs)](#wf3-biosynthetic-gene-clusters-bgcs)
+    - [Running GECCO jobs on Galaxy](#running-gecco-jobs-on-galaxy)
+    - [Analyze GECCO BGC output](#analyze-gecco-bgc-output)
+    - [Comparative GECCO BGC analysis](#comparative-gecco-bgc-analysis)
+  - [WF4, r-/k- communities `not started`](#wf4-rk--communities-not-started)
+  - [WF5, Integrate MGnify pipeline and data](#wf5-integrate-mgnify-pipeline-and-data)
+  - [WF6, R, Julia `not started`](#wf6-r-julia-not-started)
+  - [WF7, DL package? `not started`](#wf7-dl-package-not-started)
+  - [WFX Some Visualization of some data `not started`](#wfx-some-visualization-of-some-data-not-started)
+- [Installation](#installation)
+  - [Local jupyter](#local-jupyter)
+  - [For existing Jupyter Hub server](#for-existing-jupyter-hub-server)
+- [Technical notes](#technical-notes)
+  - [General](#general)
+  - [Dashboards](#dashboards)
+  - [Data](#data)
+  - [Galaxy](#galaxy)
+  - [Vizualization](#vizualization)
+
 ## Design principles
 
 1. Minimize dependencies (*already failing*) to facilitate wide adaptation and further development of the codebase.
@@ -158,7 +185,56 @@ Q: Can it be done in a single NB? Should!
 
 (This is probably WF0) Provides summary of up-to date statistics on amounts of sequenced and processed data.
 
-## Dependencies
+## Installation
+
+### Local jupyter
+
+Consider creating (and activating) a new virtual environmenment for the project
+
+```bash
+# if you are using conda
+conda create -n "momics-demos" python=3.10  # or higher
+conda activate momics-demos
+
+# using venv is platform dependent (Unix)
+python -m venv momics-demos
+source momic-demos/bin/activate
+
+#(Win)
+python.exe -m venv momics-demos
+./Scripts/activate
+```
+
+Clone and install the repository
+
+```bash
+# clone the repository into newly created folder
+git clone https://github.com/emo-bon/momics-demos.git
+
+cd momics-demos
+
+# install dependencies using pip
+pip install -e .
+```
+
+### For existing Jupyter Hub server
+
+Create shared environment for all the users (or your system admin already did)
+
+```bash
+conda create -p <PATH>  # for example /srv/scratch/momics-demos
+```
+
+Each user needs to activate the environment and setup their own kernel
+
+```bash
+conda activate /srv/scratch/momics-demos
+ipython kernel install --user --name "momics-demos"
+```
+
+This kernel, you will select for the NBs which serve the dashboards. If you want to develop parallel NBs, you can setup another `environment/kernel`.
+
+## Technical notes
 
 ### General
 
