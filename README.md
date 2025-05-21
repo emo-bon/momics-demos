@@ -13,14 +13,14 @@ Please, consider opening [issues](https://github.com/palec87/marine-omics/issues
 - [Marine Omics Demos](#marine-omics-demos)
 - [Design principles](#design-principles)
 - [Workflow notebooks](#workflow-notebooks)
-  - [WF0, landing page app](#wf0-landing-page-app)
-  - [WF1, Get and visualize certain intermediate metaGOflow pipeline products](#wf1-get-and-visualize-certain-intermediate-metagoflow-pipeline-products)
+  - [WF0, Landing page showing sequencing progress](#wf0-landing-page-showing-sequencing-progress)
+  - [WF1, Visualize metaGOflow pipeline intermediate products](#wf1-visualize-metagoflow-pipeline-intermediate-products)
   - [WF2, Genetic diversity](#wf2-genetic-diversity)
   - [WF3, biosynthetic gene clusters (BGCs)](#wf3-biosynthetic-gene-clusters-bgcs)
     - [Running GECCO jobs on Galaxy](#running-gecco-jobs-on-galaxy)
     - [Analyze GECCO BGC output](#analyze-gecco-bgc-output)
     - [Comparative GECCO BGC analysis](#comparative-gecco-bgc-analysis)
-  - [WF4, r-/k- communities `not started`](#wf4-rk--communities-not-started)
+  - [WF4, r-/k- communities `not started`](#wf4-rk-communities-not-started)
   - [WF5, Integrate MGnify pipeline and data](#wf5-integrate-mgnify-pipeline-and-data)
   - [WF6, R, Julia `not started`](#wf6-r-julia-not-started)
   - [WF7, DL package? `not started`](#wf7-dl-package-not-started)
@@ -59,7 +59,7 @@ At the moment, NBs/dashboards loaded over Google Colab run **FASTER** than the `
 
 ![ngrok tunnel](/assets/figs/ngrok_colab_screenshot_red.png)
 
-## WF0, landing page showing sequencing progress
+## WF0, Landing page showing sequencing progress
 
 [![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf0_landing_page%2Flanding_page.ipynb)
