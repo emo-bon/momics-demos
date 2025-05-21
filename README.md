@@ -59,7 +59,7 @@ At the moment, NBs/dashboards loaded over Google Colab run **FASTER** than the `
 
 ![ngrok tunnel](/assets/figs/ngrok_colab_screenshot_red.png)
 
-## WF0, landing page app
+## WF0, landing page showing sequencing progress
 
 [![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf0_landing_page%2Flanding_page.ipynb)
@@ -68,11 +68,22 @@ General statistics of EMO-BON sequencing efforts. The total amount of sampling e
 
 ![observatories](assets/figs/landing_page01.png)
 
-## WF1, Get and visualize certain intermediate metaGOflow pipeline products
+## WF1, Visualize metaGOflow pipeline intermediate products
 
-[![stability-wip](https://img.shields.io/badge/stability-wip-lightgrey.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#work-in-progress)
+[![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf1_metagoflow%2Fquality_control.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf1_metagoflow/quality_control.ipynb)
 
-Barebones in the `wf1_metagoflow/quality_control.ipynb` folder. There are almost 60 output files from the metaGOflow pipeline. This dashboard provides interface to most relevant intermediate ones, ie. all except from the taxonomy and functional analyses.
+Notebook is located in `wf1_metagoflow/quality_control.ipynb` folder.
+
+There are almost 60 output files from the metaGOflow pipeline. This dashboard provides interface to the most relevant and not too big metaGOflow pipeline outputs, including:
+
+1. fastap Qaulity Control report with interactive QC plots.
+2. Reads Quality control, both `trimmed` and `merged` reads.
+3. Interactive Krona plots from SSU and LSU taxonomy tables, respectively.
+4. Functional annotation summaries expressed in number of reads matched to respective databases.
+
+![metagoflow quality control](assets/figs/quality_control_01.png)
 
 ## WF2, Genetic diversity
 
@@ -94,7 +105,7 @@ Tables pivot species according to certain pre-selected taxa. Select, filter and 
 
 ![diversities_advanced](assets/figs/diversity02.png)
 
-## WF3, biosynthetic gene clusters (BGCs)
+## WF3, Biosynthetic gene clusters (BGCs)
 
 You will need an account on the galaxy [earth-system](https://earth-system.usegalaxy.eu/) for this NBs to work. Your Galaxy access data should be stored as environmental variables in the `.env` file at the root of the repository
 
