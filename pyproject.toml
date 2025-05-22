@@ -1,6 +1,6 @@
 [project]
 name = "momics-demos"
-version = "0.0.1"
+version = "0.0.2"
 license = { file = "LICENSE.txt" }
 description = "F-E marine omics demos"
 maintainers = [
@@ -19,7 +19,7 @@ dependencies = [
     "jupyter_bokeh>=4.0.5",
     "leafmap>=0.3.0",
     "matplotlib>=3.5.3",
-    "marine-omics>=0.1.2",
+    "marine-omics>=0.1.3",
     "numpy>=2.2.0",
     "pandas>=2.2.3",
     "panel>=1.6.0",
