@@ -9,7 +9,7 @@ jupyter==1.1.1
 jupyter_bokeh>=4.0.5
 leafmap>=0.3.0
 matplotlib>=3.5.3
-momics @ git+https://github.com/emo-bon/marine-omics-methods.git@v0.1.2c
+marine-omics>=0.1.2d # @ git+https://github.com/emo-bon/marine-omics-methods.git@v0.1.2d
 numpy>=2.2.1
 pandas>=2.2.3
 panel>=1.6.0
