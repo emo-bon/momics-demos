@@ -2,17 +2,17 @@ bio>=1.7.0
 bioblend>=1.4.0
 fastparquet>=2024.11.0
 geopandas>=1.0.1
-hvplot
+hvplot>=0.11.0
 ipywidgets_bokeh>=1.6.0
 jsonapi-client>=0.9.9
 jupyter==1.1.1
 jupyter_bokeh>=4.0.5
-leafmap>=0.3.0
-matplotlib>=3.5.3
+leafmap>=0.45.0
+matplotlib>=3.7.3
 marine-omics>=0.1.4
 numpy>=2.2.1
 pandas>=2.2.3
-panel>=1.6.0
+panel>=1.7.0
 pillow>=10.0.1 # not directly required, pinned by Snyk to avoid a vulnerability
 pingouin>=0.5.4
 python-dotenv==1.0.1
