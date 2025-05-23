@@ -39,7 +39,7 @@ Please, consider opening [issues](https://github.com/palec87/marine-omics/issues
 
 1. Minimize dependencies (*already failing*) to facilitate wide adaptation and further development of the codebase.
 2. Simplicity over speed, however performance is considered.
-3. (*Not implemented yet*) Data import/export options after UDAL queries made easy. (backend data queries developed by VLIZ)
+3. UDAL queries implemented locally (backend data queries developed by VLIZ).
 4. Combining strengths of python/R/julia packages developed in those languages.
 5. API calls to other services, such as [Galaxy](https://earth-system.usegalaxy.eu/).
 
