@@ -4,7 +4,7 @@ fastparquet==2024.11.0
 fonttools==4.58.0 # not directly required, pinned by Snyk to avoid a vulnerability
 geopandas==1.0.1
 hvplot==0.11.2
-ipython==8.36.0 # not directly required, pinned by Snyk to avoid a vulnerability
+# ipython==8.36.0 # not directly required, pinned by Snyk to avoid a vulnerability
 ipywidgets_bokeh==1.6.0
 jsonapi-client==0.9.9
 jupyter==1.1.1
