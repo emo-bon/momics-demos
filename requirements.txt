@@ -1,29 +1,29 @@
-bio>=1.7.0
-bioblend>=1.4.0
-fastparquet>=2024.11.0
-geopandas>=1.0.1
-hvplot>=0.11.0
-ipywidgets_bokeh>=1.6.0
-jsonapi-client>=0.9.9
+bio==1.7.1
+bioblend==1.5.0
+fastparquet==2024.11.0
+fonttools==4.58.0 # not directly required, pinned by Snyk to avoid a vulnerability
+geopandas==1.0.1
+hvplot==0.11.2
+ipython==9.1.0 # not directly required, pinned by Snyk to avoid a vulnerability
+ipywidgets_bokeh==1.6.0
+jsonapi-client==0.9.9
 jupyter==1.1.1
-jupyter_bokeh>=4.0.5
-leafmap>=0.45.0
-matplotlib>=3.7.3
-marine-omics>=0.1.4
-numpy>=2.2.1
-pandas>=2.2.3
-panel>=1.7.0
-pillow>=10.0.1 # not directly required, pinned by Snyk to avoid a vulnerability
-pingouin>=0.5.4
+jupyter_bokeh==4.0.5
+leafmap==0.43.5
+matplotlib==3.10.1
+marine-omics==0.1.4
+numpy==2.2.4
+pandas==2.2.3
+panel==1.7.0
+pillow==11.2.1 # not directly required, pinned by Snyk to avoid a vulnerability
+pingouin==0.5.5
 python-dotenv==1.0.1
 py-udal-mgo @ git+https://github.com/fair-ease/py-udal-mgo.git@main
-scikit-bio>=0.6.3
-scikit-learn>=1.6.0
+requests==2.32.3 # not directly required, pinned by Snyk to avoid a vulnerability
+scikit-bio==0.6.3
+scikit-learn==1.6.1
 seaborn>=0.13.0
-setuptools>=70.0.0 # not directly required, pinned by Snyk to avoid a vulnerability
-sourmash>=4.8.10
-fonttools>=4.43.0 # not directly required, pinned by Snyk to avoid a vulnerability
-ipython>=8.10.0 # not directly required, pinned by Snyk to avoid a vulnerability
-requests>=2.32.2 # not directly required, pinned by Snyk to avoid a vulnerability
-urllib3>=2.2.2 # not directly required, pinned by Snyk to avoid a vulnerability
-zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
+setuptools==78.1.0 # not directly required, pinned by Snyk to avoid a vulnerability
+sourmash==4.8.14
+urllib3==2.4.0 # not directly required, pinned by Snyk to avoid a vulnerability
+zipp==3.21.0 # not directly required, pinned by Snyk to avoid a vulnerability
