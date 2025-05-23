@@ -8,41 +8,38 @@ maintainers = [
 ]
 requires-python = ">=3.10"
 
-[tool.poetry.dependencies]
-python = ">=3.10"  # adjust if needed
-bio = ">=1.6.2"
-bioblend = ">=1.2.0"
-fastparquet = ">=2024.11.0"
-geopandas = ">=1.0.1"
-ipywidgets_bokeh = ">=1.6.0"
-hvplot = ">=0.11.0"
-jsonapi-client = ">=0.9.9"
-jupyter = "==1.1.1"
-jupyter_bokeh = ">=4.0.5"
-leafmap = ">=0.45.0"
-matplotlib = ">=3.7.3"
-marine-omics = ">=0.1.4"
-numpy = ">=2.2.0"
-pandas = ">=2.2.3"
-panel = ">=1.7.0"
-pillow = ">=10.0.1"  # not directly required, pinned by Snyk to avoid a vulnerability
-pingouin = ">=0.5.4"
-pyngrok = ">=7.2.3"
-python-dotenv = "==1.0.1"
-
-# Git dependency
-py-udal-mgo = { git = "https://github.com/fair-ease/py-udal-mgo.git", rev = "main" }
-
-scikit-bio = ">=0.6.3"
-scikit-learn = ">=1.6.0"
-seaborn = ">=0.13.0"
-setuptools = ">=70.0.0"  # not directly required, pinned by Snyk to avoid a vulnerability
-sourmash = ">=4.8.10"
-fonttools = ">=4.43.0"  # not directly required, pinned by Snyk to avoid a vulnerability
-ipython = ">=8.10.0"  # not directly required, pinned by Snyk to avoid a vulnerability
-requests = ">=2.32.2"  # not directly required, pinned by Snyk to avoid a vulnerability
-urllib3 = ">=2.2.2"  # not directly required, pinned by Snyk to avoid a vulnerability
-zipp = ">=3.19.1"  # not directly required, pinned by Snyk to avoid a vulnerability
+dependencies = [
+    "bio>=1.7.1",
+    "bioblend>=1.5.0",
+    "fastparquet>=2024.11.0",
+    "geopandas>=1.0.1",
+    "ipywidgets_bokeh>=1.6.0",
+    "hvplot>=0.11.0",
+    "jsonapi-client>=0.9.9",
+    "jupyter==1.1.1",
+    "jupyter_bokeh>=4.0.5",
+    "leafmap>=0.45.0",
+    "marine-omics>=0.1.5",
+    "matplotlib>=3.10.1",
+    "numpy>=2.2.4",
+    "pandas>=2.2.3",
+    "panel>=1.7.0",
+    "pillow>=11.2.1",  # not directly required, pinned by Snyk to avoid a vulnerability
+    "pingouin>=0.5.5",
+    "pyngrok>=7.2.3",
+    "python-dotenv==1.0.1",
+    "py-udal-mgo @ git+https://github.com/fair-ease/py-udal-mgo.git",
+    "scikit-bio>=0.6.3",
+    "scikit-learn>=1.6.1",
+    "seaborn>=0.13.0",
+    "setuptools>=75.8.0",  # not directly required, pinned by Snyk to avoid a vulnerability
+    "sourmash>=4.8.14",
+    "fonttools>=4.43.0",  # not directly required, pinned by Snyk to avoid a vulnerability
+    "ipython>=8.10.0",  # not directly required, pinned by Snyk to avoid a vulnerability
+    "requests>=2.32.2",  # not directly required, pinned by Snyk to avoid a vulnerability
+    "urllib3>=2.3.2",  # not directly required, pinned by Snyk to avoid a vulnerability
+    "zipp>=3.21.0",  # not directly required, pinned by Snyk to avoid a vulnerability
+]
 
 [project.optional-dependencies]
 test = [
