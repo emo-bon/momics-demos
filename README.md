@@ -20,11 +20,9 @@ Please, consider opening [issues](https://github.com/palec87/marine-omics/issues
     - [Running GECCO jobs on Galaxy](#running-gecco-jobs-on-galaxy)
     - [Analyze GECCO BGC output](#analyze-gecco-bgc-output)
     - [Comparative GECCO BGC analysis](#comparative-gecco-bgc-analysis)
-  - [WF4, r-/k- communities `not started`](#wf4-rk-communities-not-started)
+  - [WF4, Co-occurrence networks](#wf4-co-occurrence-networks)
   - [WF5, Integrate MGnify pipeline and data](#wf5-integrate-mgnify-pipeline-and-data)
-  - [WF6, R, Julia `not started`](#wf6-r-julia-not-started)
-  - [WF7, DL package? `not started`](#wf7-dl-package-not-started)
-  - [WFX Some Visualization of some data `not started`](#wfx-some-visualization-of-some-data-not-started)
+  - [Other ideas](#other-ideas)
 - [Installation](#installation)
   - [Local jupyter](#local-jupyter)
   - [For existing Jupyter Hub server](#for-existing-jupyter-hub-server)
@@ -149,25 +147,32 @@ GECCO pfam queries                  | GECCO domains clustering
 ![](assets/figs/pfam_calls_01.png)  | ![](assets/figs/pfam_cluster_01.png)
 
 *Note: if you have problems with data upload, because of the filesize, locally you can do:*
+
 ```bash
 jupyter lab --generate-config
 ```
+
 and then in the `jupyter_lab_config.py`, you add
+
 ```python
 c.ServerApp.tornado_settings = {'websocket_max_message_size': 150 * 1024 * 1024}
 c.ServerApp.max_buffer_size = 150 * 1024 * 1024
 ```
 
 ### Comparative GECCO BGC analysis
+
 [![stability-wip](https://img.shields.io/badge/stability-wip-lightgrey.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#work-in-progress)
 
 1. Compare two samples in respect to each other.
 2. The intended analysis employing complex networks is possible to [here](https://lab.fairease.eu/book-marine-omics-observation/gecco-complex-networks) for now.
 3. Please open discussion as [issues](https://github.com/emo-bon/momics-demos/issues) to help me improve this formulation.
 
-## WF4, r-/k- communities `not started`
+## WF4, Co-occurrence networks
 
-1. Correlate with Essential Ocean Variables (EOVs)?
+[![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf4_co-occurrence%2Fparametrized_taxonomy.ipynb)
+
+Complex network analysis of either LSU or SSU taxonomy tables. Based on the Spearman's correlation associations, significant interaction networks showing positive and negative axxociations between the taxa. Taxonom table can be split into groups based on selected categorical factor from the metadata table.
 
 ## WF5, Integrate MGnify pipeline and data
 
@@ -182,19 +187,17 @@ The examples are heavily inspired and taken from the MGnify project [itself](htt
 1. How to query data and make basic plots such as Sankey from the MGnify database `wf5_MGnify/query_data.ipynb`
 2. Protein families comparison?
 
-## WF6, R, Julia `not started`
+## Other ideas
 
-1. Demonstrate usage of some relevant R and julia packages, Workflows
-Q: Can it be done in a single NB? Should!
+Please reach out if you are interested in these or have your own proposal.
 
-## WF7, DL package? `not started`
-
-1. By the time, BC 2026 might have GPU support
-2. Irrespective, try AI4EOSC perhaps? Q: Have not seen there much or any metagenomics though
-
-## WFX Some Visualization of some data `not started`
-
-(This is probably WF0) Provides summary of up-to date statistics on amounts of sequenced and processed data.
+1. r-/k- communities `not started`
+    - Correlate with Essential Ocean Variables (EOVs)?
+2. R, Julia `not started`
+    - Demonstrate usage of some relevant R and julia packages, use DIVAnd or similar.
+3. DL package? `not started`
+    - In the future, BC 2026 might have GPU support
+    - Irrespective, try AI4EOSC perhaps? Q: Have not seen there much or any metagenomics though
 
 ## Installation
 
