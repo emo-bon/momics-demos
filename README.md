@@ -174,6 +174,8 @@ c.ServerApp.max_buffer_size = 150 * 1024 * 1024
 
 Complex network analysis of either LSU or SSU taxonomy tables. Based on the Spearman's correlation associations, significant interaction networks showing positive and negative axxociations between the taxa. Taxonom table can be split into groups based on selected categorical factor from the metadata table.
 
+![co-occurrence networks](assets/figs/networks01_01.png)
+
 ## WF5, Integrate MGnify pipeline and data
 
 [![stability-wip](https://img.shields.io/badge/stability-wip-lightgrey.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#work-in-progress)
