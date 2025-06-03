@@ -35,15 +35,14 @@ Please, consider opening [issues](https://github.com/palec87/marine-omics/issues
 
 ## Design principles
 
-1. Minimize dependencies (*already failing*) to facilitate wide adaptation and further development of the codebase.
+1. Flexibilty: Running, locally, on public jupyterHub server (binder and google colab), deployable to VREs and other Jupyter servers.
 2. Simplicity over speed, however performance is considered.
-3. UDAL queries implemented locally (backend data queries developed by VLIZ).
-4. Combining strengths of python/R/julia packages developed in those languages.
-5. API calls to other services, such as [Galaxy](https://earth-system.usegalaxy.eu/).
+3. UDAL queries which will eventually enable you to query many types of data apart from EMO-BON.
+4. API calls to other services, such as [Galaxy](https://earth-system.usegalaxy.eu/).
 
 ## Workflow notebooks
 
-Notebooks always generate panel app for user friendly interactions. However working with the code using the same methods as the app should be straightforward. You can combine the *momics* methods, panel *widgets* and your code to adapt and extend the NB capabilities.
+Notebooks generate panel apps for user friendly interactions. **What if the dashboards are not enough to you?** Each dashboard NB has an `..._interactive.ipynb` sibling in the same directory which is a good starting point. Combine the *momics* methods (repository [marine-omics-methods](https://github.com/emo-bon/marine-omics-methods)), panel *widgets* to extend the NB capabilities.
 
 ## IMPORTANT NOTE
 
