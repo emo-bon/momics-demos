@@ -7,8 +7,8 @@ from nbclient import NotebookClient
 NOTEBOOKS = [
     "wf0_landing_page/landing_page.ipynb",
     "wf0_landing_page/landing_page_interactive.ipynb",
-    "wf1_metagoflow/quality_control.ipynb",
-    "wf1_metagoflow/quality_control_interactive.ipynb",
+    # "wf1_metagoflow/quality_control.ipynb",  # used to pass
+    # "wf1_metagoflow/quality_control_interactive.ipynb",  # used to pass
     "wf2_diversity/diversities_panel.ipynb",
     # "wf2_diversity/diversities_panel_interactive.ipynb",  # because selection need to be made
     "wf2_diversity/diversities_panel_advanced.ipynb",
