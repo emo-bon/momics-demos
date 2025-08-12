@@ -13,7 +13,7 @@ NOTEBOOKS = [
     # "wf2_diversity/diversities_panel_interactive.ipynb",  # because selection need to be made
     "wf2_diversity/diversities_panel_advanced.ipynb",
     # "wf2_diversity/diversities_panel_advanced_interactive.ipynb"  # because selection need to be made
-    "wf3_gene_clusters/bgc_analyze_gecco_single.ipynb",
+    # "wf3_gene_clusters/bgc_analyze_gecco_single.ipynb",  # needs authentication
     # "wf3_gene_clusters/bgc_analyze_gecco_single_interactive.ipynb",  # because selection need to be made
     # "wf3_gene_clusters/bgc_run_gecco_job.ipynb",  # missing access to the galaxy login
     # "wf3_gene_clusters/bgc_run_gecco_job_interactive.ipynb",  # missing access to the galaxy login
