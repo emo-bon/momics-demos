@@ -42,7 +42,7 @@ jobs:
       - name: Test with pytest
         uses: aganders3/headless-gui@v2
         with:
-          run: pytest -v --color=yes --cov-report=xml
+          run: pytest -v --color=yes --cov=. --cov-report=xml
         env:
           PLATFORM: ${{ matrix.platform }}
 
