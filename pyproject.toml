@@ -39,15 +39,15 @@ dependencies = [
     "ipython>=8.10.0",  # not directly required, pinned by Snyk to avoid a vulnerability
     "requests>=2.32.2",  # not directly required, pinned by Snyk to avoid a vulnerability
     "urllib3>=2.3.2",  # not directly required, pinned by Snyk to avoid a vulnerability
+    "venny4py==1.0.3",
     "zipp>=3.21.0",  # not directly required, pinned by Snyk to avoid a vulnerability
 ]
 
 [project.optional-dependencies]
-test = [
+testing = [
     "pytest",
     "pytest-cov",
     "pytest-timeout",
-    "tox",
 ]
 
 [tool.setuptools]

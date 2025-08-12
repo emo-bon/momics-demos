@@ -10,7 +10,7 @@ jupyter==1.1.1
 jupyter_bokeh==4.0.5
 leafmap==0.43.5
 matplotlib==3.10.1
-marine-omics==0.1.11
+marine-omics==0.1.15
 networkx==3.4.2
 numpy==2.2.4
 pandas==2.2.3
@@ -26,4 +26,5 @@ seaborn>=0.13.0
 setuptools==75.8.0 # not directly required, pinned by Snyk to avoid a vulnerability
 sourmash==4.8.14
 urllib3==2.3.0 # not directly required, pinned by Snyk to avoid a vulnerability
+venny4py==1.0.3
 zipp==3.21.0 # not directly required, pinned by Snyk to avoid a vulnerability
