@@ -3,6 +3,8 @@
 ![Jupyterlab](https://img.shields.io/badge/Jupyter-notebook-brightgreen)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/)
+[![tests](https://github.com/emo-bon/momics-demos/workflows/tests/badge.svg)](https://github.com/emo-bon/momics-demos/actions)
+[![codecov](https://codecov.io/gh/emo-bon/momics-demos/branch/main/graph/badge.svg)](https://codecov.io/gh/emo-bon/momics-demos)
 
 Marine metagenomics platform NBs to get the science started. This work is part of [FAIR-EASE](https://fairease.eu/) project, specifically Pilot 5 for metagenomics to provide as many tools to for [emo-bon](https://data.emobon.embrc.eu/) data.
 
