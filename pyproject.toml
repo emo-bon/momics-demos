@@ -45,6 +45,10 @@ dependencies = [
 
 [project.optional-dependencies]
 testing = [
+    "ipykernel",
+    "jupyter",
+    "nbformat",
+    "nbclient",
     "nbval",
     "pytest",
     "pytest-cov",
