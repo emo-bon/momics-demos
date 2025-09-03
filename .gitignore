@@ -189,3 +189,4 @@ data/summary*
 utils.py
 wf5_MGnify/venn4_studies/
 tox.ini
+.coveragerc
