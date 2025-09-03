@@ -45,6 +45,7 @@ dependencies = [
 
 [project.optional-dependencies]
 testing = [
+    "nbval",
     "pytest",
     "pytest-cov",
     "pytest-timeout",
