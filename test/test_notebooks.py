@@ -20,7 +20,8 @@ NOTEBOOKS = [
     "wf4_co-occurrence/parametrized_taxonomy.ipynb",
     # "wf4_co-occurrence/parametrized_taxonomy_interactive.ipynb"  # not sure about this error
     "wf5_MGnify/01_summary_analysis_panel_wip.ipynb",
-    "wf5_MGnify/02_comparative_taxonomy.ipynb"
+    "wf5_MGnify/02_comparative_taxonomy.ipynb",
+    "wfs_extra/pathogen_taxonomy.ipynb"
 
 ]
 

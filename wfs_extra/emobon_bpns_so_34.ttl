@@ -1,0 +1,589 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix pcdm: <http://pcdm.org/models#> .
+@prefix schema1: <http://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/DBH.merged.emapper.summary.eggnog> a schema1:MediaObject ;
+    schema1:contentSize "7039374" ;
+    schema1:description "Summary of Eggnog emapper analysis" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/a9/e848ed2c34a2369955bd3100e7cd68" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "Eggnog emapper summary" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/ro-crate-metadata.json> a schema1:CreativeWork ;
+    dct:conformsTo <https://data.emobon.embrc.eu/analysis-results-profile/latest/>,
+        <https://w3id.org/ro/crate/1.1> ;
+    schema1:about <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/> .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/> a schema1:Dataset,
+        dcat:Dataset ;
+    pcdm:hasMember <https://github.com/emo-bon/MetaGOflow/commit/3cf3a7d39fabc6e75a8cb2971a711c2d781c84d0>,
+        <https://www.ebi.ac.uk/ena/browser/view/ERS20535376> ;
+    schema1:creator <https://orcid.org/0000-0002-4927-979X> ;
+    schema1:datePublished "2025-09-26" ;
+    schema1:description """
+This is a Research Object Crate containing results data from a MetaGOflow
+workflow analysis of metagenomic data derived from European Marine Omics
+Biodiversity Observation Network (EMO BON) project operated by the European
+Marine Biological Research Centre (EMBRC).
+
+Sampling station: Flanders Marine Institute (VLIZ); Ghent University; Royal Belgian Institute of Natural Sciences; Katholieke Universiteit Leuven
+Sampling country: Belgium
+Sampling station lat/long: 51.433331:2.80833
+Sampling environment: soft_sediment
+Sampling station contact name: Klaas Deneudt
+Sampling station contact ORCID id: 0000-0002-8559-3508
+Sampling station ENA project number: PRJEB51652
+
+EMO BON reference code: EMOBON00143
+EMO BON source material id: EMOBON_BPNS_So_34
+
+MetaGOflow run id: HCFCYDSX5.UDI141
+""" ;
+    schema1:hasPart <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH.merged.cmsearch.all.tblout.deoverlapped.bz2>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH.merged.fasta.bz2>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH.merged.motus.tsv.bz2>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH.merged.qc_summary>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH.merged.unfiltered_fasta.bz2>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH.merged_CDS.faa.bz2>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH.merged_CDS.ffn.bz2>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH_AAAVOSDA_1_1_HCFCYDSX5.UDI141_clean.fastq.trimmed.fasta.bz2>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH_AAAVOSDA_1_1_HCFCYDSX5.UDI141_clean.fastq.trimmed.qc_summary>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH_AAAVOSDA_1_2_HCFCYDSX5.UDI141_clean.fastq.trimmed.fasta.bz2>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH_AAAVOSDA_1_2_HCFCYDSX5.UDI141_clean.fastq.trimmed.qc_summary>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/config.yml>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/fastp.html>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/final.contigs.fa.bz2>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/run.yml>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/>,
+        <https://data.embon.embrc.eu/sequence/EMOBON00143>,
+        <https://data.emobon.embrc.eu/sampling/EMOBON_BPNS_So_34>,
+        <https://ftp.sra.ebi.ac.uk/vol1/run/ERR148/ERR14888778/DBH_AAAVOSDA_1_1_HCFCYDSX5.UDI141_clean.fastq.gz>,
+        <https://ftp.sra.ebi.ac.uk/vol1/run/ERR148/ERR14888778/DBH_AAAVOSDA_1_2_HCFCYDSX5.UDI141_clean.fastq.gz> ;
+    schema1:keywords "benthic-communities",
+        "biodiversity",
+        "genetics",
+        "long-term-changes",
+        "marine-environment",
+        "measurement",
+        "sample",
+        "sediment-samples",
+        "water-samples" ;
+    schema1:license <https://creativecommons.org/licenses/by/4.0/> ;
+    schema1:name "MetaGoFlow metagenomics data products EMOBON00143 for Sampling Event EMOBON_BPNS_So_34" ;
+    schema1:publisher <https://ror.org/0038zss60> ;
+    dcat:theme <http://purl.obolibrary.org/obo/ExO_0000067>,
+        <http://semanticscience.org/resource/SIO_001050>,
+        <https://vocabularyserver.com/asfa/?tema=1150>,
+        <https://vocabularyserver.com/asfa/?tema=2091>,
+        <https://vocabularyserver.com/asfa/?tema=2185>,
+        <https://vocabularyserver.com/asfa/?tema=2365>,
+        <https://vocabularyserver.com/asfa/?tema=3248>,
+        <https://vocabularyserver.com/asfa/?tema=3505>,
+        <https://vocabularyserver.com/asfa/?tema=6369> .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH.merged.cmsearch.all.tblout.deoverlapped.bz2> a schema1:MediaObject ;
+    schema1:contentSize "653147" ;
+    schema1:description "Overlapped coding sequences (intermediate file)" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/3d/de70f0dc46dae450fd9362171511c3" ;
+    schema1:encodingFormat "application/x-bzip2" ;
+    schema1:name "Overlapped coding sequences" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH.merged.fasta.bz2> a schema1:MediaObject ;
+    schema1:contentSize "2007784378" ;
+    schema1:description "Merged forward and reverse reads in fasta format" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/51/f8f72c7546528ded9c04607642ba36" ;
+    schema1:encodingFormat "application/x-bzip2" ;
+    schema1:name "Merged reads" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH.merged.motus.tsv.bz2> a schema1:MediaObject ;
+    schema1:contentSize "789" ;
+    schema1:description "Metagenomic Operational Taxonomic Units (MOTUs) in tab-separated format" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/6d/9c355266bdc9ea897440486ef44c4a" ;
+    schema1:encodingFormat "application/x-bzip2" ;
+    schema1:name "MOTUs" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH.merged.qc_summary> a schema1:MediaObject ;
+    schema1:contentSize "219" ;
+    schema1:description "Quality control analysis summary of merged reads" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/b2/3c9557ce4a599ac0c5a7f7c511c37c" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "QC summary of merged reads" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH.merged.unfiltered_fasta.bz2> a schema1:MediaObject ;
+    schema1:contentSize "2241854763" ;
+    schema1:description "All merged reads before fileting in fasta format" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/d0/1a492efd771f460acffbfc89676714" ;
+    schema1:encodingFormat "application/x-bzip2" ;
+    schema1:name "Unfiltered merged reads" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH.merged_CDS.faa.bz2> a schema1:MediaObject ;
+    schema1:contentSize "1252565541" ;
+    schema1:description "Coding sequences of merged reads in amino acid format" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/4b/c253859b9c9cffeb4012ff800f2501" ;
+    schema1:encodingFormat "application/x-bzip2" ;
+    schema1:name "Protein coding amino acid sequences" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH.merged_CDS.ffn.bz2> a schema1:MediaObject ;
+    schema1:contentSize "1805343569" ;
+    schema1:description "Coding sequences of merged reads in nucleotide format" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/e7/7da1b90c8514c687f3735dc9ffe0f0" ;
+    schema1:encodingFormat "application/x-bzip2" ;
+    schema1:name "Protein coding nucleotide sequences" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH_AAAVOSDA_1_1_HCFCYDSX5.UDI141_clean.fastq.trimmed.fasta.bz2> a schema1:MediaObject ;
+    schema1:contentSize "814987368" ;
+    schema1:description "All forward reads after trimming in fasta format" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/68/2a7b1632ffcabd36da6fe3ead4d86b" ;
+    schema1:encodingFormat "application/x-bzip2" ;
+    schema1:name "Trimmed forward reads" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH_AAAVOSDA_1_1_HCFCYDSX5.UDI141_clean.fastq.trimmed.qc_summary> a schema1:MediaObject ;
+    schema1:contentSize "219" ;
+    schema1:description "Quality control summary of trimmed forward reads" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/52/d37a4ef410e4f2b14364253e470980" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "Trimmed forward reads QC summary" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH_AAAVOSDA_1_2_HCFCYDSX5.UDI141_clean.fastq.trimmed.fasta.bz2> a schema1:MediaObject ;
+    schema1:contentSize "816800846" ;
+    schema1:description "All reverse reads after trimming in fasta format" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/91/acab7f63f4eeaafff68b938d61e297" ;
+    schema1:encodingFormat "application/x-bzip2" ;
+    schema1:name "Trimmed reverse reads" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH_AAAVOSDA_1_2_HCFCYDSX5.UDI141_clean.fastq.trimmed.qc_summary> a schema1:MediaObject ;
+    schema1:contentSize "219" ;
+    schema1:description "Quality control summary of trimmed reverse reads" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/52/d37a4ef410e4f2b14364253e470980" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "Trimmed reverse reads QC summary" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/config.yml> a schema1:MediaObject ;
+    schema1:contentSize "2862" ;
+    schema1:description "MetaGOflow YAML configuation file" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/b7/53efd3d4e8abefe210cc9c36abd082" ;
+    schema1:encodingFormat "text/yaml" ;
+    schema1:name "MetaGOflow configuration in YAML" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/fastp.html> a schema1:MediaObject ;
+    schema1:contentSize "387481" ;
+    schema1:description "Quality control and preprocessing of FASTQ files" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/ca/5fde06fa83e4536e4dbf3aa392888d" ;
+    schema1:encodingFormat "text/html" ;
+    schema1:name "FASTP analysis of raw sequence data" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/final.contigs.fa.bz2> a schema1:MediaObject ;
+    schema1:contentSize "30297666" ;
+    schema1:description "These are the assembled contig sequences from the merged reads in FASTA format" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/b0/a0adb5588ce59746d42ef657df2514" ;
+    schema1:encodingFormat "application/x-bzip2" ;
+    schema1:name "FASTA formatted contig sequences" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/> a schema1:Dataset ;
+    schema1:description "Functional annotation of merged reads" ;
+    schema1:hasPart <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/DBH.merged.emapper.summary.eggnog>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/DBH.merged.hmm.tsv.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/DBH.merged.summary.go>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/DBH.merged.summary.go_slim>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/DBH.merged.summary.ips>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/DBH.merged.summary.ko>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/DBH.merged.summary.pfam>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/DBH.merged_CDS.I5.tsv.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/functional-annotation.ttl>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/stats/> ;
+    schema1:name "Functional annotation results" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/DBH.merged.hmm.tsv.gz> a schema1:MediaObject ;
+    schema1:contentSize "23092966" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/dc/7b0798b0ad86a96accc12ca8c2e62e" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "Merged contigs HMM summary" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/DBH.merged.summary.go> a schema1:MediaObject ;
+    schema1:contentSize "146101" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/6f/54bec5c6ad2bc968f573960a5b4420" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "Merged contigs GO summary" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/DBH.merged.summary.go_slim> a schema1:MediaObject ;
+    schema1:contentSize "7696" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/c0/57da7dea4cc42b922fcf041f05ae55" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "Merged contigs InterProScan slim" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/DBH.merged.summary.ips> a schema1:MediaObject ;
+    schema1:contentSize "639633" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/04/93cf41fffd47f3b21b9bf628f0b802" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "Merged contigs InterProScan" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/DBH.merged.summary.ko> a schema1:MediaObject ;
+    schema1:contentSize "113889" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/ee/f4ea085cdd5bf9855ca4f479f6037b" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "Merged contigs KO summary" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/DBH.merged.summary.pfam> a schema1:MediaObject ;
+    schema1:contentSize "544937" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/6b/d87073d6335aefeac42185c992d96e" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "Merged contigs PFAM summary" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/DBH.merged_CDS.I5.tsv.gz> a schema1:MediaObject ;
+    schema1:contentSize "4914784215" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/25/d801b109bb3c37a146e5877a1d9acb" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "Merged contigs CDS I5 summary" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/functional-annotation.ttl> a schema1:MediaObject ;
+    dct:conformsTo <https://data.emobon.embrc.eu/ns/profile#graph-harvestable-partition> ;
+    schema1:contentSize "55346455" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/04/97554f5bd38da6433cd12820b4ccd7" ;
+    schema1:encodingFormat "text/turtle" ;
+    schema1:name "RDF 1.2 Turtle triples of the functional analyses results" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/stats/> a schema1:Dataset ;
+    schema1:hasPart <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/stats/go.stats>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/stats/interproscan.stats>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/stats/ko.stats>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/stats/orf.stats>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/stats/pfam.stats> ;
+    schema1:name "Summary statistic for functional annotation" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/stats/go.stats> a schema1:MediaObject ;
+    schema1:contentSize "89" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/91/80d38c63df9935b4fa99190b6b85cc" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "Geno Ontology summary statistics" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/stats/interproscan.stats> a schema1:MediaObject ;
+    schema1:contentSize "119" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/f9/9b44018029c8f5530c027067e250c2" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "InterProScan summary statistics" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/stats/ko.stats> a schema1:MediaObject ;
+    schema1:contentSize "85" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/a4/823d1a2728cce8b007f9fbf6076556" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "Kegg Ontology summary statistics" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/stats/orf.stats> a schema1:MediaObject ;
+    schema1:contentSize "88" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/1b/b61c1bea316e4bbe3be6ba0864f862" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "ORF summary statistics" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/functional-annotation/stats/pfam.stats> a schema1:MediaObject ;
+    schema1:contentSize "94" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/23/ecd61e8d05b1e094c889abb486949b" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "Pfam summary statistcs" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/help@embrc.org> a schema1:ContactPoint ;
+    schema1:contactType "Help Desk" ;
+    schema1:email "mailto:help@embrc.org" ;
+    schema1:url "https://www.embrc.eu/about-us/contact-us" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/run.yml> a schema1:MediaObject ;
+    schema1:contentSize "10236" ;
+    schema1:description "YAML configuration file for execution of MetaGOflow workflow." ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/95/556f31e36106127238beef0824c951" ;
+    schema1:encodingFormat "text/yaml" ;
+    schema1:name "MetaGOflow YAML configuration file" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/> a schema1:Dataset ;
+    schema1:description "Identify specific loci in the sample." ;
+    schema1:hasPart <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/5_8S.fa.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/Bacteria_large_SRP.RF01854.fasta.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/Bacteria_small_SRP.RF00169.fasta.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/LSU_rRNA_archaea.RF02540.fa.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/LSU_rRNA_bacteria.RF02541.fa.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/LSU_rRNA_eukarya.RF02543.fa.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/Metazoa_SRP.RF00017.fasta.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/RNaseP_bact_a.RF00010.fasta.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/SSU_rRNA_archaea.RF01959.fa.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/SSU_rRNA_bacteria.RF00177.fa.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/SSU_rRNA_eukarya.RF01960.fa.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/alpha_tmRNA.RF01849.fasta.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/tRNA-Sec.RF01852.fasta.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/tRNA.RF00005.fasta.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/tmRNA.RF00023.fasta.gz> ;
+    schema1:name "Sequence categorisation" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/5_8S.fa.gz> a schema1:MediaObject ;
+    schema1:contentSize "3366" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/e7/ca2bffc9438d26530aafeee01b1cd0" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "RNA prediction for 5_8S" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/Bacteria_large_SRP.RF01854.fasta.gz> a schema1:MediaObject ;
+    schema1:contentSize "6995" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/5f/9c9af8a0993a256873295c962045b0" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "RNA prediction for Bacteria_large_SRP - Rfam accesssion number: RF01854" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/Bacteria_small_SRP.RF00169.fasta.gz> a schema1:MediaObject ;
+    schema1:contentSize "9994" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/41/bac9905d4c34f40afcf2ef83225b94" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "RNA prediction for Bacteria_small_SRP - Rfam accesssion number: RF00169" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/LSU_rRNA_archaea.RF02540.fa.gz> a schema1:MediaObject ;
+    schema1:contentSize "12051" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/6d/a2b2ca86b5a69463987260e0cc535f" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "RNA prediction for LSU_rRNA_archaea - Rfam accesssion number: RF02540" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/LSU_rRNA_bacteria.RF02541.fa.gz> a schema1:MediaObject ;
+    schema1:contentSize "907880" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/5a/c63718e1293452a5b3c3135ea17e1c" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "RNA prediction for LSU_rRNA_bacteria - Rfam accesssion number: RF02541" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/LSU_rRNA_eukarya.RF02543.fa.gz> a schema1:MediaObject ;
+    schema1:contentSize "71336" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/97/e6a34bfa8e09560ac9f885093a0db4" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "RNA prediction for LSU_rRNA_eukarya - Rfam accesssion number: RF02543" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/Metazoa_SRP.RF00017.fasta.gz> a schema1:MediaObject ;
+    schema1:contentSize "388" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/3e/fc9f2c327cd8365c9144ff730b295d" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "RNA prediction for Metazoa_SRP - Rfam accesssion number: RF00017" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/RNaseP_bact_a.RF00010.fasta.gz> a schema1:MediaObject ;
+    schema1:contentSize "18841" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/95/24b19ad5b8e84ed58954e877ba253a" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "RNA prediction for RNaseP_bact_a - Rfam accesssion number: RF00010" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/SSU_rRNA_archaea.RF01959.fa.gz> a schema1:MediaObject ;
+    schema1:contentSize "5140" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/d1/b4ca3e57e5179dfa21f7eed8351c61" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "RNA prediction for SSU_rRNA_archaea - Rfam accesssion number: RF01959" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/SSU_rRNA_bacteria.RF00177.fa.gz> a schema1:MediaObject ;
+    schema1:contentSize "463698" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/0d/d761b4ea93f5fc04ce203e681215d1" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "RNA prediction for SSU_rRNA_bacteria - Rfam accesssion number: RF00177" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/SSU_rRNA_eukarya.RF01960.fa.gz> a schema1:MediaObject ;
+    schema1:contentSize "43227" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/29/261c7ee88011b780693a5c35ed5f74" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "RNA prediction for SSU_rRNA_eukarya - Rfam accesssion number: RF01960" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/alpha_tmRNA.RF01849.fasta.gz> a schema1:MediaObject ;
+    schema1:contentSize "7809" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/2c/7b67e09abdc584ee46c2ffa57a12cd" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "RNA prediction for alpha_tmRNA - Rfam accesssion number: RF01849" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/tRNA-Sec.RF01852.fasta.gz> a schema1:MediaObject ;
+    schema1:contentSize "4290" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/70/b551b11a2546e677f9b9ade1ff4f22" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "RNA prediction for tRNA-Sec - Rfam accesssion number: RF01852" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/tRNA.RF00005.fasta.gz> a schema1:MediaObject ;
+    schema1:contentSize "283223" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/18/9d7adbc570c6bae1a56e3d017a5441" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "RNA prediction for tRNA - Rfam accesssion number: RF00005" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/sequence-categorisation/tmRNA.RF00023.fasta.gz> a schema1:MediaObject ;
+    schema1:contentSize "17397" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/0f/e74ac61bf784457a38e050f0d32882" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "RNA prediction for tmRNA - Rfam accesssion number: RF00023" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/> a schema1:Dataset ;
+    schema1:description "Summary of taxonomic identification results" ;
+    schema1:hasPart <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/RNA-counts>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/> ;
+    schema1:name "Taxonomic summary" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/> a schema1:Dataset ;
+    schema1:hasPart <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/DBH.merged_LSU.fasta.mseq.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/DBH.merged_LSU.fasta.mseq.tsv>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/DBH.merged_LSU.fasta.mseq.txt>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/DBH.merged_LSU.fasta.mseq_hdf5.biom>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/DBH.merged_LSU.fasta.mseq_json.biom>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/LSU-taxonomy-summary.ttl>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/krona.html> ;
+    schema1:name "Summary of LSU taxonomic identification results" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/DBH.merged_LSU.fasta.mseq.gz> a schema1:MediaObject ;
+    schema1:contentSize "828263" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/f0/52744ce978d1b38d8888b2b0462d1f" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "LSU sequences used for identification" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/DBH.merged_LSU.fasta.mseq.tsv> a schema1:MediaObject ;
+    schema1:contentSize "74383" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/05/9968b40adaf3ce92d03b353818d4fd" ;
+    schema1:encodingFormat "application/json-ld" ;
+    schema1:name "Tab-separated formatted taxon counts for LSU sequences" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/DBH.merged_LSU.fasta.mseq.txt> a schema1:MediaObject ;
+    schema1:contentSize "63923" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/28/f31ece39c537b7b9c361a9cc62f366" ;
+    schema1:encodingFormat "application/json-ld" ;
+    schema1:name "Text-based taxon counts for LSU sequences" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/DBH.merged_LSU.fasta.mseq_hdf5.biom> a schema1:MediaObject ;
+    schema1:contentSize "75952" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/f2/94745c7400be04a44b18864f737948" ;
+    schema1:encodingFormat "application/x-hdf5" ;
+    schema1:name "BIOM formatted hdf5 taxon counts for LSU sequences" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/DBH.merged_LSU.fasta.mseq_json.biom> a schema1:MediaObject ;
+    schema1:contentSize "103762" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/09/ae9676e4678589d271653d9dd1b392" ;
+    schema1:encodingFormat "application/json-ld" ;
+    schema1:name "BIOM formatted taxon counts for LSU sequences" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/LSU-taxonomy-summary.ttl> a schema1:MediaObject ;
+    dct:conformsTo <https://data.emobon.embrc.eu/ns/profile#graph-harvestable-partition> ;
+    schema1:contentSize "438173" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/88/871874142ee6704b7e478dfffd1119" ;
+    schema1:encodingFormat "text/turtle" ;
+    schema1:name "RDF 1.2 Turtle triples of the LSU taxonomic analyses results" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/LSU/krona.html> a schema1:MediaObject ;
+    schema1:contentSize "310910" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/fb/74e47295929bcbb0d8c8c3570e6a2d" ;
+    schema1:encodingFormat "application/html" ;
+    schema1:name "Krona summary of LSU taxonomic inventory" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/RNA-counts> a schema1:MediaObject ;
+    schema1:contentSize "18841" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/2d/dedca7a28c97dcc8bd234e429c0c86" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "Numbers of RNA's counted" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/> a schema1:Dataset ;
+    schema1:hasPart <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/DBH.merged_SSU.fasta.mseq.gz>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/DBH.merged_SSU.fasta.mseq.tsv>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/DBH.merged_SSU.fasta.mseq.txt>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/DBH.merged_SSU.fasta.mseq_hdf5.biom>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/DBH.merged_SSU.fasta.mseq_json.biom>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/SSU-taxonomy-summary.ttl>,
+        <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/krona.html> ;
+    schema1:name "Summary of SSU taxonomic identification results" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/DBH.merged_SSU.fasta.mseq.gz> a schema1:MediaObject ;
+    schema1:contentSize "434448" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/c5/32cca6e233a199be3bce924771fe8c" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "SSU sequences used for identification" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/DBH.merged_SSU.fasta.mseq.tsv> a schema1:MediaObject ;
+    schema1:contentSize "49575" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/51/e8972cd5428ad0b0bc6ea190605e95" ;
+    schema1:encodingFormat "application/json-ld" ;
+    schema1:name "Tab-separated formatted taxon counts for SSU sequences" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/DBH.merged_SSU.fasta.mseq.txt> a schema1:MediaObject ;
+    schema1:contentSize "41878" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/92/483681f8f1088e07c2253d12f83fe5" ;
+    schema1:encodingFormat "application/json-ld" ;
+    schema1:name "Text-based formatted taxon counts for SSU sequences" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/DBH.merged_SSU.fasta.mseq_hdf5.biom> a schema1:MediaObject ;
+    schema1:contentSize "61616" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/96/db50b0368f867ce601a25ae3cb3cf1" ;
+    schema1:encodingFormat "application/x-hdf5" ;
+    schema1:name "BIOM formatted hdf5 taxon counts for SSU sequences" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/DBH.merged_SSU.fasta.mseq_json.biom> a schema1:MediaObject ;
+    schema1:contentSize "70080" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/da/dce434b548fba0406d2d28962451a6" ;
+    schema1:encodingFormat "application/json-ld" ;
+    schema1:name "BIOM formatted taxon counts for SSU sequences" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/SSU-taxonomy-summary.ttl> a schema1:MediaObject ;
+    dct:conformsTo <https://data.emobon.embrc.eu/ns/profile#graph-harvestable-partition> ;
+    schema1:contentSize "303815" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/f8/66aaaf56010991b37f6ebbd0b607e5" ;
+    schema1:encodingFormat "text/turtle" ;
+    schema1:name "RDF 1.2 Turtle triples of the SSU taxonomic analyses results" .
+
+<file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/taxonomy-summary/SSU/krona.html> a schema1:MediaObject ;
+    schema1:contentSize "310910" ;
+    schema1:downloadUrl "https://s3.mesocentre.uca.fr/mgf-data-products/files/md5/fb/74e47295929bcbb0d8c8c3570e6a2d" ;
+    schema1:encodingFormat "text/html" ;
+    schema1:name "Krona summary of SSU taxonomic inventory" .
+
+<http://purl.obolibrary.org/obo/ExO_0000067> a skos:Concept ;
+    skos:prefLabel "measurement" .
+
+<http://semanticscience.org/resource/SIO_001050> a skos:Concept ;
+    skos:prefLabel "sample" .
+
+<https://creativecommons.org/licenses/by/4.0/> a schema1:CreativeWork ;
+    schema1:description "Creative Commons Attribution 4.0 International License" ;
+    schema1:name "CC BY 4.0" .
+
+<https://ftp.sra.ebi.ac.uk/vol1/run/ERR148/ERR14888778/DBH_AAAVOSDA_1_1_HCFCYDSX5.UDI141_clean.fastq.gz> a schema1:Dataset ;
+    schema1:description "Cleaned forward reads sequence data for EMBL ENA Run Accession ERS20535376" ;
+    schema1:downloadUrl "https://ftp.sra.ebi.ac.uk/vol1/run/ERR148/ERR14888778/DBH_AAAVOSDA_1_1_HCFCYDSX5.UDI141_clean.fastq.gz" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "EMBL ENA cleaned sequence data (forward reads)" .
+
+<https://ftp.sra.ebi.ac.uk/vol1/run/ERR148/ERR14888778/DBH_AAAVOSDA_1_2_HCFCYDSX5.UDI141_clean.fastq.gz> a schema1:Dataset ;
+    schema1:description "Cleaned reverse reads sequence data for EMBL ENA Run Accession ERS20535376" ;
+    schema1:downloadUrl "https://ftp.sra.ebi.ac.uk/vol1/run/ERR148/ERR14888778/DBH_AAAVOSDA_1_2_HCFCYDSX5.UDI141_clean.fastq.gz" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:name "EMBL ENA cleaned sequence data (reverse reads)" .
+
+<https://github.com/emo-bon/MetaGOflow/commit/3cf3a7d39fabc6e75a8cb2971a711c2d781c84d0> a schema1:SoftwareApplication ;
+    schema1:description "The MetaGOflow workflow software used to generate the metagenomic data" ;
+    schema1:downloadUrl "https://github.com/emo-bon/MetaGOflow/commit/3cf3a7d39fabc6e75a8cb2971a711c2d781c84d0" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "MetaGOflow Software" ;
+    schema1:softwareVersion "develop (3cf3a7d)" .
+
+<https://orcid.org/0000-0002-4927-979X> a schema1:Person ;
+    schema1:name "Cymon J. Cox" .
+
+<https://ror.org/0038zss60> a schema1:Organization ;
+    schema1:contactPoint <file:///home/david-palecek/coding/emo-bon/momics-demos/wfs_extra/help@embrc.org> ;
+    schema1:name "European Marine Biological Resource Centre" .
+
+<https://vocabularyserver.com/asfa/?tema=1150> a skos:Concept ;
+    skos:prefLabel "Marine environment" .
+
+<https://vocabularyserver.com/asfa/?tema=2091> a skos:Concept ;
+    skos:prefLabel "Benthic communities" .
+
+<https://vocabularyserver.com/asfa/?tema=2185> a skos:Concept ;
+    skos:prefLabel "Biodiversity" .
+
+<https://vocabularyserver.com/asfa/?tema=2365> a skos:Concept ;
+    skos:prefLabel "Genetics" .
+
+<https://vocabularyserver.com/asfa/?tema=3248> a skos:Concept ;
+    skos:prefLabel "Water samples" .
+
+<https://vocabularyserver.com/asfa/?tema=3505> a skos:Concept ;
+    skos:prefLabel "Long-term changes" .
+
+<https://vocabularyserver.com/asfa/?tema=6369> a skos:Concept ;
+    skos:prefLabel "Sediment samples" .
+
+<https://www.ebi.ac.uk/ena/browser/view/ERS20535376> a schema1:Dataset ;
+    schema1:description "ENA Run Accession Number and associated metadata" ;
+    schema1:downloadUrl "https://www.ebi.ac.uk/ena/browser/view/ERS20535376" ;
+    schema1:encodingFormat "text/html" ;
+    schema1:name "EMBL ENA Run Accession Number ERS20535376" .
+
