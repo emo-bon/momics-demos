@@ -192,6 +192,6 @@ wf5_MGnify/venn4_studies/
 tox.ini
 
 wfs_extra/mgnify/MGYS*
-wfs_extra/mgnify
+# wfs_extra/mgnify
 
 .coveragerc
