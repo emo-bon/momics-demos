@@ -583,6 +583,40 @@ def wide_to_long_with_ranks(
     out[abundance_col] = pd.to_numeric(out[abundance_col], errors="coerce").fillna(0).astype(int)
     return out
 
+
+def prevalence_cutoff_abund(
+    df: pd.DataFrame, percent: float = 10, skip_columns: int = 2, verbose: bool = True
+) -> pd.DataFrame:
+    """
+    Apply a prevalence cutoff to the DataFrame, removing features that have abundance
+    lower than `percent` in the sample. This goes sample (column) by sample independently.
+
+    Args:
+        df (pd.DataFrame): The input DataFrame containing feature abundances.
+        percent (float): The prevalence threshold as a percentage.
+        skip_columns (int): The number of columns to skip (e.g., taxonomic information).
+
+    Returns:
+        pd.DataFrame: A filtered DataFrame with low-prevalence features removed.
+    """
+    out = df.copy()
+    max_threshold = 0
+    for col in df.iloc[:, skip_columns:]:
+        threshold = (percent / 100) * df[col].sum()
+
+        # how many are below threshold?
+        max_threshold = max(max_threshold, threshold)
+        
+        # set to zero those below threshold
+        out.loc[df[col] < threshold, col] = 0
+
+
+    # remove rows that are all zeros in the abundance columns
+    out = out[(out.iloc[:, skip_columns:] != 0).any(axis=1)]
+    if verbose:
+        print(f"Prevalence cutoff at {percent}% (max threshold {max_threshold}): reduced from {df.shape} to {out.shape}")
+    return out
+
 # -----------------------
 # Rarefaction curve
 # -----------------------
