@@ -672,10 +672,16 @@ def plot_season_reads_hist(
     total_dict = {'Spring': {}, 'Summer': {}, 'Autumn': {}, 'Winter': {}}
 
     # extracting the reads metadata per sample
+    not_matched = 0
     for sample in analysis_meta['relationships.run.data.id']:
-        data_id = analysis_meta[analysis_meta['relationships.run.data.id']==sample]['relationships.sample.data.id'].values[0]
-        season = samples_meta[samples_meta['id']==data_id]['season'].values[0]
-        total_dict[season][sample] = extract_sample_stats(analysis_meta, sample)
+        try:
+            data_id = analysis_meta[analysis_meta['relationships.run.data.id']==sample]['relationships.sample.data.id'].values[0]
+            season = samples_meta[samples_meta['id']==data_id]['season'].values[0]
+            total_dict[season][sample] = extract_sample_stats(analysis_meta, sample)
+        except IndexError:
+            not_matched += 1
+            continue
+    print(f"Samples not matched to season metadata: {not_matched}")
     
     # plot histogram per season 
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -711,10 +717,6 @@ def plot_season_reads_hist(
             },
             **kwargs,
         )
-    else:
-        # Fallback to old method
-        if name is not None:
-            plt.savefig(os.path.join(OUT_FOLDER, name))
     
     plt.show()
     return total_dict
