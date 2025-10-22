@@ -3,6 +3,7 @@ Reusable utilities extracted from the MGnify notebooks.
 """
 from __future__ import annotations
 
+from collections import defaultdict
 import os
 import json
 import ast
@@ -626,6 +627,17 @@ def prevalence_cutoff_abund(
 # -----------------------
 # Rarefaction curve
 # -----------------------
+def calc_rarefaction_curves(abund_table, metadata, curves):
+    for sample in tqdm(abund_table.columns):
+        _, ratio = extract_sample_stats(metadata, sample)
+        reads = np.repeat(abund_table.index, abund_table[sample].values)
+        depths, richness = rarefaction_curve(reads)
+
+        campaign = metadata[metadata['relationships.run.data.id']==sample]['study_tag'].values[0]
+        curves[campaign].append((depths, richness))
+    return curves
+
+
 def rarefaction_curve(reads, steps=20, replicates=10):
     depths = np.linspace(1, len(reads), steps, dtype=int)
     richness = []
@@ -969,6 +981,37 @@ def extract_sample_stats(metadata, sample):
     ratio = (total - identified) / total
     return total, ratio
 
+
+def extract_feature_dict(analysis_meta, samples_meta, feature: str = 'season'):
+    """
+    Compute total reads per sample grouped by season.
+    Returns a nested dict: {season: {sample_id: (total_reads, ratio)}}.
+    """
+    total_dict = defaultdict(lambda: dict())
+    not_matched = 0
+    if feature not in samples_meta.columns:
+        raise KeyError(f"Feature '{feature}' not found in samples metadata columns.")
+
+    for sample in analysis_meta['relationships.run.data.id']:
+        try:
+            data_id = analysis_meta.loc[
+                analysis_meta['relationships.run.data.id'] == sample,
+                'relationships.sample.data.id'
+            ].values[0]
+
+            feature_value = samples_meta.loc[
+                samples_meta['id'] == data_id,
+                feature
+            ].values[0]
+
+            total_dict[feature_value][sample] = extract_sample_stats(analysis_meta, sample)
+
+        except IndexError:
+            not_matched += 1
+            continue
+
+    print(f"Samples not matched to {feature} metadata: {not_matched}")
+    return total_dict
 
 def plot_season_reads_hist(
     analysis_meta,
