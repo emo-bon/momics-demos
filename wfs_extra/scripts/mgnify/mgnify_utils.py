@@ -6,6 +6,8 @@ from __future__ import annotations
 import os
 import json
 import ast
+import re
+from scipy.stats import t as _t_dist
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -53,6 +55,7 @@ def retrieve_summary_old(studyId: str, matching_string: str = 'Taxonomic assignm
                 print(f"Downloading {download.alias}...")
                 urlretrieve(download.links.self.url, f'{studyId}.tsv')
 
+
 def retrieve_summary(studyId: str, matching_string: str = 'Taxonomic assignments SSU', out_dir: str = '.') -> str:
     """
     Retrieve summary data for a given MGnify study and save it to a TSV file.
@@ -83,6 +86,7 @@ def retrieve_summary(studyId: str, matching_string: str = 'Taxonomic assignments
                 return tsv_path
 
     raise FileNotFoundError(f"No download matched '{matching_string}' for study {studyId}")
+
 
 # function to get metadata for MGnify studies
 def get_mgnify_metadata(study_id):
@@ -424,6 +428,7 @@ def invert_pivot_taxonomic_data(
 
     return result
 
+
 def fill_lower_taxa(df: pd.DataFrame, taxonomy_ranks: list) -> pd.DataFrame:
     """
     Fill lower taxonomy ranks with None if the current rank is empty and the lower rank is also empty.
@@ -447,6 +452,7 @@ def fill_lower_taxa(df: pd.DataFrame, taxonomy_ranks: list) -> pd.DataFrame:
         axis=1
     )
     return df_out
+
 
 def aggregate_by_taxonomic_level(df: pd.DataFrame, level: str, dropna: bool = True) -> pd.DataFrame:
     """
@@ -648,6 +654,308 @@ def plot_rarefaction_mgnify(abund_table, metadata, every_nth=20, ax=None, title=
     ax.set_title(title)
     return ax
 
+
+# here comes the expensive calculation part
+def mean_std_curves(
+    curves: Iterable,
+    n_points: int = 200,
+    interp_kind: str = "linear",
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """
+    Compute pointwise mean and std of an iterable of curves that may have different x grids / lengths.
+
+    Parameters
+    ----------
+    curves
+        Iterable of curves. Each item is a 2-tuple/list (x, y) where x and y are array-like of same length.
+    n_points
+        Number of points in the auto-generated common grid (used only if x_grid is None).
+    interp_kind
+        Only "linear" is supported in this implementation (uses numpy.interp). Kept for API clarity.
+
+    Returns
+    -------
+    x_common : np.ndarray
+        The common x grid.
+    mean_y : np.ndarray
+        Pointwise mean (ignoring NaNs).
+    std_y : np.ndarray
+        Pointwise standard deviation (ignoring NaNs).
+    counts : np.ndarray
+        Number of curves contributing (non-NaN) at each x position.
+    """
+    # normalize input to list of (x, y) numpy arrays
+    norm = []
+    for c in curves:
+        if isinstance(c, (tuple, list)) and len(c) == 2:
+            x = np.asarray(c[0], dtype=float)
+            y = np.asarray(c[1], dtype=float)
+        else:
+            raise ValueError("Each curve must be a 2-tuple/list of (x, y) array-likes.")
+        # ensure x ascending
+        if x.size == 0 or y.size == 0:
+            continue
+        sort_idx = np.argsort(x)
+        x = x[sort_idx]
+        y = y[sort_idx]
+        norm.append((x, y))
+
+    if len(norm) == 0:
+        raise ValueError("No valid curves provided.")
+
+    # build common x grid if not provided
+    xmin = min(xy[0].min() for xy in norm)
+    xmax = max(xy[0].max() for xy in norm)
+    if xmax == xmin:
+        x_common = np.array([xmin])
+    else:
+        x_common = np.linspace(xmin, xmax, n_points)
+
+    # interpolate each curve onto x_common
+    interp_vals = []
+    for x, y in norm:
+        # numpy.interp extrapolates; we want NaN outside original x-range:
+        y_interp = np.interp(x_common, x, y, left=np.nan, right=np.nan)
+        # np.interp doesn't accept left/right=np.nan in older numpy versions, so fallback:
+        if np.isnan(y_interp).all():
+            # try explicit masking
+            y_interp = np.interp(x_common, x, y)
+            mask = (x_common < x[0]) | (x_common > x[-1])
+            y_interp[mask] = np.nan
+        else:
+            # For some numpy versions np.interp with left/right=np.nan fills with nan already.
+            pass
+        interp_vals.append(y_interp)
+
+    arr = np.vstack(interp_vals)  # shape (n_curves, n_x)
+
+    mean_y = np.nanmean(arr, axis=0)
+    std_y = np.nanstd(arr, axis=0, ddof=0)
+    counts = np.sum(~np.isnan(arr), axis=0)
+
+    return x_common, mean_y, std_y, counts
+
+
+def plot_mean_std(
+    x: Sequence,
+    mean_y: Sequence,
+    std_y: Sequence,
+    *,
+    ax: Optional[plt.Axes] = None,
+    label: Optional[str] = None,
+    color: Optional[str] = None,
+    shade_alpha: float = 0.3,
+    show_points: bool = False,
+    x_points: Optional[Sequence] = None,
+    points: Optional[Sequence] = None,
+):
+    """
+    Plot mean curve with shaded ± std band.
+
+    Parameters
+    ----------
+    x : sequence
+        x-axis positions (common grid from mean_std_curves).
+    mean_y : sequence
+        Mean values at x.
+    std_y : sequence
+        Standard deviation at x.
+    ax : matplotlib Axes, optional
+        Axis to plot on. If None, creates a new figure/axis.
+    label : str, optional
+        Label for the mean line.
+    color : str, optional
+        Color for the mean line and shade.
+    shade_alpha : float
+        Alpha for the shaded std interval.
+    show_points : bool
+        If True, plot raw points provided via `x_points` and `points`.
+    x_points, points : sequences, optional
+        If `show_points=True`, supply matching x and y arrays (or lists) of points to overlay.
+    """
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(7, 4))
+
+    x = np.asarray(x)
+    mean_y = np.asarray(mean_y)
+    std_y = np.asarray(std_y)
+
+    # main line
+    ln, = ax.plot(x, mean_y, label=label, color=color)
+    line_color = ln.get_color()
+
+    # band
+    ax.fill_between(x, mean_y - std_y, mean_y + std_y, alpha=shade_alpha, color=color or line_color)
+
+    # optional scatter of points
+    if show_points and x_points is not None and points is not None:
+        ax.scatter(x_points, points, s=8, color=color or "k", alpha=0.6, zorder=5)
+
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    if label is not None:
+        ax.legend()
+
+    return ax
+
+
+def mean_ci_curves(
+    curves: Iterable,
+    n_points: int = 50,
+    ci: float = 0.95,
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """
+    Compute pointwise mean and confidence interval of curves possibly with different x-grids.
+
+    Parameters
+    ----------
+    curves : iterable
+        Each element is a (x, y) pair of array-likes.
+    n_points : int
+        Number of points in auto-generated grid (if x_grid is None).
+    ci : float
+        Confidence level in (0,1) for the returned interval (e.g., 0.95).
+
+    Returns
+    -------
+    x_common : np.ndarray
+        Common x grid.
+    mean_y : np.ndarray
+        Pointwise mean.
+    ci_lower : np.ndarray
+        Lower bound of the confidence interval.
+    ci_upper : np.ndarray
+        Upper bound of the confidence interval.
+    counts : np.ndarray
+        Number of contributing curves at each x position.
+    """
+    # normalize input to list of (x, y) numpy arrays
+    norm = []
+    for c in curves:
+        if isinstance(c, (tuple, list)) and len(c) == 2:
+            x = np.asarray(c[0], dtype=float)
+            y = np.asarray(c[1], dtype=float)
+        else:
+            raise ValueError("Each curve must be a 2-tuple/list of (x, y) array-likes.")
+        # ensure x ascending
+        if x.size == 0 or y.size == 0:
+            continue
+        sort_idx = np.argsort(x)
+        x = x[sort_idx]
+        y = y[sort_idx]
+        norm.append((x, y))
+
+    if len(norm) == 0:
+        raise ValueError("No valid curves provided.")
+
+    # build common x grid if not provided
+    xmin = min(xy[0].min() for xy in norm)
+    xmax = max(xy[0].max() for xy in norm)
+    if xmax == xmin:
+        x_common = np.array([xmin])
+    else:
+        x_common = np.linspace(xmin, xmax, n_points)
+
+    # interpolate each curve; put NaN outside original range
+    interp_vals = []
+    for x, y in norm:
+        y_interp = np.interp(x_common, x, y)  # fills by extrapolation; we'll mask
+        mask = (x_common < x[0]) | (x_common > x[-1])
+        y_interp = y_interp.astype(float)
+        y_interp[mask] = np.nan
+        interp_vals.append(y_interp)
+
+    arr = np.vstack(interp_vals)  # shape (n_curves, n_x)
+
+    mean_y = np.nanmean(arr, axis=0)
+    # sample std (ddof=1) where at least 2 samples exist; else nan
+    std_y = np.nanstd(arr, axis=0, ddof=1)
+    counts = np.sum(~np.isnan(arr), axis=0)
+
+    # standard error: std / sqrt(n)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        stderr = std_y / np.sqrt(counts)
+
+    # degrees of freedom
+    dof = counts - 1
+
+    # get critical value for two-sided CI
+    alpha = 1.0 - ci
+    crit = np.full_like(mean_y, np.nan, dtype=float)
+    # use t.ppf for each dof where dof >= 1
+    mask_ok = dof >= 1
+    crit_val = _t_dist.ppf(1 - alpha / 2.0, dof[mask_ok])
+    crit[mask_ok] = crit_val
+
+    # CI bounds: mean ± crit * stderr (where counts >=2)
+    ci_half = crit * stderr
+    ci_lower = mean_y - ci_half
+    ci_upper = mean_y + ci_half
+
+    # for positions with counts < 1 (no data), set everything to nan
+    ci_mask = counts < 1
+    mean_y[ci_mask] = np.nan
+    ci_lower[ci_mask] = np.nan
+    ci_upper[ci_mask] = np.nan
+
+    # for positions with only 1 sample, stderr is NaN (std ddof=1 is NaN) -> keep NaN for CI
+    single_mask = counts == 1
+    ci_lower[single_mask] = np.nan
+    ci_upper[single_mask] = np.nan
+
+    return x_common, mean_y, ci_lower, ci_upper, counts
+
+
+def plot_mean_ci(
+    x: Sequence,
+    mean_y: Sequence,
+    ci_lower: Sequence,
+    ci_upper: Sequence,
+    *,
+    ax: Optional[plt.Axes] = None,
+    label: Optional[str] = None,
+    color: Optional[str] = None,
+    shade_alpha: float = 0.25,
+    show_counts: bool = False,
+):
+    """
+    Plot mean curve with shaded confidence interval between ci_lower and ci_upper.
+
+    Parameters
+    ----------
+    x, mean_y, ci_lower, ci_upper : sequences
+        Arrays returned by mean_ci_curves.
+    ax : optional
+        Matplotlib axes to draw into.
+    label, color : optional
+        Plot label and color.
+    shade_alpha : float
+        Alpha for the shaded CI band.
+    show_counts : bool
+        If True, annotate the plot with the number of curves contributing at several x positions.
+    """
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(7, 4))
+
+    x = np.asarray(x)
+    mean_y = np.asarray(mean_y)
+    ci_lower = np.asarray(ci_lower)
+    ci_upper = np.asarray(ci_upper)
+
+    ln, = ax.plot(x, mean_y, label=label, color=color)
+    line_color = ln.get_color()
+
+    ax.fill_between(x, ci_lower, ci_upper, alpha=shade_alpha, color=color or line_color)
+
+    if label is not None:
+        ax.legend()
+
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+
+    return ax
+
+
 def extract_sample_stats(metadata, sample):
     try:
         s_clean = metadata[metadata['relationships.run.data.id']==sample]['attributes.analysis-summary'].values[0].strip().rstrip(')"')
@@ -736,6 +1044,7 @@ def _json_serializer(obj):
     else:
         return str(obj)
 
+
 def _make_json_serializable(obj):
     """Recursively convert numpy types to native Python types for JSON serialization."""
     if isinstance(obj, dict):
@@ -750,6 +1059,7 @@ def _make_json_serializable(obj):
         return obj.tolist()
     else:
         return obj
+
 
 def save_plot_with_metadata(
     fig=None,
@@ -942,6 +1252,7 @@ def save_current_plot(description, plot_type="analysis", **kwargs):
         **kwargs
     )
 
+
 def test_json_serialization():
     """Test function to verify JSON serialization works with numpy types."""
     test_data = {
@@ -1009,3 +1320,102 @@ def save_violin_plot_with_metadata(fig, plot_data, title, description):
         data_info=plot_data,
         save_formats=['png', 'pdf', 'svg']
     )
+
+
+def fetch_analysis_metadata(folder, analysisId):
+    try:
+        analysis_meta = pd.read_csv(f'{folder}/{analysisId}_analysis_meta.csv').reset_index(drop=True)
+    except FileNotFoundError:
+        print(f"Metadata file not found: Downloading...")
+
+        with APISession("https://www.ebi.ac.uk/metagenomics/api/v1") as session:
+            analysis_meta = map(lambda r: r.json, session.iterate(f'studies/{analysisId}/analyses'))
+            analysis_meta = pd.json_normalize(analysis_meta)
+
+        analysis_meta.to_csv(f'{folder}/{analysisId}_analysis_meta.csv', index=False)
+    return analysis_meta
+
+
+def fetch_samples_metadata(folder, analysisId):
+    try:
+        samples_meta = pd.read_csv(f'{folder}/{analysisId}_samples_meta.csv').reset_index(drop=True)
+    except FileNotFoundError:
+        print(f"Samples metadata file not found: Downloading...")
+        samples_meta = get_mgnify_metadata(analysisId)
+        samples_meta.to_csv(f'{folder}/{analysisId}_samples_meta.csv', index=False)
+    return samples_meta
+
+
+def import_taxonomy_summary(folder, path):
+    df_tax_summary = pd.read_csv(os.path.join(folder, path), sep='\t')
+
+    df_tax_summary.rename(columns={'#SampleID': 'taxonomy'}, inplace=True)
+    df_tax_summary.set_index('taxonomy', inplace=True)
+    return df_tax_summary
+
+
+def extract_first_date(x):
+    if pd.isna(x):
+        return None
+    # find the first occurrence of YYYY-MM-DD in the string
+    match = re.search(r"\d{4}-\d{2}-\d{2}", str(x))
+    return match.group(0) if match else None
+
+
+def process_collection_date(metadata: pd.DataFrame) -> pd.DataFrame:
+    """
+    Process the 'collection_date' column in the metadata DataFrame.
+    This function converts the 'collection_date' column to datetime format,
+    extracts the year, month, and day, and adds them as new columns.
+    It also converts the month number to the month name (abbreviated).
+
+    Args:
+        metadata (pd.DataFrame): The metadata DataFrame containing the 'collection_date' column.
+
+    Returns:
+        pd.DataFrame: The updated metadata DataFrame with new columns for year, month, and day.
+    """
+    new_columns = []
+    # Convert the 'collection_date' column to datetime
+    before = len(metadata)
+    metadata["collection_date"] = (
+        metadata["collection_date"]
+        .apply(extract_first_date)
+        .pipe(pd.to_datetime, errors="coerce")
+        .dt.date
+    )
+    
+    invalid_count = metadata["collection_date"].isna().sum() # Count invalids (NaT)
+    metadata = metadata.dropna(subset=["collection_date"]) # Drop them
+
+    print(f"Dropped {invalid_count} rows with invalid or missing collection_date "
+        f"({before - len(metadata)} actually removed).")
+    # print(metadata['collection_date'].value_counts(dropna=False))
+    
+    # Extract the year from the 'collection_date' column
+    metadata["year"] = metadata["collection_date"].apply(
+        lambda x: x.year if x is not None else None
+    )
+    new_columns.append("year")
+    # Extract the month from the 'collection_date' column
+    metadata["month"] = metadata["collection_date"].apply(
+        lambda x: x.month if x is not None else None
+    )
+
+    new_columns.append("month")
+
+    # Convert month to month name
+    metadata["month_name"] = metadata["month"].apply(
+        lambda x: (
+            datetime.strptime(str(x), "%m").strftime("%B")[:3]
+            if x is not None
+            else None
+        )
+    )
+    new_columns.append("month_name")
+    # Extract the day from the 'collection_date' column
+    metadata["day"] = metadata["collection_date"].apply(
+        lambda x: x.day if x is not None else None
+    )
+    new_columns.append("day")
+    return metadata, new_columns
