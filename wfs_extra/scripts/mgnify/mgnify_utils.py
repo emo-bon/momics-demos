@@ -12,11 +12,13 @@ from scipy.stats import t as _t_dist
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 from pathlib import Path
 from datetime import datetime
 import sys
 from typing import Iterable, Optional, Sequence, Tuple, Dict, Any
 from tqdm import tqdm
+from skbio.diversity.alpha import shannon, simpson, chao1
 
 from jsonapi_client import Session as APISession
 
@@ -624,6 +626,165 @@ def prevalence_cutoff_abund(
         print(f"Prevalence cutoff at {percent}% (max threshold {max_threshold}): reduced from {df.shape} to {out.shape}")
     return out
 
+
+def remove_singletons_per_sample(
+    df: pd.DataFrame, skip_columns: int = 2, verbose: bool = True
+) -> pd.DataFrame:
+    """
+    Remove singletons (features with count = 1) independently in each sample column.
+
+    Args:
+        df (pd.DataFrame): The input abundance DataFrame.
+        skip_columns (int): Number of non-abundance columns (e.g., taxonomy info) to skip.
+        verbose (bool): If True, print reduction summary.
+
+    Returns:
+        pd.DataFrame: A filtered DataFrame with singletons removed.
+    """
+    out = df.copy()
+    before_shape = df.shape
+
+    # For each abundance column, set singletons to zero
+    for col in df.columns[skip_columns:]:
+        out.loc[df[col] == 1, col] = 0
+
+    # Remove rows that are all zero across all abundance columns
+    out = out[(out.iloc[:, skip_columns:] != 0).any(axis=1)]
+
+    if verbose:
+        removed = before_shape[0] - out.shape[0]
+        print(f"Removed {removed} singleton features. Shape reduced from {before_shape} → {out.shape}")
+
+    return out
+
+
+def calculate_observed_otus(abundance_data):
+    """Calculate number of observed OTUs/taxa."""
+    abundances = np.array(abundance_data)
+    return np.sum(abundances > 0)
+
+def alpha_diversity_report(df_diversity, factors_df):
+    """Calculate and report alpha diversity metrics.
+    
+    """
+    # Calculate diversity metrics for each sample
+    diversity_results = []
+
+    for sample in df_diversity.index:
+        abundance_vector = df_diversity.loc[sample].values
+
+        # Calculate diversity metrics
+        shannon_skbio = shannon(abundance_vector)
+        simpson_skbio = simpson(abundance_vector)
+        observed_otus = calculate_observed_otus(abundance_vector)
+        chao1_skbio = chao1(abundance_vector)
+        
+        # Get metadata
+        study_tag = factors_df.loc[sample, 'study_tag']
+        season = factors_df.loc[sample, 'season']
+        
+        # Store results
+        diversity_results.append({
+            'sample_id': sample,
+            'study_tag': study_tag,
+            'season': season,
+            'shannon': shannon_skbio,
+            'simpson': simpson_skbio,
+            'chao1': chao1_skbio,
+            'observed_otus': observed_otus,
+        })
+
+    # Convert to DataFrame
+    diversity_df = pd.DataFrame(diversity_results)
+    print(f"Calculated diversity for {len(diversity_df)} samples")
+    diversity_metrics = ['shannon', 'simpson', 'observed_otus', 'chao1']
+    return diversity_df, diversity_results, diversity_metrics
+
+
+def create_alpha_diversity_plots(diversity_df, diversity_metrics, tax_level_for_diversity):
+    # Create comprehensive alpha diversity plots with study_tag as hue
+    fig, axes = plt.subplots(3, 2, figsize=(15, 12))
+    axes = axes.flatten()
+
+    # Plot 1: Shannon diversity by study
+    sns.boxplot(data=diversity_df, x='study_tag', y='shannon', ax=axes[0])
+    sns.stripplot(data=diversity_df, x='study_tag', y='shannon', 
+              color='black', alpha=0.6, size=4, ax=axes[0])
+    axes[0].set_title(f'Shannon Diversity by Study\n(Taxonomic level: {tax_level_for_diversity})')
+    axes[0].set_ylabel('Shannon Index')
+    axes[0].set_xlabel('Study')
+
+    # Plot 2: Simpson diversity by study
+    sns.boxplot(data=diversity_df, x='study_tag', y='simpson', ax=axes[1])
+    sns.stripplot(data=diversity_df, x='study_tag', y='simpson', 
+              color='black', alpha=0.6, size=4, ax=axes[1])
+    axes[1].set_title(f'Simpson Diversity by Study\n(Taxonomic level: {tax_level_for_diversity})')
+    axes[1].set_ylabel('Simpson Index')
+    axes[1].set_xlabel('Study')
+
+    # Plot 3: Observed OTUs by study
+    sns.boxplot(data=diversity_df, x='study_tag', y='observed_otus', ax=axes[2])
+    sns.stripplot(data=diversity_df, x='study_tag', y='observed_otus', 
+              color='black', alpha=0.6, size=4, ax=axes[2])
+    axes[2].set_title(f'Observed Taxa by Study\n(Taxonomic level: {tax_level_for_diversity})')
+    axes[2].set_ylabel('Number of Observed Taxa')
+    axes[2].set_xlabel('Study')
+
+    # Plot 4: Shannon vs Simpson colored by study_tag
+    sns.scatterplot(data=diversity_df, x='shannon', y='simpson', 
+                hue='study_tag', s=60, alpha=0.7, ax=axes[3])
+    axes[3].set_title('Shannon vs Simpson Diversity by Study')
+    axes[3].set_xlabel('Shannon Index')
+    axes[3].set_ylabel('Simpson Index')
+
+
+    # Plot 5: Chao1 diversity by study
+    sns.boxplot(data=diversity_df, x='study_tag', y='chao1', ax=axes[4])
+    sns.stripplot(
+        data=diversity_df, x='study_tag', y='chao1', 
+        color='black', alpha=0.6, size=4, ax=axes[4]
+    )
+    axes[4].set_title(f'Chao1 Diversity by Study\n(Taxonomic level: {tax_level_for_diversity})')
+
+    plt.tight_layout()
+    plt.show()
+
+    # Statistical comparison between studies
+    from scipy.stats import mannwhitneyu, kruskal
+
+    print("\n" + "="*60)
+    print("STATISTICAL COMPARISON OF ALPHA DIVERSITY BETWEEN STUDIES")
+    print("="*60)
+
+    studies = diversity_df['study_tag'].unique()
+    if len(studies) == 2:
+        for metric in diversity_metrics:
+            study1_data = diversity_df[diversity_df['study_tag'] == studies[0]][metric]
+            study2_data = diversity_df[diversity_df['study_tag'] == studies[1]][metric]
+        
+            statistic, p_value = mannwhitneyu(study1_data, study2_data, alternative='two-sided')
+        
+            print(f"\n{metric.upper()} - Mann-Whitney U test:")
+            print(f"  {studies[0]} (n={len(study1_data)}): median = {study1_data.median():.3f}")
+            print(f"  {studies[1]} (n={len(study2_data)}): median = {study2_data.median():.3f}")
+            print(f"  U-statistic = {statistic:.3f}, p-value = {p_value:.4f}")
+            print(f"  Significant difference: {'Yes' if p_value < 0.05 else 'No'}")
+
+    elif len(studies) > 2:
+        for metric in diversity_metrics:
+            study_groups = [diversity_df[diversity_df['study_tag'] == study][metric] for study in studies]
+            statistic, p_value = kruskal(*study_groups)
+        
+            print(f"\n{metric.upper()} - Kruskal-Wallis test:")
+            for study in studies:
+                study_data = diversity_df[diversity_df['study_tag'] == study][metric]
+                print(f"  {study} (n={len(study_data)}): median = {study_data.median():.3f}")
+            print(f"  H-statistic = {statistic:.3f}, p-value = {p_value:.4f}")
+            print(f"  Significant difference: {'Yes' if p_value < 0.05 else 'No'}")
+
+    return fig
+
+
 # -----------------------
 # Rarefaction curve
 # -----------------------
@@ -970,10 +1131,10 @@ def plot_mean_ci(
 
 def extract_sample_stats(metadata, sample):
     try:
-        s_clean = metadata[metadata['relationships.run.data.id']==sample]['attributes.analysis-summary'].values[0].strip().rstrip(')"')
+        s_clean = metadata[metadata.index==sample]['attributes.analysis-summary'].values[0].strip().rstrip(')"')
         lst = ast.literal_eval(s_clean)
     except AttributeError:
-        lst = metadata[metadata['relationships.run.data.id']==sample]['attributes.analysis-summary'].values[0]
+        lst = metadata[metadata.index==sample]['attributes.analysis-summary'].values[0]
     df_tmp = pd.DataFrame(lst)
     total = int(df_tmp[df_tmp['key']=='Submitted nucleotide sequences']['value'].values[0])
     identified = (int(df_tmp[df_tmp['key']=='Predicted SSU sequences']['value'].values[0]) + 
@@ -992,10 +1153,10 @@ def extract_feature_dict(analysis_meta, samples_meta, feature: str = 'season'):
     if feature not in samples_meta.columns:
         raise KeyError(f"Feature '{feature}' not found in samples metadata columns.")
 
-    for sample in analysis_meta['relationships.run.data.id']:
+    for sample in analysis_meta.index:
         try:
             data_id = analysis_meta.loc[
-                analysis_meta['relationships.run.data.id'] == sample,
+                analysis_meta.index == sample,
                 'relationships.sample.data.id'
             ].values[0]
 
@@ -1024,9 +1185,9 @@ def plot_season_reads_hist(
 
     # extracting the reads metadata per sample
     not_matched = 0
-    for sample in analysis_meta['relationships.run.data.id']:
+    for sample in analysis_meta.index:
         try:
-            data_id = analysis_meta[analysis_meta['relationships.run.data.id']==sample]['relationships.sample.data.id'].values[0]
+            data_id = analysis_meta[analysis_meta.index==sample]['relationships.sample.data.id'].values[0]
             season = samples_meta[samples_meta['id']==data_id]['season'].values[0]
             total_dict[season][sample] = extract_sample_stats(analysis_meta, sample)
         except IndexError:
