@@ -790,11 +790,11 @@ def create_alpha_diversity_plots(diversity_df, diversity_metrics, tax_level_for_
 # -----------------------
 def calc_rarefaction_curves(abund_table, metadata, curves):
     for sample in tqdm(abund_table.columns):
-        _, ratio = extract_sample_stats(metadata, sample)
+        # _, ratio = extract_sample_stats(metadata, sample)
         reads = np.repeat(abund_table.index, abund_table[sample].values)
         depths, richness = rarefaction_curve(reads)
 
-        campaign = metadata[metadata['relationships.run.data.id']==sample]['study_tag'].values[0]
+        campaign = metadata[metadata.index==sample]['study_tag'].values[0]
         curves[campaign].append((depths, richness))
     return curves
 
@@ -913,7 +913,6 @@ def plot_mean_std(
     x: Sequence,
     mean_y: Sequence,
     std_y: Sequence,
-    *,
     ax: Optional[plt.Axes] = None,
     label: Optional[str] = None,
     color: Optional[str] = None,
@@ -921,6 +920,7 @@ def plot_mean_std(
     show_points: bool = False,
     x_points: Optional[Sequence] = None,
     points: Optional[Sequence] = None,
+    **kwargs,
 ):
     """
     Plot mean curve with shaded ± std band.
@@ -964,8 +964,9 @@ def plot_mean_std(
     if show_points and x_points is not None and points is not None:
         ax.scatter(x_points, points, s=8, color=color or "k", alpha=0.6, zorder=5)
 
-    ax.set_xlabel("x")
-    ax.set_ylabel("y")
+    ax.set_xlabel(kwargs.get("xlabel", "counts"))
+    ax.set_ylabel(kwargs.get("ylabel", "depth"))
+    ax.set_title(kwargs.get("title", ""))
     if label is not None:
         ax.legend()
 
@@ -1084,12 +1085,12 @@ def plot_mean_ci(
     mean_y: Sequence,
     ci_lower: Sequence,
     ci_upper: Sequence,
-    *,
     ax: Optional[plt.Axes] = None,
     label: Optional[str] = None,
     color: Optional[str] = None,
     shade_alpha: float = 0.25,
     show_counts: bool = False,
+    **kwargs,
 ):
     """
     Plot mean curve with shaded confidence interval between ci_lower and ci_upper.
@@ -1123,8 +1124,9 @@ def plot_mean_ci(
     if label is not None:
         ax.legend()
 
-    ax.set_xlabel("x")
-    ax.set_ylabel("y")
+    ax.set_xlabel(kwargs.get("xlabel", "counts"))
+    ax.set_ylabel(kwargs.get("ylabel", "depth"))
+    ax.set_title(kwargs.get("title", ""))
 
     return ax
 
