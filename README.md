@@ -104,6 +104,16 @@ Tables pivot species according to certain pre-selected taxa. Select, filter and 
 
 ![diversities_advanced](assets/figs/diversity02.png)
 
+**Taxonomy finder**
+
+[![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf2_diversity%2Ftax_finder.ipynb)
+ [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf2_diversity/tax_finder.ipynb)
+
+ Allows you to search taxa across all the SSU and LSU taxonomy tables of the EMO-BON and display them on the beta-diversity plot, as well as it returns the filtered taxonomy abundance table.
+
+ ![taxonomy_finder](assets/figs/tax_finder.png)
+
 ## WF3, Biosynthetic gene clusters (BGCs)
 
 You will need an account on the galaxy [earth-system](https://earth-system.usegalaxy.eu/) for this NBs to work. Your Galaxy access data should be stored as environmental variables in the `.env` file at the root of the repository
