@@ -18,6 +18,9 @@ Please, consider opening [issues](https://github.com/palec87/marine-omics/issues
   - [WF0, Landing page showing sequencing progress](#wf0-landing-page-showing-sequencing-progress)
   - [WF1, Visualize metaGOflow pipeline intermediate products](#wf1-visualize-metagoflow-pipeline-intermediate-products)
   - [WF2, Genetic diversity](#wf2-genetic-diversity)
+    - [Basic diversity](#basic-diveristy-dashboard)
+    - [Advanced diversity](#advanced-diversity-dashboard)
+    - [Taxonomy Finder](#taxonomy-finder)
   - [WF3, biosynthetic gene clusters (BGCs)](#wf3-biosynthetic-gene-clusters-bgcs)
     - [Running GECCO jobs on Galaxy](#running-gecco-jobs-on-galaxy)
     - [Analyze GECCO BGC output](#analyze-gecco-bgc-output)
@@ -86,6 +89,8 @@ There are almost 60 output files from the metaGOflow pipeline. This dashboard pr
 
 ## WF2, Genetic diversity
 
+### Basic diveristy dashboard
+
 [![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf2_diversity%2Fdiversities_panel.ipynb)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf2_diversity/diversities_panel.ipynb)
@@ -94,17 +99,19 @@ NB provides visualization of **alpha** and **beta** diversities of the metaGOflo
 
 ![diversities_simple](assets/figs/diversity01.png)
 
-**ADVANCED diversity dashboard** (heavier, but contains pivot tables on taxonomy LSU and SSU tables).
+### ADVANCED diversity dashboard
 
 [![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf2_diversity%2Fdiversities_panel_advanced.ipynb)
  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/palec87/momics-demos/blob/main/wf2_diversity/diversities_panel_advanced.ipynb)
 
+Heavier, but contains pivot tables on taxonomy LSU and SSU tables.
+
 Tables pivot species according to certain pre-selected taxa. Select, filter and visualize **PCoA** of the taxonomy in respect to categorical variables. In addition, calculate **permanova** on those subsampled taxonomy selections.
 
 ![diversities_advanced](assets/figs/diversity02.png)
 
-**Taxonomy finder**
+### Taxonomy Finder
 
 [![stability-alpha](https://img.shields.io/badge/stability-alpha-f4d03f.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#alpha)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/emo-bon/momics-demos/HEAD?urlpath=%2Fdoc%2Ftree%2Fwf2_diversity%2Ftax_finder.ipynb)
