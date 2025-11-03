@@ -251,6 +251,18 @@ cd momics-demos
 pip install -e .
 ```
 
+Setup a jupyter kernel
+
+```bash
+ipython kernel install --user --name "momics-demos"
+```
+
+Start the jupyterlab
+
+```bash
+python -m jupyterlab
+```
+
 ### For existing Jupyter Hub server
 
 Create shared environment for all the users (or your system admin already did)
