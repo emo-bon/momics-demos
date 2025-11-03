@@ -8,7 +8,7 @@
 
 Marine metagenomics platform NBs to get the science started. This work is part of [FAIR-EASE](https://fairease.eu/) project, specifically Pilot 5 for metagenomics to provide as many tools to for [emo-bon](https://data.emobon.embrc.eu/) data.
 
-Please, consider opening [issues](https://github.com/palec87/marine-omics/issues) and PRs with your dream workflow suggestions. I can be to certain extend your worker until 31/8.
+Having problems, encountered bugs, or having ideas? Open [issues](https://github.com/palec87/marine-omics/issues) and PRs with your dream workflow suggestions.
 
 ## Table of Contents
 
