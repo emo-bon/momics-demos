@@ -47,7 +47,9 @@ Having problems, encountered bugs, or developing ideas? Open [issues](https://gi
 
 ## Workflow notebooks
 
-Notebooks generate panel apps for user friendly interactions. **What if the dashboards are not enough to you?** Each dashboard NB has an `..._interactive.ipynb` sibling in the same directory which is a good starting point. Combine the *momics* methods (repository [marine-omics-methods](https://github.com/emo-bon/marine-omics-methods)), panel *widgets* to extend the NB capabilities.
+Notebooks generate `panel` apps for user friendly interactions. To initiate the dashbord, click the panel icon <img src="./assets/figs/panel_icon.png" alt="panel icon" width="16"/>.
+
+**What if the dashboards are not enough to you?** Each dashboard NB has an `..._interactive.ipynb` sibling in the same directory which is a good starting point. Combine the *momics* methods (repository [marine-omics-methods](https://github.com/emo-bon/marine-omics-methods)), panel *widgets* to extend the NB capabilities.
 
 ## IMPORTANT NOTE
 

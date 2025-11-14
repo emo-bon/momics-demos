@@ -16,7 +16,7 @@ import seaborn as sns
 from pathlib import Path
 from datetime import datetime
 import sys
-from typing import Iterable, Optional, Sequence, Tuple, Dict, Any
+from typing import Iterable, Optional, Sequence, Tuple, Dict, Any, Union
 from tqdm import tqdm
 from skbio.diversity.alpha import shannon, simpson, chao1
 
