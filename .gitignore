@@ -193,5 +193,5 @@ tox.ini
 
 wfs_extra/mgnify/MGYS*
 # wfs_extra/mgnify
-
+encode.py
 .coveragerc
