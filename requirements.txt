@@ -16,16 +16,16 @@ networkx==3.4.2
 numpy==2.2.4
 pandas==2.2.3
 panel==1.7.0
-pillow==11.2.1 # not directly required, pinned by Snyk to avoid a vulnerability
+pillow==11.3.0 # not directly required, pinned by Snyk to avoid a vulnerability
 pingouin==0.5.5
 python-dotenv==1.0.1
 py-udal-mgo @ git+https://github.com/fair-ease/py-udal-mgo.git@main
-requests==2.32.3 # not directly required, pinned by Snyk to avoid a vulnerability
+requests==2.32.4 # not directly required, pinned by Snyk to avoid a vulnerability
 scikit-bio==0.6.3
 scikit-learn==1.6.1
 seaborn>=0.13.0
-setuptools==75.8.0 # not directly required, pinned by Snyk to avoid a vulnerability
+setuptools==78.1.1 # not directly required, pinned by Snyk to avoid a vulnerability
 sourmash==4.8.14
-urllib3==2.3.0 # not directly required, pinned by Snyk to avoid a vulnerability
+urllib3==2.5.0 # not directly required, pinned by Snyk to avoid a vulnerability
 venny4py==1.0.3
 zipp==3.21.0 # not directly required, pinned by Snyk to avoid a vulnerability
