@@ -56,16 +56,21 @@ class TaxonomyTable:
     def _check_source(self, source: str) -> None:
         """Basic checks on the source data based on known source types."""
         if source not in ["emobon_processed", "emobon_raw"]:
+
             if self.is_emobon_processed():
                 source = "emobon_processed"
                 logger.info("Detected source as 'emobon_processed' based on data format.")
+
             elif self.is_emobon_raw():
                 source = "emobon_raw"
                 logger.info("Detected source as 'emobon_raw' based on data format.")
+
             else:
                 raise ValueError(f"Unknown source type: {source}")
+
         elif source == "emobon_raw":
             raise NotImplementedError("Conversion from emobon_raw to standard format not implemented yet.")
+
         elif source == "emobon_processed":
             if self.is_emobon_processed():
                 logger.info("Emobon raw data -> standardizing.")
