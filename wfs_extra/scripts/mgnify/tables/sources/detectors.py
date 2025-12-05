@@ -55,3 +55,18 @@ def is_mgnify_raw(df: pd.DataFrame) -> bool:
     except Exception as e:
         logger.error(f"Error checking MGNify raw format: {e}")
         return False
+    
+
+def is_abundance_processed(df: pd.DataFrame) -> bool:
+    """
+    Simple detection logic for abundance processed format.
+
+    Arguments:
+        df: DataFrame to check.
+
+    Returns:
+        bool: True if the DataFrame matches the abundance processed format, False otherwise.
+    """
+    if df.columns != ['abundance', 'superkingdom', 'kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species']:
+        return False
+    return True

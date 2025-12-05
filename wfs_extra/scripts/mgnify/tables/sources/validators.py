@@ -8,6 +8,7 @@ def validate_taxonomy_processed(df: pd.DataFrame) -> None:
     """
     pass
 
+
 def validate_abundance_ncbi(df: pd.DataFrame) -> bool:
     """
     Placeholder for MGNify processed data validation.
@@ -25,6 +26,17 @@ def validate_abundance_ncbi(df: pd.DataFrame) -> bool:
     
     return True
 
+
 def validate_abundance_no_ncbi(df: pd.DataFrame) -> bool:
     pass
 
+
+def validate_abundance_processed(df: pd.DataFrame) -> None:
+    """
+    Validate MGNify processed abundance DataFrame.
+    """
+    # value dtypes are all numeric
+    if df.select_dtypes(include='number').shape[1] != df.shape[1]:
+        raise ValueError("All values must be numeric")
+    
+    return True

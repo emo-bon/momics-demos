@@ -8,14 +8,25 @@ from pathlib import Path
 from pydantic import BaseModel
 
 from .sources.handlers import SOURCE_HANDLERS
-from wfs_extra.scripts.mgnify.tables.sources.validators import validate_abundance_ncbi
+# from wfs_extra.scripts.mgnify.tables.sources.validators import validate_abundance_ncbi
 # from .sources.converters import mgnify_raw_to_processed
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-DEFAULT_RANKS = ["kingdom", "phylum", "class", "order", "family", "genus", "species"]
+
+DEFAULT_RANKS = ["superkingdom", "kingdom", "phylum", "class", "order", "family", "genus", "species"]
+rank_hashes = {
+    "sk": "superkingdom",
+    "k": "kingdom",
+    "p": "phylum",
+    "c": "class",
+    "o": "order",
+    "f": "family",
+    "g": "genus",
+    "s": "species",
+}
 
 
 # -------------------------
@@ -44,6 +55,9 @@ class BaseTable:
             handler = next((h for h in SOURCE_HANDLERS if h.name == source), None)
             if handler is None:
                 raise ValueError(f"Unknown source '{source}'")
+            if handler.convert:
+                logger.info(f"Converting source: {handler.name}")
+                self.df = handler.convert(self.df)
             if handler.validate:
                 logger.info(f"Validating source: {handler.name}")
                 handler.validate(self.df)
@@ -86,7 +100,7 @@ class TaxonomyTable(BaseTable):
         taxon_col: Optional[str] = None,
         source: Optional[str] = "unknown",
     ):
-        self.df = df
+        self.df = df.sort_index()
         self.taxonomy_col = taxonomy_col
         self.sample_col = sample_col
         self.taxon_col = taxon_col
@@ -98,7 +112,7 @@ class TaxonomyTable(BaseTable):
             source=source,
         )
 
-        super().__init__(df, cfg.source)
+        super().__init__(self.df, cfg.source)
 
     # -------------------------
     # conversion to abundance table
@@ -111,20 +125,21 @@ class TaxonomyTable(BaseTable):
         from wfs_extra.scripts.mgnify.mgnify_utils import pivot_taxonomic_data_new
 
         pivot = pivot_taxonomic_data_new(self.df)
-        return AbundanceTable(pivot, source=self.source)
+        return AbundanceTable(pivot, source='abundance_processed')
 
 
 class AbundanceTable(BaseTable):
     def __init__(self, df, source="unknown", taxonomy_ranks=None, taxonomy_col=None):
         self.taxonomy_ranks = taxonomy_ranks or DEFAULT_RANKS
         self.taxonomy_col = taxonomy_col
+        self.df = df.sort_index()
 
         cfg = AbundanceConfig(
             taxonomy_col=taxonomy_col,
             source=source,
         )
 
-        super().__init__(df, cfg.source)
+        super().__init__(self.df, cfg.source)
 
 
     def to_taxonomy_table(self, drop_zeros: bool = True) -> pd.DataFrame:
@@ -135,16 +150,16 @@ class AbundanceTable(BaseTable):
 
         if validate_abundance_ncbi(self.df):
             logger.info("DataFrame is abundance with ncbi_tax_id data.")
-            flag_ncbi = True
+            flag_has_ncbi = True
         elif validate_abundance_no_ncbi(self.df):
             logger.warning("DataFrame is abundance without ncbi_tax_id data.")
-            flag_ncbi = False
+            flag_has_ncbi = False
         else:
             raise ValueError("DataFrame is not in valid Abundance processed format.")
 
         reset = self.df.reset_index()
 
-        if flag_ncbi:
+        if flag_has_ncbi:
             assert "ncbi_tax_id" in reset.columns, "Expected 'ncbi_tax_id' column in DataFrame."
             melted = reset.melt(
                 id_vars=[c for c in ["taxonomic_concat", "ncbi_tax_id"] if c in reset.columns],
@@ -170,4 +185,36 @@ class AbundanceTable(BaseTable):
         except Exception:
             melted["abundance"] = pd.to_numeric(melted["abundance"], errors="coerce")
         logger.info(f"self.source before conversion to Taxonomy table {self.source}")
-        return melted, flag_ncbi, TaxonomyTable(melted, source=self.source)
+
+        # convert the taxonomic_concat back to individual taxonomic ranks
+
+        if "taxonomic_concat" in melted.columns:
+            tax_split = melted["taxonomic_concat"].str.split(";", expand=True)
+            if flag_has_ncbi:
+                tax_split = tax_split.iloc[:, 1:-1]  # drop the ncbi id column
+
+            else:
+                tax_split = tax_split.iloc[:, :-1]  # drop the last column (which is empty)
+            
+            # impute ranks based on known rank hashes
+            tax_split.columns = [rank_hashes.get(col, col) for col in tax_split.iloc[0, :].str.split("_").str[0]]
+            
+            # remove the prefixes
+            tax_split = tax_split.apply(lambda col: col.str.split("__").str[1])
+
+            # replace_trailing empty ranks with None, only if no lower rank is filled
+            tax_split = replace_trailing_empty_with_none(tax_split)
+
+            melted = pd.concat([melted.drop(columns=["taxonomic_concat"]), tax_split], axis=1)
+        melted = melted.sort_index()
+        return melted, flag_has_ncbi, TaxonomyTable(melted, source='tax_processed')
+
+
+def replace_trailing_empty_with_none(df):
+    empty = (df == "")
+    trailing = empty.copy()
+    
+    for i in range(len(df.columns) - 2, -1, -1):
+        trailing.iloc[:, i] = trailing.iloc[:, i] & trailing.iloc[:, i + 1]
+    
+    return df.mask(trailing & empty, None)

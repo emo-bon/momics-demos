@@ -8,17 +8,20 @@ from .detectors import (
     is_emobon_processed,
     is_emobon_raw,
     is_mgnify_raw,
+    is_abundance_processed,
 )
 from .validators import (
     validate_taxonomy_processed,
-    validate_abundance_ncbi,
-    validate_abundance_no_ncbi,
+    validate_abundance_processed,
 )
 from .converters import (
     emobon_raw_to_processed,
     mgnify_raw_to_processed,
+    emobon_standardise,
+    abundance_standardise,
 )
 
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -43,18 +46,25 @@ class SourceHandler:
 # 🔹 Central registry of supported formats
 SOURCE_HANDLERS = [
     SourceHandler(
-        name="emobon_processed",
+        name="tax_processed",
         detect=is_emobon_processed,
+        convert=emobon_standardise,
         validate=validate_taxonomy_processed,
     ),
     SourceHandler(
-        name="emobon_raw",
+        name="abundance_processed",
+        detect=is_abundance_processed,
+        convert=abundance_standardise,
+        validate=validate_abundance_processed,
+    ),
+    SourceHandler(
+        name="tax_emobon_raw",
         detect=is_emobon_raw,
         convert=emobon_raw_to_processed,
         validate=validate_taxonomy_processed,
     ),
     SourceHandler(
-        name="mgnify_raw",
+        name="tax_mgnify_raw",
         detect=is_mgnify_raw,
         convert=mgnify_raw_to_processed,
     ),
