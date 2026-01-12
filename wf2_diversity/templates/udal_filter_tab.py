@@ -75,7 +75,7 @@ def create_udal_filter_tab(
     apply_metadata_button = pn.widgets.Button(
         name="Apply Filter on Metadata",
         button_type="primary",
-        width=150,
+        width=250,
     )
     
     clear_button = pn.widgets.Button(
@@ -201,8 +201,8 @@ def create_udal_filter_tab(
             status_pane.object = f"**Status:** ✗ Invalid query: {str(e)}"
             logger.error(f"Query validation failed: {e}")
     
-    def apply_filter(event=None):
-        """Apply the UDAL query filter to the data."""
+    def apply_filter_metadata(event=None):
+        """Apply the UDAL query filter to metadata only."""
         if state['original_metadata'] is None:
             status_pane.object = "**Status:** ⚠ No data loaded to filter"
             return
@@ -216,7 +216,7 @@ def create_udal_filter_tab(
             original_count = len(state['original_metadata'])
             
             # Apply query to metadata
-            status_pane.object = f"**Status:** ⏳ Applying filter..."
+            status_pane.object = f"**Status:** ⏳ Applying filter to metadata..."
             filtered_meta = state['original_metadata'].query(query)
             filtered_count = len(filtered_meta)
             
@@ -225,25 +225,6 @@ def create_udal_filter_tab(
                 return
             
             state['filtered_metadata'] = filtered_meta
-            
-            # Filter tables based on filtered metadata samples
-            if state['original_tables'] is not None:
-                state['filtered_tables'] = {}
-                sample_ids = set(filtered_meta.index)
-                
-                for table_name in table_selector.value:
-                    if table_name in state['original_tables']:
-                        df = state['original_tables'][table_name]
-                        # Filter by sample ID (assuming index or 'source material ID' column)
-                        if 'source material ID' in df.columns:
-                            state['filtered_tables'][table_name] = df[
-                                df['source material ID'].isin(sample_ids)
-                            ]
-                        else:
-                            # Try filtering by index
-                            state['filtered_tables'][table_name] = df[
-                                df.index.isin(sample_ids)
-                            ]
             
             # Update indicators
             filtered_rows_indicator.value = filtered_count
@@ -258,30 +239,25 @@ def create_udal_filter_tab(
                 'Query': query,
                 'Rows Before': original_count,
                 'Rows After': filtered_count,
-                'Status': '✓ Success'
+                'Status': '✓ Metadata filtered'
             }
             state['query_history'].append(history_entry)
             query_history_display.value = pd.DataFrame(state['query_history'])
             
             # Update status
             status_pane.object = (
-                f"**Status:** ✓ Filter applied! "
+                f"**Status:** ✓ Metadata filtered! "
                 f"Reduced from {original_count} to {filtered_count} rows "
-                f"({reduction_pct:.1f}% reduction)"
+                f"({reduction_pct:.1f}% reduction). Click 'Filter data' to apply to data tables."
             )
             
-            # Call callback if provided
-            if on_filter_callback is not None:
-                on_filter_callback(state)
-            
             logger.info(
-                f"Applied filter '{query}': {original_count} → {filtered_count} rows "
-                f"({len(state['filtered_tables']) if state['filtered_tables'] else 0} tables filtered)"
+                f"Applied metadata filter '{query}': {original_count} → {filtered_count} rows"
             )
             
         except Exception as e:
             status_pane.object = f"**Status:** ✗ Filter failed: {str(e)}"
-            logger.error(f"Filter application failed: {e}", exc_info=True)
+            logger.error(f"Metadata filter application failed: {e}", exc_info=True)
             
             # Add to history as failed
             history_entry = {
@@ -292,6 +268,69 @@ def create_udal_filter_tab(
             }
             state['query_history'].append(history_entry)
             query_history_display.value = pd.DataFrame(state['query_history'])
+    
+    def apply_filter_data(event=None):
+        """Filter data tables based on already filtered metadata."""
+        if state['original_metadata'] is None:
+            status_pane.object = "**Status:** ⚠ No data loaded to filter"
+            return
+        
+        if state['filtered_metadata'] is None:
+            status_pane.object = "**Status:** ⚠ Please apply metadata filter first"
+            return
+        
+        try:
+            filtered_meta = state['filtered_metadata']
+            
+            # Filter mgf_parquet_dfs tables based on filtered metadata samples
+            status_pane.object = f"**Status:** ⏳ Filtering data tables..."
+            if state['original_tables'] is not None:
+                state['filtered_tables'] = {}
+                # Get sample IDs from filtered metadata
+                sample_ids = set(filtered_meta.index)
+                logger.info(sample_ids)
+                
+                # Log the filtering process
+                logger.info(f"Filtering tables with {len(sample_ids)} sample IDs from metadata")
+                
+                tables_filtered = 0
+                for table_name in table_selector.value:
+                    if table_name in state['original_tables']:
+                        df = state['original_tables'][table_name].copy()
+                        original_rows = len(df)
+                        
+                        # Filter by index - handle both simple and MultiIndex
+                        if isinstance(df.index, pd.MultiIndex):
+                            # For MultiIndex, filter by first level (sample IDs)
+                            filtered_df = df[df.index.get_level_values(0).isin(sample_ids)]
+                        else:
+                            # For simple index
+                            filtered_df = df[df.index.isin(sample_ids)]
+                        
+                        state['filtered_tables'][table_name] = filtered_df
+                        filtered_rows = len(filtered_df)
+                        tables_filtered += 1
+                        logger.info(f"Table '{table_name}': {original_rows} → {filtered_rows} rows")
+                    else:
+                        logger.warning(f"Table '{table_name}' not found in original tables")
+            
+            # Update status
+            status_pane.object = (
+                f"**Status:** ✓ Data tables filtered! "
+                f"Filtered {tables_filtered} table(s) to match {len(sample_ids)} samples."
+            )
+            
+            # Call callback if provided
+            if on_filter_callback is not None:
+                on_filter_callback(state)
+            
+            logger.info(
+                f"Applied data filter: {tables_filtered} tables filtered to {len(sample_ids)} samples"
+            )
+            
+        except Exception as e:
+            status_pane.object = f"**Status:** ✗ Data filter failed: {str(e)}"
+            logger.error(f"Data filter application failed: {e}", exc_info=True)
     
     def clear_filter(event=None):
         """Clear all filters and reset to original data."""
@@ -315,7 +354,8 @@ def create_udal_filter_tab(
         logger.info("Filters cleared")
     
     # Connect callbacks
-    apply_metadata_button.on_click(apply_filter)
+    apply_metadata_button.on_click(apply_filter_metadata)
+    filter_data_button.on_click(apply_filter_data)
     clear_button.on_click(clear_filter)
     validate_button.on_click(validate_query)
     
@@ -357,6 +397,7 @@ def create_udal_filter_tab(
     table_selection = pn.Column(
         pn.pane.Markdown("#### Data Selection"),
         table_selector,
+        filter_data_button,
     )
     
     indicators_row = pn.Row(
@@ -378,9 +419,9 @@ def create_udal_filter_tab(
         query_history_display,
         pn.layout.Divider(),
         table_selection,
-        pn.layout.Divider(),
-        pn.pane.Markdown("#### Filtered Data Preview"),
-        preview_table,
+        # pn.layout.Divider(),
+        # pn.pane.Markdown("#### Filtered Data Preview"),
+        # preview_table,
         scroll=True,
         sizing_mode='stretch_width',
     )
