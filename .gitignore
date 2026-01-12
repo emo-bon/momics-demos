@@ -185,6 +185,7 @@ wf5_MGnify/data/
 wf5_MGnify/nextflow_cwl_dev/
 
 testing_NBs/
+biodata/
 wf*/*.json
 data/summary*
 utils.py
