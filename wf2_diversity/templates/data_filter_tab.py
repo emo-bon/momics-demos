@@ -1,6 +1,8 @@
 """
-UDAL Filter Tab Template for Panel Applications
-Creates a reusable tab component for filtering data using UDAL queries.
+DATA Filter Tab Template for Panel Applications
+Creates a reusable tab component for filtering data using data queries.
+
+UDAL query template can be adapted in the future from this basic implementation.
 """
 
 import os
@@ -11,7 +13,7 @@ import panel as pn
 logger = logging.getLogger(__name__)
 
 
-def create_udal_filter_tab(
+def create_data_filter_tab(
     full_metadata: pd.DataFrame = None,
     mgf_parquet_dfs: dict = None,
     on_filter_callback=None,
@@ -40,20 +42,21 @@ def create_udal_filter_tab(
     # ========== WIDGETS ==========
     
     # UDAL query input
-    udal_query_input = pn.widgets.TextAreaInput(
-        name='UDAL Query',
-        placeholder='Enter UDAL query (e.g., season == "winter" AND depth > 100)',
+    data_query_input = pn.widgets.TextAreaInput(
+        name='Data Query',
+        placeholder='Enter data query',
         height=120,
         description="Use standard Python/Pandas query syntax"
     )
     
     # Quick filter presets
     preset_queries = {
-        'Winter samples': 'season == "winter"',
-        'Deep water (>100m)': 'depth > 100',
-        'Surface samples': 'depth <= 10',
-        'High salinity': 'sea_surface_salinity > 35',
-        'Recent samples (2023+)': 'year >= 2023',
+        'Winter samples': 'season == "Winter"',
+        'Deep water (>100m)': '`sampling depth (m)` > 100',
+        'Surface samples': '`sampling depth (m)` <= 10',
+        'High salinity': '`sea surface salinity (PSU)` > 35',
+        'Recent samples (2022+)': 'year >= 2022',
+        'Combined filter': '(season == "Winter") & (`sampling depth (m)` > 35)',
     }
     
     preset_selector = pn.widgets.Select(
@@ -148,13 +151,21 @@ def create_udal_filter_tab(
         sizing_mode='stretch_width',
     )
     
-    # Available columns info
+    # Available columns info (collapsible)
     if full_metadata is not None:
-        columns_info = f"**Available columns ({len(full_metadata.columns)}):** {', '.join(sorted(full_metadata.columns[:10]))}..."
+        columns_list = ', '.join(sorted(full_metadata.columns))
+        columns_content = pn.pane.Markdown(columns_list)
+        column_count = len(full_metadata.columns)
     else:
-        columns_info = "**No data loaded yet**"
+        columns_content = pn.pane.Markdown("**No data loaded yet**")
+        column_count = 0
     
-    columns_pane = pn.pane.Markdown(columns_info)
+    columns_card = pn.Card(
+        columns_content,
+        title=f"Available columns ({column_count})",
+        collapsed=True,
+        sizing_mode='stretch_width',
+    )
     
     # ========== CALLBACKS ==========
     
@@ -162,16 +173,14 @@ def create_udal_filter_tab(
         """Update available columns information."""
         if state['original_metadata'] is not None:
             cols = sorted(state['original_metadata'].columns)
-            if len(cols) > 20:
-                cols_display = ', '.join(cols[:20]) + f'... ({len(cols)} total)'
-            else:
-                cols_display = ', '.join(cols)
-            columns_pane.object = f"**Available columns ({len(cols)}):** {cols_display}"
+            cols_display = ', '.join(cols)
+            columns_card[0].object = cols_display
+            columns_card.title = f"Available columns ({len(cols)})"
     
     def preset_selected(event):
         """Update query input when preset is selected."""
         if event.new != 'Custom' and event.new in preset_queries:
-            udal_query_input.value = preset_queries[event.new]
+            data_query_input.value = preset_queries[event.new]
     
     preset_selector.param.watch(preset_selected, 'value')
     
@@ -181,7 +190,7 @@ def create_udal_filter_tab(
             status_pane.object = "**Status:** ⚠ No data loaded to validate against"
             return
         
-        query = udal_query_input.value.strip()
+        query = data_query_input.value.strip()
         if not query:
             status_pane.object = "**Status:** ⚠ Please enter a query"
             return
@@ -202,12 +211,13 @@ def create_udal_filter_tab(
             logger.error(f"Query validation failed: {e}")
     
     def apply_filter_metadata(event=None):
-        """Apply the UDAL query filter to metadata only."""
+        """Apply the data query filter to metadata only."""
         if state['original_metadata'] is None:
             status_pane.object = "**Status:** ⚠ No data loaded to filter"
             return
         
-        query = udal_query_input.value.strip()
+        query = data_query_input.value.strip()
+        logger.info(f"Applying metadata filter with query: {query} parsed from {data_query_input.value}")
         if not query:
             status_pane.object = "**Status:** ⚠ Please enter a query"
             return
@@ -337,7 +347,7 @@ def create_udal_filter_tab(
         state['filtered_metadata'] = None
         state['filtered_tables'] = None
         
-        udal_query_input.value = ''
+        data_query_input.value = ''
         preset_selector.value = 'Custom'
         
         original_count = len(state['original_metadata']) if state['original_metadata'] is not None else 0
@@ -367,17 +377,17 @@ def create_udal_filter_tab(
     **Instructions:**
     1. Select a query
     2. Click **Validate Query** to test the syntax (optional)
-    3. Select which tables to filter (LSU/SSU)
+    3. Select which tables to filter
     4. Click **Apply Filter** to filter the data
     5. Use **Clear Filter** to reset to original data
     
-    **UDAL Query Syntax:**
+    **Data Query Syntax:**
     - Use standard Python/Pandas query syntax
     - Examples:
-      - `season == "winter"` - Exact match
-      - `depth > 100` - Numerical comparison
-      - `season.isin(["winter", "spring"])` - Multiple values
-      - `(depth > 50) & (season == "winter")` - Combined conditions
+      - `season == "Winter"` - Exact match
+      - `` `sampling depth (m)` > 100 `` - Numerical comparison
+      - `season.isin(["Winter", "Spring"])` - Multiple values
+      - `` (`sampling depth (m)` > 50) & (season == "Winter") `` - Combined conditions
       - `sample_id.str.contains("EMOBON")` - String matching
     
     **Tips:**
@@ -389,9 +399,9 @@ def create_udal_filter_tab(
     query_section = pn.Column(
         pn.pane.Markdown("#### Query Builder"),
         preset_selector,
-        udal_query_input,
+        data_query_input,
         pn.Row(validate_button, apply_metadata_button, clear_button),
-        columns_pane,
+        columns_card,
     )
     
     table_selection = pn.Column(
@@ -407,7 +417,7 @@ def create_udal_filter_tab(
         sizing_mode='stretch_width',
     )
     
-    udal_filter_tab = pn.Column(
+    data_filter_tab = pn.Column(
         instructions,
         pn.layout.Divider(),
         query_section,
@@ -429,4 +439,4 @@ def create_udal_filter_tab(
     # Initialize
     update_columns_info()
     
-    return udal_filter_tab, state
+    return data_filter_tab, state
