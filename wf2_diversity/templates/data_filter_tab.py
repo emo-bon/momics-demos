@@ -429,9 +429,6 @@ def create_data_filter_tab(
         query_history_display,
         pn.layout.Divider(),
         table_selection,
-        # pn.layout.Divider(),
-        # pn.pane.Markdown("#### Filtered Data Preview"),
-        # preview_table,
         scroll=True,
         sizing_mode='stretch_width',
     )
