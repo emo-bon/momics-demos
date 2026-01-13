@@ -304,9 +304,9 @@ def create_data_filter_tab(
                 logger.info(f"Filtering tables with {len(sample_ids)} sample IDs from metadata")
                 
                 tables_filtered = 0
-                for table_name in table_selector.value:
-                    if table_name in state['original_tables']:
-                        df = state['original_tables'][table_name].copy()
+                # Process all tables: filter selected ones, keep original for unselected
+                for table_name, df in state['original_tables'].items():
+                    if table_name in table_selector.value or not table_selector.value:
                         original_rows = len(df)
                         
                         # Filter by index - handle both simple and MultiIndex
@@ -316,13 +316,15 @@ def create_data_filter_tab(
                         else:
                             # For simple index
                             filtered_df = df[df.index.isin(sample_ids)]
-                        
+                    
                         state['filtered_tables'][table_name] = filtered_df
                         filtered_rows = len(filtered_df)
                         tables_filtered += 1
-                        logger.info(f"Table '{table_name}': {original_rows} → {filtered_rows} rows")
+                        logger.info(f"Table '{table_name}': {original_rows} → {filtered_rows} rows (filtered & included)")
                     else:
-                        logger.warning(f"Table '{table_name}' not found in original tables")
+                        # Keep original data for unselected tables
+                        state['filtered_tables'][table_name] = df.copy()
+                        logger.info(f"Table '{table_name}': filtered but not included (not selected)")
             
             # Update status
             status_pane.object = (
@@ -372,16 +374,17 @@ def create_data_filter_tab(
     # ========== LAYOUT ==========
     
     instructions = pn.pane.Markdown("""
-    ### UDAL Query Filtering
+    ### Data Query Filtering
     
     **Instructions:**
-    1. Select a query
+    1. Select a quick filter or enter a custom query
     2. Click **Validate Query** to test the syntax (optional)
-    3. Select which tables to filter
-    4. Click **Apply Filter** to filter the data
-    5. Use **Clear Filter** to reset to original data
+    3. Click **Apply Filter on Metadata** to filter metadata
+    4. Select which tables to filter
+    5. Click **Filter data** to apply filters to selected data tables
+    6. Use **Clear Filter** to reset to original data
     
-    **Data Query Syntax:**
+    **Query Syntax:**
     - Use standard Python/Pandas query syntax
     - Examples:
       - `season == "Winter"` - Exact match
