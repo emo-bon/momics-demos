@@ -1,0 +1,449 @@
+"""
+DATA Filter Tab Template for Panel Applications
+Creates a reusable tab component for filtering data using data queries.
+
+UDAL query template can be adapted in the future from this basic implementation.
+"""
+
+import os
+import logging
+import pandas as pd
+import panel as pn
+
+logger = logging.getLogger(__name__)
+
+
+def create_data_filter_tab(
+    full_metadata: pd.DataFrame = None,
+    mgf_parquet_dfs: dict = None,
+    on_filter_callback=None,
+    available_tables: list = None,
+):
+    """
+    Creates a Panel tab for filtering data using UDAL queries.
+    
+    Args:
+        full_metadata (pd.DataFrame, optional): Full metadata dataframe
+        mgf_parquet_dfs (dict, optional): Dictionary of parquet dataframes
+        on_filter_callback (callable, optional): Callback function when filters are applied
+        available_tables (list, optional): List of table names to show in selector. If None, shows all tables from mgf_parquet_dfs
+        
+    Returns:
+        tuple: (pn.Column, state_dict) - Panel column containing the UDAL filter tab UI and state dictionary
+    """
+    
+    # State management
+    state = {
+        'original_metadata': full_metadata,
+        'original_tables': mgf_parquet_dfs,
+        'filtered_metadata': None,
+        'filtered_tables': None,
+        'query_history': [],
+    }
+    
+    # ========== WIDGETS ==========
+    
+    # UDAL query input
+    data_query_input = pn.widgets.TextAreaInput(
+        name='Data Query',
+        placeholder='Enter data query',
+        height=120,
+        description="Use standard Python/Pandas query syntax"
+    )
+    
+    # Quick filter presets
+    preset_queries = {
+        'Winter samples': 'season == "Winter"',
+        'Deep water (>100m)': '`sampling depth (m)` > 100',
+        'Surface samples': '`sampling depth (m)` <= 10',
+        'High salinity': '`sea surface salinity (PSU)` > 35',
+        'Recent samples (2022+)': 'year >= 2022',
+        'Combined filter': '(season == "Winter") & (`sampling depth (m)` > 35)',
+    }
+    
+    preset_selector = pn.widgets.Select(
+        name='Quick Filters',
+        options=['--'] + list(preset_queries.keys()),
+        value='--',
+        description="Select a query"
+    )
+    # Use available_tables if provided, otherwise use all tables from mgf_parquet_dfs
+    if available_tables is not None:
+        table_options = [t for t in available_tables if mgf_parquet_dfs and t in mgf_parquet_dfs]
+    else:
+        table_options = list(mgf_parquet_dfs.keys()) if mgf_parquet_dfs else []
+    
+    table_selector = pn.widgets.CheckBoxGroup(
+        name='Tables to filter',
+        value=table_options,
+        options=table_options,
+        inline=True,
+    )
+    
+    # Action buttons
+    apply_metadata_button = pn.widgets.Button(
+        name="Apply Filter on Metadata",
+        button_type="primary",
+        width=250,
+    )
+    
+    clear_button = pn.widgets.Button(
+        name="Clear Filter",
+        button_type="warning",
+        width=150,
+    )
+    
+    validate_button = pn.widgets.Button(
+        name="Validate Query",
+        button_type="success",
+        width=150,
+    )
+
+    filter_data_button = pn.widgets.Button(
+        name="Filter data",
+        button_type="primary",
+        width=150,
+    )
+    
+    # Status and results
+    status_pane = pn.pane.Markdown(
+        "**Status:** Ready to filter data",
+        styles={'background': '#f0f0f0', 'padding': '10px', 'border-radius': '5px'}
+    )
+    
+    # Query history
+    query_history_display = pn.widgets.Tabulator(
+        pd.DataFrame(columns=['Query', 'Rows Before', 'Rows After', 'Status']),
+        name='Query History',
+        page_size=5,
+        pagination='local',
+        sizing_mode='stretch_width',
+    )
+    
+    # Results indicators
+    original_rows_indicator = pn.indicators.Number(
+        name='Original Rows',
+        value=len(full_metadata) if full_metadata is not None else 0,
+        format='{value}',
+        font_size='20pt',
+        title_size='12pt',
+        colors=[(0, 'gray')]
+    )
+    
+    filtered_rows_indicator = pn.indicators.Number(
+        name='Filtered Rows',
+        value=0,
+        format='{value}',
+        font_size='20pt',
+        title_size='12pt',
+        colors=[(0, 'red'), (50, 'orange'), (100, 'green')]
+    )
+    
+    reduction_indicator = pn.indicators.Number(
+        name='Reduction %',
+        value=0,
+        format='{value:.1f}%',
+        font_size='20pt',
+        title_size='12pt',
+        colors=[(0, 'green'), (50, 'orange'), (90, 'red')]
+    )
+    
+    # Preview of filtered data
+    preview_table = pn.widgets.Tabulator(
+        pd.DataFrame(),
+        name='Filtered Data Preview',
+        page_size=10,
+        pagination='local',
+        sizing_mode='stretch_width',
+    )
+    
+    # Available columns info (collapsible)
+    if full_metadata is not None:
+        columns_list = ', '.join(sorted(full_metadata.columns))
+        columns_content = pn.pane.Markdown(columns_list)
+        column_count = len(full_metadata.columns)
+    else:
+        columns_content = pn.pane.Markdown("**No data loaded yet**")
+        column_count = 0
+    
+    columns_card = pn.Card(
+        columns_content,
+        title=f"Available columns ({column_count})",
+        collapsed=True,
+        sizing_mode='stretch_width',
+    )
+    
+    # ========== CALLBACKS ==========
+    
+    def update_columns_info():
+        """Update available columns information."""
+        if state['original_metadata'] is not None:
+            cols = sorted(state['original_metadata'].columns)
+            cols_display = ', '.join(cols)
+            columns_card[0].object = cols_display
+            columns_card.title = f"Available columns ({len(cols)})"
+    
+    def preset_selected(event):
+        """Update query input when preset is selected."""
+        if event.new != 'Custom' and event.new in preset_queries:
+            data_query_input.value = preset_queries[event.new]
+    
+    preset_selector.param.watch(preset_selected, 'value')
+    
+    def validate_query(event=None):
+        """Validate the UDAL query without applying it."""
+        if state['original_metadata'] is None:
+            status_pane.object = "**Status:** ⚠ No data loaded to validate against"
+            return
+        
+        query = data_query_input.value.strip()
+        if not query:
+            status_pane.object = "**Status:** ⚠ Please enter a query"
+            return
+        
+        try:
+            # Test the query on a small sample
+            test_df = state['original_metadata'].head(100)
+            result = test_df.query(query)
+            
+            status_pane.object = (
+                f"**Status:** ✓ Query is valid! "
+                f"Would return {len(result)}/100 rows in test sample"
+            )
+            logger.info(f"Query validated successfully: {query}")
+            
+        except Exception as e:
+            status_pane.object = f"**Status:** ✗ Invalid query: {str(e)}"
+            logger.error(f"Query validation failed: {e}")
+    
+    def apply_filter_metadata(event=None):
+        """Apply the data query filter to metadata only."""
+        if state['original_metadata'] is None:
+            status_pane.object = "**Status:** ⚠ No data loaded to filter"
+            return
+        
+        query = data_query_input.value.strip()
+        logger.info(f"Applying metadata filter with query: {query} parsed from {data_query_input.value}")
+        if not query:
+            status_pane.object = "**Status:** ⚠ Please enter a query"
+            return
+        
+        try:
+            original_count = len(state['original_metadata'])
+            
+            # Apply query to metadata
+            status_pane.object = f"**Status:** ⏳ Applying filter to metadata..."
+            filtered_meta = state['original_metadata'].query(query)
+            filtered_count = len(filtered_meta)
+            
+            if filtered_count == 0:
+                status_pane.object = "**Status:** ⚠ Query returned no results. Try a different filter."
+                return
+            
+            state['filtered_metadata'] = filtered_meta
+            
+            # Update indicators
+            filtered_rows_indicator.value = filtered_count
+            reduction_pct = ((original_count - filtered_count) / original_count) * 100
+            reduction_indicator.value = reduction_pct
+            
+            # Update preview
+            preview_table.value = filtered_meta.head(50)
+            
+            # Update query history
+            history_entry = {
+                'Query': query,
+                'Rows Before': original_count,
+                'Rows After': filtered_count,
+                'Status': '✓ Metadata filtered'
+            }
+            state['query_history'].append(history_entry)
+            query_history_display.value = pd.DataFrame(state['query_history'])
+            
+            # Update status
+            status_pane.object = (
+                f"**Status:** ✓ Metadata filtered! "
+                f"Reduced from {original_count} to {filtered_count} rows "
+                f"({reduction_pct:.1f}% reduction). Click 'Filter data' to apply to data tables."
+            )
+            
+            logger.info(
+                f"Applied metadata filter '{query}': {original_count} → {filtered_count} rows"
+            )
+            
+        except Exception as e:
+            status_pane.object = f"**Status:** ✗ Filter failed: {str(e)}"
+            logger.error(f"Metadata filter application failed: {e}", exc_info=True)
+            
+            # Add to history as failed
+            history_entry = {
+                'Query': query,
+                'Rows Before': len(state['original_metadata']),
+                'Rows After': 0,
+                'Status': f'✗ {str(e)[:50]}'
+            }
+            state['query_history'].append(history_entry)
+            query_history_display.value = pd.DataFrame(state['query_history'])
+    
+    def apply_filter_data(event=None):
+        """Filter data tables based on already filtered metadata."""
+        if state['original_metadata'] is None:
+            status_pane.object = "**Status:** ⚠ No data loaded to filter"
+            return
+        
+        if state['filtered_metadata'] is None:
+            status_pane.object = "**Status:** ⚠ Please apply metadata filter first"
+            return
+        
+        try:
+            filtered_meta = state['filtered_metadata']
+            
+            # Filter mgf_parquet_dfs tables based on filtered metadata samples
+            status_pane.object = f"**Status:** ⏳ Filtering data tables..."
+            if state['original_tables'] is not None:
+                state['filtered_tables'] = {}
+                # Get sample IDs from filtered metadata
+                sample_ids = set(filtered_meta.index)
+                logger.info(sample_ids)
+                
+                # Log the filtering process
+                logger.info(f"Filtering tables with {len(sample_ids)} sample IDs from metadata")
+                
+                tables_filtered = 0
+                # Process all tables: filter selected ones, keep original for unselected
+                for table_name, df in state['original_tables'].items():
+                    if table_name in table_selector.value:
+                        # Table is selected - filter it
+                        original_rows = len(df)
+                        
+                        # Filter by index - handle both simple and MultiIndex
+                        if isinstance(df.index, pd.MultiIndex):
+                            # For MultiIndex, filter by first level (sample IDs)
+                            filtered_df = df[df.index.get_level_values(0).isin(sample_ids)]
+                        else:
+                            # For simple index
+                            filtered_df = df[df.index.isin(sample_ids)]
+                    
+                        state['filtered_tables'][table_name] = filtered_df
+                        filtered_rows = len(filtered_df)
+                        tables_filtered += 1
+                        logger.info(f"Table '{table_name}': {original_rows} → {filtered_rows} rows (filtered)")
+                    else:
+                        # Keep original data for unselected tables
+                        state['filtered_tables'][table_name] = df.copy()
+                        logger.info(f"Table '{table_name}': kept original (not selected for filtering)")
+            
+            # Update status
+            status_pane.object = (
+                f"**Status:** ✓ Data tables filtered! "
+                f"Filtered {tables_filtered} table(s) to match {len(sample_ids)} samples."
+            )
+            
+            # Call callback if provided
+            if on_filter_callback is not None:
+                on_filter_callback(state)
+            
+            logger.info(
+                f"Applied data filter: {tables_filtered} tables filtered to {len(sample_ids)} samples"
+            )
+            
+        except Exception as e:
+            status_pane.object = f"**Status:** ✗ Data filter failed: {str(e)}"
+            logger.error(f"Data filter application failed: {e}", exc_info=True)
+    
+    def clear_filter(event=None):
+        """Clear all filters and reset to original data."""
+        state['filtered_metadata'] = None
+        state['filtered_tables'] = None
+        
+        data_query_input.value = ''
+        preset_selector.value = 'Custom'
+        
+        original_count = len(state['original_metadata']) if state['original_metadata'] is not None else 0
+        filtered_rows_indicator.value = original_count
+        reduction_indicator.value = 0
+        
+        preview_table.value = pd.DataFrame()
+        status_pane.object = "**Status:** Filters cleared. Showing original data."
+        
+        # Call callback to reset
+        if on_filter_callback is not None:
+            on_filter_callback(state)
+        
+        logger.info("Filters cleared")
+    
+    # Connect callbacks
+    apply_metadata_button.on_click(apply_filter_metadata)
+    filter_data_button.on_click(apply_filter_data)
+    clear_button.on_click(clear_filter)
+    validate_button.on_click(validate_query)
+    
+    # ========== LAYOUT ==========
+    
+    instructions = pn.pane.Markdown("""
+    ### Data Query Filtering
+    
+    **Instructions:**
+    1. Select a quick filter or enter a custom query
+    2. Click **Validate Query** to test the syntax (optional)
+    3. Click **Apply Filter on Metadata** to filter metadata
+    4. Select which tables to filter
+    5. Click **Filter data** to apply filters to selected data tables
+    6. Use **Clear Filter** to reset to original data
+    
+    **Query Syntax:**
+    - Use standard Python/Pandas query syntax
+    - Examples:
+      - `season == "Winter"` - Exact match
+      - `` `sampling depth (m)` > 100 `` - Numerical comparison
+      - `season.isin(["Winter", "Spring"])` - Multiple values
+      - `` (`sampling depth (m)` > 50) & (season == "Winter") `` - Combined conditions
+      - `sample_id.str.contains("EMOBON")` - String matching
+    
+    **Tips:**
+    - Column names with spaces need backticks: `` `observatory name` == "Oslo" ``
+    - Use `&` for AND, `|` for OR, `~` for NOT
+    - String comparisons are case-sensitive
+    """)
+    
+    query_section = pn.Column(
+        pn.pane.Markdown("#### Query Builder"),
+        preset_selector,
+        data_query_input,
+        pn.Row(validate_button, apply_metadata_button, clear_button),
+        columns_card,
+    )
+    
+    table_selection = pn.Column(
+        pn.pane.Markdown("#### Data Selection"),
+        table_selector,
+        filter_data_button,
+    )
+    
+    indicators_row = pn.Row(
+        original_rows_indicator,
+        filtered_rows_indicator,
+        reduction_indicator,
+        sizing_mode='stretch_width',
+    )
+    
+    data_filter_tab = pn.Column(
+        instructions,
+        pn.layout.Divider(),
+        query_section,
+        pn.layout.Divider(),
+        status_pane,
+        indicators_row,
+        pn.layout.Divider(),
+        pn.pane.Markdown("#### Query History"),
+        query_history_display,
+        pn.layout.Divider(),
+        table_selection,
+        scroll=True,
+        sizing_mode='stretch_width',
+    )
+    
+    # Initialize
+    update_columns_info()
+    
+    return data_filter_tab, state
