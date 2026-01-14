@@ -312,7 +312,8 @@ def create_data_filter_tab(
                 tables_filtered = 0
                 # Process all tables: filter selected ones, keep original for unselected
                 for table_name, df in state['original_tables'].items():
-                    if table_name in table_selector.value or not table_selector.value:
+                    if table_name in table_selector.value:
+                        # Table is selected - filter it
                         original_rows = len(df)
                         
                         # Filter by index - handle both simple and MultiIndex
@@ -326,11 +327,11 @@ def create_data_filter_tab(
                         state['filtered_tables'][table_name] = filtered_df
                         filtered_rows = len(filtered_df)
                         tables_filtered += 1
-                        logger.info(f"Table '{table_name}': {original_rows} → {filtered_rows} rows (filtered & included)")
+                        logger.info(f"Table '{table_name}': {original_rows} → {filtered_rows} rows (filtered)")
                     else:
                         # Keep original data for unselected tables
                         state['filtered_tables'][table_name] = df.copy()
-                        logger.info(f"Table '{table_name}': filtered but not included (not selected)")
+                        logger.info(f"Table '{table_name}': kept original (not selected for filtering)")
             
             # Update status
             status_pane.object = (
