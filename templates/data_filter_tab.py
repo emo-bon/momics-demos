@@ -17,6 +17,7 @@ def create_data_filter_tab(
     full_metadata: pd.DataFrame = None,
     mgf_parquet_dfs: dict = None,
     on_filter_callback=None,
+    available_tables: list = None,
 ):
     """
     Creates a Panel tab for filtering data using UDAL queries.
@@ -25,6 +26,7 @@ def create_data_filter_tab(
         full_metadata (pd.DataFrame, optional): Full metadata dataframe
         mgf_parquet_dfs (dict, optional): Dictionary of parquet dataframes
         on_filter_callback (callable, optional): Callback function when filters are applied
+        available_tables (list, optional): List of table names to show in selector. If None, shows all tables from mgf_parquet_dfs
         
     Returns:
         tuple: (pn.Column, state_dict) - Panel column containing the UDAL filter tab UI and state dictionary
@@ -65,12 +67,16 @@ def create_data_filter_tab(
         value='--',
         description="Select a query"
     )
+    # Use available_tables if provided, otherwise use all tables from mgf_parquet_dfs
+    if available_tables is not None:
+        table_options = [t for t in available_tables if mgf_parquet_dfs and t in mgf_parquet_dfs]
+    else:
+        table_options = list(mgf_parquet_dfs.keys()) if mgf_parquet_dfs else []
     
-    # Table selection for filtering
     table_selector = pn.widgets.CheckBoxGroup(
         name='Tables to filter',
-        value=list(mgf_parquet_dfs.keys()) if mgf_parquet_dfs else [],
-        options=list(mgf_parquet_dfs.keys()) if mgf_parquet_dfs else [],
+        value=table_options,
+        options=table_options,
         inline=True,
     )
     
