@@ -140,3 +140,8 @@ norecursedirs = ["testing_NBs", "old_nbs", "build", "dist", "*.egg-info"]
 filterwarnings = [
     "ignore::pytest.PytestRemovedIn9Warning"
 ]
+
+[tool.setuptools]
+py-modules = [
+    "wf0_landing_page",
+]
