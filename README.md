@@ -30,6 +30,7 @@ Having problems, encountered bugs, or developing ideas? Open [issues](https://gi
   - [Other ideas](#other-ideas)
 - [Installation](#installation)
   - [Local jupyter](#local-jupyter)
+  - [Full conda setup](#full-conda-setup)
   - [For existing Jupyter Hub server](#for-existing-jupyter-hub-server)
 - [Technical notes](#technical-notes)
   - [General](#general)
@@ -225,11 +226,43 @@ Please reach out if you are interested in these or have your own proposal.
 
 ### Local jupyter
 
+The easiest way is to use `poetry` or `uv` for both virtual environment setup and dependecy installation.
+
+```bash
+# this automatically detects whether you have installed poetry or uv (if you have both poetry is preffered)
+make install
+
+# for developmental install use
+make dev-install
+
+# you can specify the preffered tool with
+make install TOOL=uv   # or TOOL=poetry
+```
+
+Then you activate environment at the root of the directory
+
+```bash
+source .venv/bin/activate
+```
+
+If you are windows user, the easiest is to run the commands from the `Makefile`, such as
+
+```PowerShell
+poetry install
+
+# or
+uv sync
+```
+
+and activate with `.venv\Scripts\Activate.ps1` or `.venv\Scripts\activate.bat`, depending on your terminal.
+
+### Full conda setup
+
 Consider creating (and activating) a new virtual environmenment for the project
 
 ```bash
 # if you are using conda
-conda create -n "momics-demos" python=3.10  # or higher
+conda create -n "momics-demos" python=3.11  # or higher
 conda activate momics-demos
 
 # using venv is platform dependent (Unix)

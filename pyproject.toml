@@ -1,12 +1,16 @@
 [project]
 name = "momics-demos"
-version = "0.0.2"
-license = { file = "LICENSE.txt" }
+version = "0.1.0"
 description = "F-E marine omics demos"
-maintainers = [
-    { name = "FAIR-Ease", email = "dpalecek@ualg.pt" },
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11,<3.13"
+
+authors = [
+    { name = "FAIR-Ease", email = "cymon@ualg.pt" },
+    { name = "David Palecek", email = "ddthumb@gmail.com" },
 ]
-requires-python = ">=3.10"
 
 dependencies = [
     "bio>=1.7.1",
@@ -14,9 +18,11 @@ dependencies = [
     "dvc>=3.63.0",
     "dvc-s3>=3.2.2",
     "fastparquet>=2024.11.0",
+    "fonttools>=4.43.0",
     "geopandas>=1.0.1",
-    "ipywidgets_bokeh>=1.6.0",
     "hvplot>=0.11.0",
+    "ipython>=8.10.0",
+    "ipywidgets_bokeh>=1.6.0",
     "jsonapi-client>=0.9.9",
     "jupyter==1.1.1",
     "jupyter_bokeh>=4.0.5",
@@ -27,7 +33,7 @@ dependencies = [
     "numpy>=2.2.4",
     "pandas>=2.2.3",
     "panel>=1.7.0",
-    "pillow>=11.3.0",  # not directly required, pinned by Snyk to avoid a vulnerability
+    "pillow>=11.3.0",
     "pingouin>=0.5.5",
     "pyngrok>=7.2.3",
     "python-dotenv==1.0.1",
@@ -37,14 +43,12 @@ dependencies = [
     "scikit-bio>=0.6.3",
     "scikit-learn>=1.6.1",
     "seaborn>=0.13.0",
-    "setuptools>=78.1.1",  # not directly required, pinned by Snyk to avoid a vulnerability
-    "sourmash>=4.8.14",
-    "fonttools>=4.43.0",  # not directly required, pinned by Snyk to avoid a vulnerability
-    "ipython>=8.10.0",  # not directly required, pinned by Snyk to avoid a vulnerability
-    "requests>=2.32.4",  # not directly required, pinned by Snyk to avoid a vulnerability
-    "urllib3>=2.5.0",  # not directly required, pinned by Snyk to avoid a vulnerability
+    "setuptools>=78.1.1",
+    "sourmash>=4.9.0",
+    "requests>=2.32.4",
+    "urllib3>=2.5.0",
     "venny4py==1.0.3",
-    "zipp>=3.21.0",  # not directly required, pinned by Snyk to avoid a vulnerability
+    "zipp>=3.21.0",
 ]
 
 [project.optional-dependencies]
@@ -57,6 +61,84 @@ testing = [
     "pytest",
     "pytest-cov",
     "pytest-timeout",
+]
+
+# -------------------------
+# uv enhancements (optional)
+# -------------------------
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "pytest-timeout",
+]
+
+# -------------------------
+# Poetry compatibility layer
+# -------------------------
+[tool.poetry]
+name = "momics-demos"
+version = "0.1.0"
+description = "F-E marine omics demos"
+authors = ["FAIR-Ease <cymon@ualg.pt>", "David Palecek <ddthumb@gmail.com>"]
+readme = "README.md"
+license = "MIT"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+bio = ">=1.7.1"
+bioblend = ">=1.5.0"
+dvc = ">=3.63.0"
+dvc-s3 = ">=3.2.2"
+fastparquet = ">=2024.11.0"
+fonttools = ">=4.43.0"
+geopandas = ">=1.0.1"
+hvplot = ">=0.11.0"
+ipython = ">=8.10.0"
+ipywidgets_bokeh = ">=1.6.0"
+jsonapi-client = ">=0.9.9"
+jupyter = "1.1.1"
+jupyter_bokeh = ">=4.0.5"
+leafmap = ">=0.45.0"
+marine-omics = "0.1.20"
+matplotlib = ">=3.10.1"
+networkx = ">=3.4.0"
+numpy = ">=2.2.4"
+pandas = ">=2.2.3"
+panel = ">=1.7.0"
+pillow = ">=11.3.0"
+pingouin = ">=0.5.5"
+pyngrok = ">=7.2.3"
+python-dotenv = "1.0.1"
+rdflib = ">=7.2.1"
+rdflib-jsonld = ">=0.6.0"
+scikit-bio = ">=0.6.3"
+scikit-learn = ">=1.6.1"
+seaborn = ">=0.13.0"
+setuptools = ">=78.1.1"
+sourmash = ">=4.9.0"
+requests = ">=2.32.4"
+urllib3 = ">=2.5.0"
+venny4py = "1.0.3"
+zipp = ">=3.21.0"
+
+[tool.poetry.group.testing.dependencies]
+ipykernel = "*"
+jupyter = "*"
+nbformat = "*"
+nbclient = "*"
+nbval = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-timeout = "*"
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+addopts = "--ignore-glob='*checkpoint.ipynb'"
+norecursedirs = ["testing_NBs", "old_nbs", "build", "dist", "*.egg-info"]
+filterwarnings = [
+    "ignore::pytest.PytestRemovedIn9Warning"
 ]
 
 [tool.setuptools]

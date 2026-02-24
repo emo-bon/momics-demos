@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         platform: [ubuntu-latest, windows-latest, macos-latest]  # is not tested atm
-        python-version: ["3.10"]  #, "3.11", "3.12"]
+        python-version: ["3.11"]  #, "3.11", "3.12"]
 
     steps:
       - uses: actions/checkout@v4
@@ -37,6 +37,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install .[testing]
           pip install git+https://github.com/fair-ease/py-udal-mgo.git
+
+      - name: Clean build artifacts
+        run: |
+          rm -rf build dist *.egg-info
+        shell: bash
 
       # this runs the platform-specific tests declared in tox.ini
       - name: Test with pytest
