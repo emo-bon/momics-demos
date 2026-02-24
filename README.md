@@ -14,10 +14,6 @@ Having problems, encountered bugs, or developing ideas? Open [issues](https://gi
 
 - [Marine Omics Demos](#marine-omics-demos)
 - [Design principles](#design-principles)
-- [Installation](#installation)
-  - [Local jupyter](#local-jupyter)
-  - [Full conda setup](#full-conda-setup)
-  - [For existing Jupyter Hub server](#for-existing-jupyter-hub-server)
 - [Workflow notebooks](#workflow-notebooks)
   - [WF0, Landing page showing sequencing progress](#wf0-landing-page-showing-sequencing-progress)
   - [WF1, Visualize metaGOflow pipeline intermediate products](#wf1-visualize-metagoflow-pipeline-intermediate-products)
@@ -32,6 +28,10 @@ Having problems, encountered bugs, or developing ideas? Open [issues](https://gi
   - [WF4, Co-occurrence networks](#wf4-co-occurrence-networks)
   - [WF5, Integrate MGnify pipeline and data](#wf5-integrate-mgnify-pipeline-and-data)
   - [Other ideas](#other-ideas)
+- [Installation](#installation)
+  - [Local jupyter](#local-jupyter)
+  - [Full conda setup](#full-conda-setup)
+  - [For existing Jupyter Hub server](#for-existing-jupyter-hub-server)
 - [Technical notes](#technical-notes)
   - [General](#general)
   - [Dashboards](#dashboards)
@@ -45,99 +45,6 @@ Having problems, encountered bugs, or developing ideas? Open [issues](https://gi
 2. Simplicity over speed, however performance is considered.
 3. UDAL queries which will eventually enable you to query many types of data apart from EMO-BON.
 4. API calls to other services, such as [Galaxy](https://earth-system.usegalaxy.eu/).
-
-## Installation
-
-### Local jupyter
-
-The easiest way is to use `poetry` or `uv` for both virtual environment setup and dependecy installation.
-
-```bash
-# this automatically detects whether you have installed poetry or uv (if you have both poetry is preffered)
-make install
-
-# for developmental install use
-make dev-install
-
-# you can specify the preffered tool with
-make install TOOL=uv   # or TOOL=poetry
-```
-
-Then you activate environment at the root of the directory
-
-```bash
-source .venv/bin/activate
-```
-
-If you are windows user, the easiest is to run the commands from the `Makefile`, such as
-
-```PowerShell
-poetry install
-
-# or
-uv sync
-```
-
-and activate with `.venv\Scripts\Activate.ps1` or `.venv\Scripts\activate.bat`, depending on your terminal.
-
-### Full conda setup
-
-Consider creating (and activating) a new virtual environmenment for the project
-
-```bash
-# if you are using conda
-conda create -n "momics-demos" python=3.11  # or higher
-conda activate momics-demos
-
-# using venv is platform dependent (Unix)
-python -m venv momics-demos
-source momic-demos/bin/activate
-
-#(Win)
-python.exe -m venv momics-demos
-./Scripts/activate
-```
-
-Clone and install the repository
-
-```bash
-# clone the repository into newly created folder
-git clone https://github.com/emo-bon/momics-demos.git
-
-cd momics-demos
-
-# install dependencies using pip
-pip install -e .
-```
-
-Setup a jupyter kernel
-
-```bash
-ipython kernel install --user --name "momics-demos"
-```
-
-Start the jupyterlab
-
-```bash
-python -m jupyterlab
-```
-
-### For existing Jupyter Hub server
-
-Create shared environment for all the users (or your system admin already did)
-
-```bash
-conda create -p <PATH>  # for example /srv/scratch/momics-demos
-```
-
-Each user needs to activate the environment and setup their own kernel. Launch terminal session clicking on ➕ icon and select terminal.
-
-```bash
-conda activate /srv/scratch/momics-demos
-ipython kernel install --user --name "momics-demos"
-```
-
-This kernel, you will select for the NBs which serve the dashboards. If you want to develop parallel NBs, you can setup another `environment/kernel`.
 
 ## Workflow notebooks
 
@@ -314,6 +221,99 @@ Please reach out if you are interested in these or have your own proposal.
 3. DL package? `not started`
     - In the future, BC 2026 might have GPU support
     - Irrespective, try AI4EOSC perhaps? Q: Have not seen there much or any metagenomics though
+
+## Installation
+
+### Local jupyter
+
+The easiest way is to use `poetry` or `uv` for both virtual environment setup and dependecy installation.
+
+```bash
+# this automatically detects whether you have installed poetry or uv (if you have both poetry is preffered)
+make install
+
+# for developmental install use
+make dev-install
+
+# you can specify the preffered tool with
+make install TOOL=uv   # or TOOL=poetry
+```
+
+Then you activate environment at the root of the directory
+
+```bash
+source .venv/bin/activate
+```
+
+If you are windows user, the easiest is to run the commands from the `Makefile`, such as
+
+```PowerShell
+poetry install
+
+# or
+uv sync
+```
+
+and activate with `.venv\Scripts\Activate.ps1` or `.venv\Scripts\activate.bat`, depending on your terminal.
+
+### Full conda setup
+
+Consider creating (and activating) a new virtual environmenment for the project
+
+```bash
+# if you are using conda
+conda create -n "momics-demos" python=3.11  # or higher
+conda activate momics-demos
+
+# using venv is platform dependent (Unix)
+python -m venv momics-demos
+source momic-demos/bin/activate
+
+#(Win)
+python.exe -m venv momics-demos
+./Scripts/activate
+```
+
+Clone and install the repository
+
+```bash
+# clone the repository into newly created folder
+git clone https://github.com/emo-bon/momics-demos.git
+
+cd momics-demos
+
+# install dependencies using pip
+pip install -e .
+```
+
+Setup a jupyter kernel
+
+```bash
+ipython kernel install --user --name "momics-demos"
+```
+
+Start the jupyterlab
+
+```bash
+python -m jupyterlab
+```
+
+### For existing Jupyter Hub server
+
+Create shared environment for all the users (or your system admin already did)
+
+```bash
+conda create -p <PATH>  # for example /srv/scratch/momics-demos
+```
+
+Each user needs to activate the environment and setup their own kernel. Launch terminal session clicking on ➕ icon and select terminal.
+
+```bash
+conda activate /srv/scratch/momics-demos
+ipython kernel install --user --name "momics-demos"
+```
+
+This kernel, you will select for the NBs which serve the dashboards. If you want to develop parallel NBs, you can setup another `environment/kernel`.
 
 ## Technical notes
 
