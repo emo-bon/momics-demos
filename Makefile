@@ -9,14 +9,17 @@ TOOL ?= $(shell command -v poetry >/dev/null 2>&1 && echo poetry || echo uv)
 
 ifeq ($(TOOL),uv)
 	INSTALL = uv sync
-	DEV_INSTALL = uv sync --extra testing
+	DEV_INSTALL = uv sync --extra testing && \
+		uv run python -m ipykernel install --user --name momics-demos --display-name "momics-demos"
 	RUN = uv run
 	BUILD = uv build
 endif
 
 ifeq ($(TOOL),poetry)
 	INSTALL = poetry install
-	DEV_INSTALL = poetry install --with testing
+	DEV_INSTALL = poetry install --with testing && \
+		poetry run pip install git+https://github.com/fair-ease/py-udal-mgo.git@main && \
+		poetry run python -m ipykernel install --user --name momics-demos --display-name "momics-demos"
 	RUN = poetry run
 	BUILD = poetry build
 endif

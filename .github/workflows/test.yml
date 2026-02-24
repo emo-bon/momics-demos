@@ -38,6 +38,11 @@ jobs:
           pip install .[testing]
           pip install git+https://github.com/fair-ease/py-udal-mgo.git
 
+      - name: Clean build artifacts
+        run: |
+          rm -rf build dist *.egg-info
+        shell: bash
+
       # this runs the platform-specific tests declared in tox.ini
       - name: Test with pytest
         uses: aganders3/headless-gui@v2

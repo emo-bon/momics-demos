@@ -6,6 +6,7 @@ readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.11,<3.13"
+package-mode = false
 
 authors = [
     { name = "FAIR-Ease", email = "cymon@ualg.pt" },
@@ -64,6 +65,16 @@ testing = [
 ]
 
 # -------------------------
+# uv enhancements (optional)
+# -------------------------
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "pytest-timeout",
+]
+
+# -------------------------
 # Poetry compatibility layer
 # -------------------------
 [tool.poetry]
@@ -71,10 +82,47 @@ name = "momics-demos"
 version = "0.1.0"
 description = "F-E marine omics demos"
 authors = ["FAIR-Ease <cymon@ualg.pt>", "David Palecek <ddthumb@gmail.com>"]
-package-mode = false  # important since you're using py-modules
+readme = "README.md"
+license = "MIT"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
+bio = ">=1.7.1"
+bioblend = ">=1.5.0"
+dvc = ">=3.63.0"
+dvc-s3 = ">=3.2.2"
+fastparquet = ">=2024.11.0"
+fonttools = ">=4.43.0"
+geopandas = ">=1.0.1"
+hvplot = ">=0.11.0"
+ipython = ">=8.10.0"
+ipywidgets_bokeh = ">=1.6.0"
+jsonapi-client = ">=0.9.9"
+jupyter = "1.1.1"
+jupyter_bokeh = ">=4.0.5"
+leafmap = ">=0.45.0"
+marine-omics = "0.1.20"
+matplotlib = ">=3.10.1"
+networkx = ">=3.4.0"
+numpy = ">=2.2.4"
+pandas = ">=2.2.3"
+panel = ">=1.7.0"
+pillow = ">=11.3.0"
+pingouin = ">=0.5.5"
+pyngrok = ">=7.2.3"
+python-dotenv = "1.0.1"
+rdflib = ">=7.2.1"
+rdflib-jsonld = ">=0.6.0"
+scikit-bio = ">=0.6.3"
+scikit-learn = ">=1.6.1"
+seaborn = ">=0.13.0"
+setuptools = ">=78.1.1"
+sourmash = ">=4.9.0"
+requests = ">=2.32.4"
+urllib3 = ">=2.5.0"
+venny4py = "1.0.3"
+zipp = ">=3.21.0"
 
 [tool.poetry.group.testing.dependencies]
 ipykernel = "*"
@@ -86,27 +134,10 @@ pytest = "*"
 pytest-cov = "*"
 pytest-timeout = "*"
 
-# -------------------------
-# uv enhancements (optional)
-# -------------------------
-[dependency-groups]
-dev = [
-    "pytest",
-    "pytest-cov",
-    "pytest-timeout",
+[tool.pytest.ini_options]
+testpaths = ["test"]
+addopts = "--ignore-glob='*checkpoint.ipynb'"
+norecursedirs = ["testing_NBs", "old_nbs", "build", "dist", "*.egg-info"]
+filterwarnings = [
+    "ignore::pytest.PytestRemovedIn9Warning"
 ]
-
-# -------------------------
-# Build system configuration
-# -------------------------
-[build-system]
-requires = ["setuptools>=78.1.1", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools]
-# Only package the templates, test, and wfs_extra modules
-packages = ["templates", "test"]
-
-[tool.setuptools.package-data]
-templates = ["*.md"]
-
