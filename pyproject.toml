@@ -1,6 +1,6 @@
 [project]
 name = "momics-demos"
-version = "0.0.2"
+version = "0.1.0"
 description = "F-E marine omics demos"
 readme = "README.md"
 license = { file = "LICENSE.txt" }
@@ -67,13 +67,13 @@ testing = [
 # -------------------------
 [tool.poetry]
 name = "momics-demos"
-version = "0.0.2"
+version = "0.1.0"
 description = "F-E marine omics demos"
 authors = ["FAIR-Ease <cymon@ualg.pt>", "David Palecek <ddthumb@gmail.com>"]
 package-mode = false  # important since you're using py-modules
 
 [tool.poetry.dependencies]
-python = ">=3.10"
+python = ">=3.11"
 
 [tool.poetry.group.testing.dependencies]
 ipykernel = "*"
