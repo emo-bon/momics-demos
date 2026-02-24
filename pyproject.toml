@@ -5,7 +5,7 @@ description = "F-E marine omics demos"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.13"
 
 authors = [
     { name = "FAIR-Ease", email = "cymon@ualg.pt" },
@@ -74,7 +74,7 @@ authors = ["FAIR-Ease <cymon@ualg.pt>", "David Palecek <ddthumb@gmail.com>"]
 package-mode = false  # important since you're using py-modules
 
 [tool.poetry.dependencies]
-python = ">=3.11"
+python = ">=3.11,<3.13"
 
 [tool.poetry.group.testing.dependencies]
 ipykernel = "*"
