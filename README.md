@@ -229,7 +229,7 @@ Please reach out if you are interested in these or have your own proposal.
 The easiest way is to use `poetry` or `uv` for both virtual environment setup and dependecy installation.
 
 ```bash
-# this automatically detects whether you have installed poetry or uv (if you have both poetry is preffered)
+# this automatically detects whether you have installed poetry or uv (if you have both uv is preffered)
 make install
 
 # for developmental install use

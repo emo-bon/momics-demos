@@ -1,7 +1,7 @@
 .PHONY: help install dev-install test coverage lint format clean docs build
 
 # TOOL ?= uv
-TOOL ?= $(shell command -v poetry >/dev/null 2>&1 && echo poetry || echo uv)
+TOOL ?= $(shell command -v uv >/dev/null 2>&1 && echo uv || echo poetry)
 
 # -------------------------
 # Tool abstraction
