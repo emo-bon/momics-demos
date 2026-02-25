@@ -28,8 +28,8 @@ BATCH2_RUN_INFO_PATH = (
 
 ## method to merge tracker and shipments data
 def merge_tracker_metadata(df_tracker):
-    df = pd.read_csv(BATCH1_RUN_INFO_PATH)
-    df1 = pd.read_csv(BATCH2_RUN_INFO_PATH)
+    df = pd.read_csv(BATCH1_RUN_INFO_PATH, encoding='latin1')
+    df1 = pd.read_csv(BATCH2_RUN_INFO_PATH, encoding='latin1')
     df = pd.concat([df, df1])
     print(len(df))
 

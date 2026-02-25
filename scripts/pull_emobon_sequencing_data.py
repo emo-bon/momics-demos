@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 """
-This is refactored code from the `landing_page_sandbox.ipynb` notebook to streamline
-the update of the `min_merged.csv` file which serves as a basis for the dashboard.
+This code accesses metaGOflow analyses progress for the EMO-BON archives and
+updates local CSV file in `wf0_landing_page`.
 
 There is no GH action or any scheduler to run this regularly.
 
@@ -25,10 +25,10 @@ import logging
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent))
-from utils import reconfig_logger
+from momics.utils import reconfig_logger
 
 FILE_NAME = "emobon_sequencing_master.csv"
-CSV_LOCAL_PATH = Path(__file__).parent.joinpath(FILE_NAME)
+CSV_LOCAL_PATH = Path(__file__).parent.parent.joinpath("wf0_landing_page").joinpath(FILE_NAME)
 ALL_SHIPMENTS = ["001", "002", "003-0", "003-1", "003-2"]
 
 
@@ -79,28 +79,42 @@ def query_batch_shipment_data(batch_string: str) -> pd.DataFrame:
     Returns:
     pd.DataFrame: Processed shipment data for the specified batch.
     """
-    url = f"https://raw.githubusercontent.com/emo-bon/sequencing-crate/refs/heads/main/shipment/batch-{batch_string}/run-information-batch-{batch_string}.csv"
-    df = pd.read_csv(url)
+    logger.info(f"Querying shipment data for batch {batch_string}...")
+    try:
+        url = f"https://raw.githubusercontent.com/emo-bon/sequencing-crate/refs/heads/main/shipment/batch-{batch_string}/run-information-batch-{batch_string}.csv"
+        df = pd.read_csv(url, encoding='latin1')
+    except Exception as e:
+        try:
+            url = f"https://raw.githubusercontent.com/emo-bon/sequencing-crate/refs/heads/main/shipment/batch-{batch_string}/run-information-batch-{batch_string.split('-')[0]}.csv"
+            df = pd.read_csv(url, encoding='latin1')
+        except Exception as e:
+            url = f"https://raw.githubusercontent.com/emo-bon/sequencing-crate/refs/heads/main/shipment/batch-{batch_string}/run-information-batch-{batch_string}_old.csv"
+            df = pd.read_csv(url, encoding='latin1')
+    
     df["batch"] = batch_string
 
     # Extract the sample type
     if "source_material_id" in df.columns:
         for i in range(len(df)):
-            if "_Wa_" in df.loc[i, "source_material_id"]:
-                df.loc[i, "sample_type"] = "filters"
-            else:
-                df.loc[i, "sample_type"] = "sediment"
+            try:
+                if "_Wa_" in df.loc[i, "source_material_id"]:
+                    df.loc[i, "sample_type"] = "filters"
+                else:
+                    df.loc[i, "sample_type"] = "sediment"
 
-            if "blank" in df.loc[i, "source_material_id"].lower():
-                df.loc[i, "sample_type"] = df.loc[i, "sample_type"] + "_blank"
+                if "blank" in df.loc[i, "source_material_id"].lower():
+                    df.loc[i, "sample_type"] = df.loc[i, "sample_type"] + "_blank"
+            except TypeError:
+                logger.info(f"TypeError for value row {df.loc[i, 'source_material_id']} skipping inference.")
+                df.loc[i, "sample_type"] = "unknown"
     else:
         for i in range(len(df)):
-            if "_Wa_" in df.loc[i, "old_source_mat_id"]:
+            if "_Wa_" in df.loc[i, "source_mat_id_orig"]:
                 df.loc[i, "sample_type"] = "filters"
             else:
                 df.loc[i, "sample_type"] = "sediment"
 
-            if "blank" in df.loc[i, "old_source_mat_id"].lower():
+            if "blank" in df.loc[i, "source_mat_id_orig"].lower():
                 df.loc[i, "sample_type"] = df.loc[i, "sample_type"] + "_blank"
 
     # extract the obs_id here
@@ -167,7 +181,7 @@ def infer_sample_type(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
     pd.DataFrame: Data frame with inferred sample types.
     """
-    df["sample_type"] = df["old_source_mat_id"].apply(
+    df["sample_type"] = df["source_mat_id_orig"].apply(
         lambda x: "filters" if "_Wa_" in x else "sediment"
     )
     df["sample_type"] = df["sample_type"].apply(
