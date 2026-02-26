@@ -19,8 +19,11 @@ import pandas as pd
 import logging
 import requests
 import json
-import subprocess
 import shutil
+from utils import (
+    clone_repository,
+    retrieve_valid_gh_analysis_clusters,
+)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -30,95 +33,6 @@ logger = logging.getLogger(__name__)
 #--------------
 TMP_DIR = Path("./tmp")
 OUTPUT_DIR = Path("./data/emo-bon_data")
-
-
-def check_repo_exists(url):
-    try:
-        # Use a HEAD request to be efficient
-        response = requests.head(url, allow_redirects=True, timeout=5)
-        
-        if response.status_code == 200:
-            return True
-        elif response.status_code == 404:
-            return False
-        else:
-            print(f"Received unexpected status: {response.status_code}")
-            return False
-    except requests.RequestException as e:
-        print(f"An error occurred: {e}")
-        return False
-
-
-def retrieve_valid_gh_clusters() -> list[str]:
-    """
-    Retrieve the list of valid GH clusters with RO-Crates. The repositories names 
-    conform to 'analysis-results-cluster-<cluster_id>-crate' where <cluster_id> is 01, 02 etc..
-
-    Returns:
-        List[str]: A list of valid GH cluster identifiers.
-    """
-    id_list = []
-    number = 1
-    while True:
-        cluster_id = f"{number:02d}"
-        # check if GH repo exists
-        url = f"https://github.com/emo-bon/analysis-results-cluster-{cluster_id}-crate"
-        if not check_repo_exists(url):
-            logger.info(f"Repository {url} does not exist. Stopping search.")
-            break
-        id_list.append(cluster_id)
-        number += 1
-
-    logger.info("Finished retrieving valid GH clusters.")
-    logger.info(f"Valid GH clusters: {id_list}")
-    return id_list
-
-
-def clone_repository(owner: str, repo: str, target_dir: Path, force: bool = False) -> Path | None:
-    """
-    Clone a GitHub repository to a local directory.
-    
-    Args:
-        owner: GitHub repository owner (e.g., 'emo-bon')
-        repo: Repository name (e.g., 'analysis-results-cluster-01-crate')
-        target_dir: Directory where to clone the repository
-        force: If True, remove existing directory and re-clone
-        
-    Returns:
-        Path: Path to the cloned repository, or None if clone failed
-    """
-    repo_url = f"https://github.com/{owner}/{repo}.git"
-    clone_path = target_dir / repo
-    
-    # Check if already cloned
-    if clone_path.exists():
-        if force:
-            logger.info(f"Removing existing clone at {clone_path}")
-            shutil.rmtree(clone_path)
-        else:
-            logger.info(f"Repository already cloned at {clone_path}")
-            return clone_path
-    
-    # Ensure target directory exists
-    target_dir.mkdir(parents=True, exist_ok=True)
-    
-    try:
-        logger.info(f"Cloning {repo_url} to {clone_path}...")
-        result = subprocess.run(
-            ["git", "clone", "--depth", "1", repo_url, str(clone_path)],
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        logger.info(f"Successfully cloned {repo}")
-        return clone_path
-        
-    except subprocess.CalledProcessError as e:
-        logger.error(f"Failed to clone {repo}: {e.stderr}")
-        return None
-    except Exception as e:
-        logger.error(f"Unexpected error cloning {repo}: {e}")
-        return None
 
 
 def find_rocrate_metadata_files(repo_path: Path) -> list[Path]:
@@ -259,6 +173,33 @@ def process_rocrate_folder(metadata_file: Path, output_dir: Path, name_patterns:
     return downloaded_files
 
 
+def process_taxonomy_columns(df: pd.DataFrame) -> None:
+    pass
+
+def load_tsv_to_dataframe(file_path: Path, file_type) -> pd.DataFrame | None:
+    """
+    Load a TSV file into a pandas DataFrame.
+    
+    Args:
+        file_path: Path to the TSV file
+        
+    Returns:
+        pd.DataFrame: Loaded DataFrame, or None if loading failed
+    """
+    logger.info(f"Loading {file_path} of file type {file_type}")
+    if file_type in ['go', 'go_slim']:
+        df = pd.read_csv(file_path, sep=',', names=['id', 'name', 'aspect', 'abundance'])
+    elif file_type in ['ips']:
+        df = pd.read_csv(file_path, sep=',', names=['abundance', 'accession', 'description'])
+        df = df[['accession', 'description', 'abundance']]  # Move accession to front
+    elif file_type in ['ko', 'pfam']:
+        df = pd.read_csv(file_path, sep=',', names=['abundance', 'entry', 'name'])
+        df = df[['entry', 'name', 'abundance']]  # Move entry to front
+    else:
+        df = pd.read_csv(file_path, sep='\t', skiprows=1)  # For LSU and SSU, skip the first row which is a comment
+        process_taxonomy_columns(df)
+    return df
+
 def concatenate_files_by_type(output_dir: Path, file_type: str, save_format: str = 'parquet') -> pd.DataFrame | None:
     """
     Concatenate all TSV files of a specific type into a single DataFrame.
@@ -289,12 +230,9 @@ def concatenate_files_by_type(output_dir: Path, file_type: str, save_format: str
     for tsv_file in tsv_files:
         try:
             logger.debug(f"Reading {tsv_file.name}")
-            df = pd.read_csv(tsv_file, sep='\t')
-            
-            # Add metadata columns to track source
-            df['source_file'] = tsv_file.stem  # filename without extension
-            df['source_cluster'] = tsv_file.parent.parent.name  # cluster_XX
-            df['rocrate_id'] = tsv_file.stem.replace(f'_{file_type}', '')  # Extract EMOBON_XXX_YY_ZZ
+            df = load_tsv_to_dataframe(tsv_file, file_type)
+            df['source_mat_id'] = str(tsv_file.stem).split('-')[0]  # Add source column for traceability
+            df = df[['source_mat_id'] + [col for col in df.columns if col != 'source_mat_id']]  # Move source to front
             
             dfs.append(df)
             
@@ -372,7 +310,7 @@ def concatenate_all_types(output_dir: Path, file_types: list[str] = None, save_f
 
 
 if __name__ == "__main__":
-    # valid_clusters = retrieve_valid_gh_clusters()
+    # valid_clusters = retrieve_valid_gh_analysis_clusters()
     valid_clusters = ["01"]  # for testing, only check the first two clusters
     
     owner = "emo-bon"

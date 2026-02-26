@@ -197,3 +197,4 @@ wfs_extra/mgnify/MGYS*
 encode.py
 .coveragerc
 tmp/
+scripts/valid_stations.pkl
