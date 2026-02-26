@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 # Setup
 #--------------
 TMP_DIR = Path("./tmp")
-OUTPUT_DIR = Path("./tmp/data")
+OUTPUT_DIR = Path("./data/emo-bon_data")
 
 
 def check_repo_exists(url):
@@ -168,15 +168,15 @@ def extract_download_urls(metadata_file: Path, name_patterns: list[str]) -> dict
                         elif 'SSU' in name:
                             file_type = 'SSU'
                         elif 'InterProScan slim' in name:
-                            file_type = 'GO-slim'
+                            file_type = 'go_slim'
                         elif 'GO summary' in name:
-                            file_type = 'GO'
+                            file_type = 'go'
                         elif 'InterProScan' in name:
                             file_type = 'ips'
                         elif "KO summary" in name:
-                            file_type = 'Kegg'
+                            file_type = 'ko'
                         elif 'PFAM summary' in name:
-                            file_type = 'Pfam'
+                            file_type = 'pfam'
                         else:
                             file_type = 'unknown'
                             logger.info('============')
@@ -313,15 +313,13 @@ def concatenate_files_by_type(output_dir: Path, file_type: str, save_format: str
     logger.info(f"Combined {file_type} dataframe: {combined_df.shape[0]} rows, {combined_df.shape[1]} columns")
     
     # Save the combined file
-    output_basename = output_dir / f"combined_{file_type}"
-    
     if save_format in ['parquet', 'both']:
-        parquet_path = output_basename.with_suffix('.parquet')
+        parquet_path = output_dir / f"metagoflow_analyses.{file_type}.parquet"
         combined_df.to_parquet(parquet_path, index=False)
         logger.info(f"Saved combined {file_type} to {parquet_path}")
     
     if save_format in ['tsv', 'both']:
-        tsv_path = output_basename.with_suffix('.tsv')
+        tsv_path = output_dir / f"metagoflow_analyses.{file_type}.tsv"
         combined_df.to_csv(tsv_path, sep='\t', index=False)
         logger.info(f"Saved combined {file_type} to {tsv_path}")
     
@@ -443,3 +441,17 @@ if __name__ == "__main__":
     
     # Step 3: Concatenate all downloaded files by type
     concatenate_all_types(OUTPUT_DIR, save_format='parquet')
+    
+    # Step 4: Cleanup intermediate cluster folders
+    logger.info("=" * 60)
+    logger.info("STEP 4: Cleaning up intermediate files")
+    logger.info("=" * 60)
+    
+    for cluster_dir in OUTPUT_DIR.glob("cluster_*"):
+        try:
+            logger.info(f"Removing {cluster_dir}...")
+            shutil.rmtree(cluster_dir)
+        except Exception as e:
+            logger.error(f"Failed to remove {cluster_dir}: {e}")
+    
+    logger.info("Cleanup complete! Final parquet files saved in data/emo-bon_data/")
